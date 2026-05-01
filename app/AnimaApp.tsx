@@ -476,8 +476,8 @@ const TarotCard = ({ duration, price, tagline, description }) => {
 
   return (
     <div
-      className="relative w-full aspect-[3/4] cursor-pointer"
-      style={{ perspective: "1200px" }}
+      className="relative w-full cursor-pointer"
+      style={{ aspectRatio: '943 / 1483', perspective: "1200px" }}
       onClick={() => setFlipped(!flipped)}
     >
       <motion.div
@@ -488,56 +488,15 @@ const TarotCard = ({ duration, price, tagline, description }) => {
       >
         {/* DOS DE CARTE */}
         <div
-          className="absolute inset-0 rounded-lg shadow-xl overflow-hidden"
+          className="absolute inset-0 shadow-xl overflow-hidden"
           style={{
             backfaceVisibility: "hidden",
-            backgroundColor: colors.rooted,
-            backgroundImage: `
-              radial-gradient(circle at center, ${colors.softLight}22 0%, transparent 60%),
-              linear-gradient(135deg, ${colors.rooted} 0%, #8F5F4C 100%)
-            `,
+            backgroundImage: `url('/cover2.png')`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            borderRadius: "8px",
           }}
-        >
-          {/* Bordure décorative */}
-          <div className="absolute inset-3 border rounded-md" style={{ borderColor: colors.softLight + "66" }} />
-          <div className="absolute inset-5 border rounded-sm" style={{ borderColor: colors.softLight + "33" }} />
-
-          {/* Motif central : lune + branche */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <svg viewBox="0 0 200 200" className="w-3/5" style={{ opacity: 0.85 }}>
-              {/* Cercle lune */}
-              <circle cx="100" cy="100" r="50" fill="none" stroke={colors.softLight} strokeWidth="1" />
-              <circle cx="100" cy="100" r="38" fill="none" stroke={colors.softLight} strokeWidth="0.5" opacity="0.6" />
-              {/* Étoiles */}
-              <circle cx="70" cy="55" r="1.5" fill={colors.softLight} />
-              <circle cx="140" cy="70" r="2" fill={colors.softLight} />
-              <circle cx="155" cy="135" r="1.5" fill={colors.softLight} />
-              <circle cx="55" cy="130" r="1" fill={colors.softLight} />
-              <circle cx="100" cy="40" r="1" fill={colors.softLight} />
-              {/* Branche stylisée */}
-              <path
-                d="M 100 100 Q 95 80 100 60 Q 105 50 100 40"
-                fill="none"
-                stroke={colors.softLight}
-                strokeWidth="1.2"
-                strokeLinecap="round"
-              />
-              <ellipse cx="94" cy="75" rx="3" ry="6" fill={colors.softLight} opacity="0.7" transform="rotate(-30 94 75)" />
-              <ellipse cx="106" cy="65" rx="3" ry="6" fill={colors.softLight} opacity="0.7" transform="rotate(30 106 65)" />
-              {/* Fleur au sommet */}
-              <circle cx="100" cy="35" r="4" fill={colors.warmHeart} opacity="0.85" />
-              <circle cx="100" cy="35" r="2" fill={colors.softLight} />
-            </svg>
-          </div>
-
-          {/* Label discret */}
-          <div
-            className="absolute bottom-5 left-0 right-0 text-center text-xs tracking-[0.3em] uppercase"
-            style={{ color: colors.softLight, fontFamily: "'Cormorant Garamond', serif", opacity: 0.8 }}
-          >
-            Anima
-          </div>
-        </div>
+        />
 
         {/* RECTO DE CARTE */}
         <div
@@ -549,7 +508,7 @@ const TarotCard = ({ duration, price, tagline, description }) => {
             border: `1px solid ${colors.rooted}33`,
           }}
         >
-          <div>
+          <div className="text-center">
             <p className="text-xs tracking-[0.25em] uppercase mb-3" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
               Lecture d'âme
             </p>
@@ -559,7 +518,7 @@ const TarotCard = ({ duration, price, tagline, description }) => {
             <p className="text-3xl mb-4" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.warmHeart, fontWeight: 500 }}>
               {price} €
             </p>
-            <div className="w-10 h-[1px] mb-4" style={{ backgroundColor: colors.rooted }} />
+            <div className="w-10 h-[1px] mb-4 mx-auto" style={{ backgroundColor: colors.rooted }} />
             <p className="italic mb-3" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.rooted, fontSize: "17px" }}>
               {tagline}
             </p>
@@ -590,10 +549,10 @@ const TarotCard = ({ duration, price, tagline, description }) => {
 
 const GuidancePage = () => {
   const cards = [
-    { duration: "15 min", price: 25, tagline: "Un éclairage rapide", description: "Pour une question ciblée ou un blocage précis. Idéal pour obtenir une clarté sur un point particulier." },
-    { duration: "30 min", price: 45, tagline: "Une prise de conscience", description: "Pour explorer un thème de vie et identifier les schémas qui se jouent en vous." },
-    { duration: "45 min", price: 65, tagline: "Un temps d'exploration", description: "Pour creuser plusieurs facettes d'un même sujet et recevoir des clés concrètes." },
-    { duration: "60 min", price: 80, tagline: "Une traversée complète", description: "Pour un accompagnement en profondeur sur un sujet multidimensionnel et transformateur." },
+    { duration: "15 min", price: 25, tagline: "Un éclairage flash", description: "Pour une question ciblée ou un blocage précis. Idéal pour obtenir une clarté et une prise de hauteur sur une thème particulier." },
+    { duration: "30 min", price: 45, tagline: "Une conscientisation", description: "Pour approfondir plus en détail une thématique et identifier les schémas répétitifs et bloquants qui se jouent autour de vous et en vous. Conscience et mise en lumière." },
+    { duration: "45 min", price: 65, tagline: "Un temps d'exploration", description: "Pour trouver des réponses et activer la transformation. Un espace de conscientisation et d'ouverture. Une lecture plus fine de soi. Libération et transformation." },
+    { duration: "60 min", price: 80, tagline: "Une traversée complète", description: "Pour un accompagnement en conscience sur un ou plusieurs sujets multidimensionnels. Une reconnexion à soi afin de se repositionner dans son plan. Transcendance et alignement." },
   ];
 
   return (
@@ -629,22 +588,30 @@ const GuidancePage = () => {
             Mon approche
           </h2>
           <p className="text-xl italic text-center mb-10 leading-relaxed" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.rooted }}>
-            La lecture d'âme n'est pas une simple réponse :<br />c'est un espace de reconnexion à soi.
+            La lecture d'âme n'est pas une simple réponse : c'est un espace de reconnexion à soi, un voyage intérieur.
           </p>
 
           <div className="space-y-5 text-lg leading-relaxed" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "18px", lineHeight: "1.8" }}>
             <p>
-              Elle t'invite à te relier à une dimension plus subtile de ton être. Cette part invisible, intuitive et
-              profondément consciente ; tout en apportant des éclairages concrets sur ce que tu vis ici et maintenant.
+              Elle vous invite à vous relier à une dimension plus subtile de votre être. Cette part invisible, intuitive et
+              profondément consciente ; tout en apportant des éclairages concrets sur ce que vous vivez.
+            </p>
+            <p>
+              C'est une reconnexion à son soi divin, cette version originelle de notre être dans une dimension universelle afin de nous apporter des réponses dans l'ici et maintenant et de nous permettre de cheminer vers le champ des possibles.
+            </p>
+            <p>
+              C'est une porte qui s'ouvre nous offrant la possibilité d'évoluer en conscience, de transcender ce qui doit l'être et de mettre en lumière ce qui doit être libéré afin de nous repositionner dans notre plan d'incarnation.
             </p>
             <p>
               À travers cette lecture, les messages ne viennent pas seulement nourrir la compréhension mentale :
-              ils révèlent ce qui, en toi, cherche à émerger, à s'aligner ou à être libéré. C'est une rencontre entre
-              l'invisible et le tangible, entre perception fine et réalité vécue.
+              ils révèlent ce qui, en nous, cherche à émerger, à s'aligner ou à être libéré.
+            </p>
+            <p>
+              C'est une rencontre entre l'invisible et le tangible, entre perception fine et réalité vécue.
             </p>
 
             <div className="py-4 my-4 pl-6" style={{ borderLeft: `2px solid ${colors.rooted}55` }}>
-              <p className="mb-3 font-medium" style={{ color: colors.rooted }}>C'est une porte qui s'ouvre pour te permettre :</p>
+              <p className="mb-3 font-medium" style={{ color: colors.rooted }}>C'est une porte qui s'ouvre pour vous permettre :</p>
               <ul className="space-y-2" style={{ color: colors.inkSoft }}>
                 <li>— d'identifier ce qui demande à être libéré</li>
                 <li>— de prendre conscience de tes schémas et blocages</li>
@@ -673,7 +640,7 @@ const GuidancePage = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
             {[
               { icon: MapPin, label: "Présentiel", sub: "Bordeaux" },
-              { icon: Phone, label: "Téléphone", sub: "Appel classique" },
+              { icon: Phone, label: "Consultation distancielle", sub: "Audio" },
               { icon: MessageCircle, label: "WhatsApp", sub: "Audio ou message" },
               { icon: Video, label: "Visio", sub: "Zoom / Meet" },
             ].map((mode, i) => (
