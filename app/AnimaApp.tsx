@@ -509,20 +509,20 @@ const TarotCard = ({ duration, price, tagline, description }) => {
           }}
         >
           <div className="text-center">
-            <p className="text-xs tracking-[0.25em] uppercase mb-3" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
+            <p className="text-xs tracking-[0.25em] uppercase mb-2" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
               Lecture d'âme
             </p>
-            <h3 className="text-4xl mb-2" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
+            <h3 className="text-3xl mb-1" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
               {duration}
             </h3>
-            <p className="text-3xl mb-4" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.warmHeart, fontWeight: 500 }}>
+            <p className="text-2xl mb-3" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.warmHeart, fontWeight: 500 }}>
               {price} €
             </p>
-            <div className="w-10 h-[1px] mb-4 mx-auto" style={{ backgroundColor: colors.rooted }} />
-            <p className="italic mb-3" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.rooted, fontSize: "17px" }}>
+            <div className="w-10 h-[1px] mb-3 mx-auto" style={{ backgroundColor: colors.rooted }} />
+            <p className="italic mb-2" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.rooted, fontSize: "15px" }}>
               {tagline}
             </p>
-            <p className="text-sm leading-relaxed" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft, fontSize: "15px", lineHeight: "1.6" }}>
+            <p className="text-sm leading-relaxed" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft, fontSize: "13px", lineHeight: "1.5" }}>
               {description}
             </p>
           </div>
