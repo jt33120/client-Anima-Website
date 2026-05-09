@@ -595,7 +595,7 @@ const AboutPage = () => {
 // ============================================================
 // PAGE : GUIDANCE (4 cartes flip façon tarot)
 // ============================================================
-const TarotCard = ({ duration, price, tagline, description }) => {
+const TarotCard = ({ duration, price, tagline, description, calendlyUrl }) => {
   const [flipped, setFlipped] = useState(false);
 
   return (
@@ -653,7 +653,7 @@ const TarotCard = ({ duration, price, tagline, description }) => {
           <button
             onClick={(e) => {
               e.stopPropagation();
-              alert("→ Ici s'ouvrira Calendly (remplacer par ton lien dans la V2)");
+              window.open(calendlyUrl, "_blank", "noopener,noreferrer");
             }}
             className="w-full py-3 mt-4 text-xs tracking-[0.2em] uppercase transition-all hover:shadow-md flex items-center justify-center gap-2"
             style={{
@@ -673,10 +673,10 @@ const TarotCard = ({ duration, price, tagline, description }) => {
 
 const GuidancePage = () => {
   const cards = [
-    { duration: "15 min", price: 25, tagline: "Un éclairage flash", description: "Pour une question ciblée ou un blocage précis. Idéal pour obtenir une clarté et une prise de hauteur sur une thème particulier." },
-    { duration: "30 min", price: 45, tagline: "Une conscientisation", description: "Pour approfondir plus en détail une thématique et identifier les schémas répétitifs et bloquants qui se jouent autour de vous et en vous. Conscience et mise en lumière." },
-    { duration: "45 min", price: 65, tagline: "Un temps d'exploration", description: "Pour trouver des réponses et activer la transformation. Un espace de conscientisation et d'ouverture. Une lecture plus fine de soi. Libération et transformation." },
-    { duration: "60 min", price: 80, tagline: "Une traversée complète", description: "Pour un accompagnement en conscience sur un ou plusieurs sujets multidimensionnels. Une reconnexion à soi afin de se repositionner dans son plan. Transcendance et alignement." },
+    { duration: "15 min", price: 25, tagline: "Un éclairage flash", description: "Pour une question ciblée ou un blocage précis. Idéal pour obtenir une clarté et une prise de hauteur sur une thème particulier.", calendlyUrl: "https://calendly.com/anima-retourasoi/30min" },
+    { duration: "30 min", price: 45, tagline: "Une conscientisation", description: "Pour approfondir plus en détail une thématique et identifier les schémas répétitifs et bloquants qui se jouent autour de vous et en vous. Conscience et mise en lumière.", calendlyUrl: "https://calendly.com/anima-retourasoi/lecture-d-ame-30min" },
+    { duration: "45 min", price: 65, tagline: "Un temps d'exploration", description: "Pour trouver des réponses et activer la transformation. Un espace de conscientisation et d'ouverture. Une lecture plus fine de soi. Libération et transformation.", calendlyUrl: "https://calendly.com/anima-retourasoi/lecture-d-ame-45min" },
+    { duration: "60 min", price: 80, tagline: "Une traversée complète", description: "Pour un accompagnement en conscience sur un ou plusieurs sujets multidimensionnels. Une reconnexion à soi afin de se repositionner dans son plan. Transcendance et alignement.", calendlyUrl: "https://calendly.com/anima-retourasoi/lecture-d-ame-60min" },
   ];
 
   return (
