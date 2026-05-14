@@ -267,7 +267,7 @@ const HomePage = ({ setCurrentPage }) => {
               className="relative"
             >
               <img
-                src="/Anima.jpg"
+                src="/anima.jpg"
                 alt="Anima — éveil & retour à soi"
                 className="w-full max-w-md md:max-w-lg drop-shadow-xl"
               />
