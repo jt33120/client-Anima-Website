@@ -267,7 +267,7 @@ const HomePage = ({ setCurrentPage }) => {
               className="relative"
             >
               <img
-                src="/Sanela Andric.jpg"
+                src="/Anima.jpg"
                 alt="Anima — éveil & retour à soi"
                 className="w-full max-w-md md:max-w-lg drop-shadow-xl"
               />
@@ -1247,15 +1247,7 @@ const ContactPage = () => {
                 <Mail size={14} className="inline mr-2" />Email
               </p>
               <p style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "17px" }}>
-                [contact@anima-retour-a-soi.fr]
-              </p>
-            </div>
-            <div>
-              <p className="text-xs tracking-[0.2em] uppercase mb-2" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
-                <Phone size={14} className="inline mr-2" />Téléphone
-              </p>
-              <p style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "17px" }}>
-                06 51 81 44 52
+                contact@anima-retour-a-soi.fr
               </p>
             </div>
             <div>
@@ -1411,9 +1403,8 @@ const Footer = ({ setCurrentPage }) => {
               Contact
             </p>
             <ul className="space-y-2" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft, fontSize: "15px" }}>
-              <li>[contact@anima-retour-a-soi.fr]</li>
-              <li>06 51 81 44 52</li>
-              <li>Bordeaux [à confirmer]</li>
+              <li>contact@anima-retour-a-soi.fr</li>
+              <li>Bordeaux</li>
               <li>
                 <button onClick={() => setCurrentPage("mentions")} className="hover:underline italic">
                   Mentions légales
@@ -1447,9 +1438,9 @@ const MentionsPage = () => (
       </h1>
       <div className="space-y-6" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "17px", lineHeight: "1.7" }}>
         {[
-          { t: "Éditeur du site", c: "Sanela ANDRIC\n[Statut juridique — À COMPLÉTER]\n[Adresse — À COMPLÉTER]\nSIRET : [À COMPLÉTER]\nEmail : [contact@anima-retour-a-soi.fr]\nTéléphone : 06 51 81 44 52" },
+          { t: "Éditeur du site", c: "Anima\n[Statut juridique — À COMPLÉTER]\n[Adresse — À COMPLÉTER]\nSIRET : [À COMPLÉTER]\nEmail : contact@anima-retour-a-soi.fr\n" },
           { t: "Hébergement", c: "Vercel Inc.\n340 S Lemon Ave #4133\nWalnut, CA 91789, USA" },
-          { t: "Propriété intellectuelle", c: "L'ensemble des contenus (textes, images, graphismes, logo) présents sur ce site sont la propriété exclusive de Sanela ANDRIC, sauf mention contraire." },
+          { t: "Propriété intellectuelle", c: "L'ensemble des contenus (textes, images, graphismes, logo) présents sur ce site sont la propriété exclusive de Anima, sauf mention contraire." },
           { t: "Données personnelles (RGPD)", c: "Les informations recueillies via le formulaire de contact sont destinées uniquement à répondre à votre demande. Aucune donnée n'est transmise à des tiers. Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression de vos données." },
           { t: "Avertissement", c: "Les prestations proposées sur ce site (lecture d'âme, Feng Shui) relèvent d'un accompagnement personnel et ne constituent en aucun cas un avis ou un suivi médical, psychologique ou thérapeutique." },
         ].map((s, i) => (
