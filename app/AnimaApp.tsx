@@ -863,6 +863,26 @@ const FengShuiPage = ({ setCurrentPage }) => {
           </p>
         </motion.div>
 
+        {/* Image — atmosphère, ouverture, lumière */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1 }}
+          className="mb-16 p-3 md:p-4"
+          style={{
+            backgroundColor: "#ffffff",
+            border: `1px solid ${colors.rooted}33`,
+            boxShadow: `0 12px 32px -16px ${colors.ink}33`,
+          }}
+        >
+          <img
+            src="/feng-shui/window-forest.jpg"
+            alt="Grande fenêtre ouverte sur la forêt, circulation du Chi"
+            className="w-full h-[280px] md:h-[420px] object-cover"
+          />
+        </motion.div>
+
         {/* 2 colonnes : blocages vs harmonisation */}
         <div className="grid md:grid-cols-2 gap-6 mb-16">
           <motion.div
@@ -924,6 +944,46 @@ const FengShuiPage = ({ setCurrentPage }) => {
           </p>
         </motion.div>
 
+        {/* Diptyque — espaces d'intimité & de contemplation */}
+        <div className="grid md:grid-cols-2 gap-6 mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="p-3 md:p-4"
+            style={{
+              backgroundColor: "#ffffff",
+              border: `1px solid ${colors.rooted}33`,
+              boxShadow: `0 12px 32px -16px ${colors.ink}33`,
+            }}
+          >
+            <img
+              src="/feng-shui/dining-ocean.jpg"
+              alt="Salle à manger ouverte sur la nature, lumière et harmonie"
+              className="w-full aspect-[3/4] object-cover"
+            />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.1 }}
+            className="p-3 md:p-4"
+            style={{
+              backgroundColor: "#ffffff",
+              border: `1px solid ${colors.rooted}33`,
+              boxShadow: `0 12px 32px -16px ${colors.ink}33`,
+            }}
+          >
+            <img
+              src="/feng-shui/reading-nook.jpg"
+              alt="Coin de repos baigné de lumière, plante et bois clair"
+              className="w-full aspect-[3/4] object-cover"
+            />
+          </motion.div>
+        </div>
+
         {/* Étapes */}
         <div className="mb-16">
           <h2 className="text-3xl mb-10 text-center" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
@@ -959,6 +1019,35 @@ const FengShuiPage = ({ setCurrentPage }) => {
               </motion.div>
             ))}
           </div>
+        </div>
+
+        {/* Triptyque — pièces réharmonisées */}
+        <div className="grid md:grid-cols-3 gap-4 mb-16">
+          {[
+            { src: "/feng-shui/bedroom-green.jpg", alt: "Chambre aux tons verts profonds, sommeil et régénération" },
+            { src: "/feng-shui/living-fireplace.jpg", alt: "Salon chaleureux, foyer et ouverture sur la nature" },
+            { src: "/feng-shui/dining-wood.jpg", alt: "Salle à manger, espace de partage et de convivialité" },
+          ].map((img, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: i * 0.1 }}
+              className="p-2 md:p-3"
+              style={{
+                backgroundColor: "#ffffff",
+                border: `1px solid ${colors.rooted}33`,
+                boxShadow: `0 10px 28px -16px ${colors.ink}33`,
+              }}
+            >
+              <img
+                src={img.src}
+                alt={img.alt}
+                className="w-full aspect-[4/3] object-cover"
+              />
+            </motion.div>
+          ))}
         </div>
 
         {/* Diagnostic + expertise */}
