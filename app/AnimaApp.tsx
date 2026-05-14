@@ -1189,17 +1189,6 @@ const TestimonialsPage = () => {
             </motion.div>
           ))}
         </div>
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-center mt-16 text-sm italic"
-          style={{ color: colors.inkSoft, fontFamily: "'Cormorant Garamond', serif" }}
-        >
-          [Placeholders — à remplacer par les vrais témoignages]
-        </motion.p>
       </div>
     </div>
   );

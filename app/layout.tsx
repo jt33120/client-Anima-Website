@@ -15,10 +15,6 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Anima — Éveil & Retour à Soi",
   description: "Un espace doux pour se reconnecter à son essence.",
-  icons: {
-    icon: "/Logo PNG.png",
-    apple: "/Logo PNG.png",
-  },
 };
 
 export default function RootLayout({
