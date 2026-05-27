@@ -433,19 +433,37 @@ const AboutPage = () => {
           <div className="w-16 h-[1px] mx-auto" style={{ backgroundColor: colors.rooted }} />
         </motion.div>
 
-        {paragraphs.map((p, i) => (
-          <motion.p
-            key={i}
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.6, delay: i * 0.05 }}
-            className="mb-6 leading-relaxed text-lg"
-            style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "19px", lineHeight: "1.75" }}
+        <div className="flex flex-col md:flex-row gap-10 items-start">
+          <div className="flex-1">
+            {paragraphs.map((p, i) => (
+              <motion.p
+                key={i}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: i * 0.05 }}
+                className="mb-6 leading-relaxed text-lg"
+                style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "19px", lineHeight: "1.75" }}
+              >
+                {p}
+              </motion.p>
+            ))}
+          </div>
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="flex-shrink-0 md:w-60 lg:w-72"
           >
-            {p}
-          </motion.p>
-        ))}
+            <img
+              src="/anima.jpg"
+              alt="Sanela"
+              className="w-full object-cover"
+              style={{ borderRadius: "2px" }}
+            />
+          </motion.div>
+        </div>
 
         {/* Encart "je suis une personne comme vous" */}
         <motion.div
@@ -613,7 +631,7 @@ const AboutPage = () => {
             </motion.div>
           </div>
 
-          <p className="mb-6 leading-relaxed text-lg" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft, fontStyle: "italic", fontSize: "18px", lineHeight: "1.75" }}>
+          <p className="mb-6 leading-relaxed text-lg text-center" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft, fontStyle: "italic", fontSize: "18px", lineHeight: "1.75" }}>
             Ayant en parallèle une autre activité professionnelle plus terre à terre et par respect pour cette
             dualité, et par choix de déontologie, je ne souhaite pas afficher mon image ici.
             Je préfère que la rencontre se fasse autrement. Parce qu'au fond, l'essentiel ne se voit pas… il se
@@ -679,7 +697,7 @@ const TarotCard = ({ duration, price, tagline, description, calendlyUrl }) => {
             <p className="italic mb-2" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.rooted, fontSize: "15px" }}>
               {tagline}
             </p>
-            <p className="text-sm leading-relaxed" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft, fontSize: "13px", lineHeight: "1.5" }}>
+            <p className="text-sm leading-relaxed" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft, fontSize: "13px", lineHeight: "1.5", whiteSpace: "pre-line" }}>
               {description}
             </p>
           </div>
@@ -708,7 +726,7 @@ const GuidancePage = () => {
   const cards = [
     { duration: "15 min", price: 25, tagline: "Un éclairage flash", description: "Pour une question ciblée ou un blocage précis. Idéal pour obtenir une clarté et une prise de hauteur sur une thème particulier.", calendlyUrl: "https://calendly.com/anima-retourasoi/30min" },
     { duration: "30 min", price: 45, tagline: "Une conscientisation", description: "Pour approfondir plus en détail une thématique et identifier les schémas répétitifs et bloquants qui se jouent autour de vous et en vous. Conscience et mise en lumière.", calendlyUrl: "https://calendly.com/anima-retourasoi/lecture-d-ame-30min" },
-    { duration: "45 min", price: 65, tagline: "Un temps d'exploration", description: "Pour trouver des réponses et activer la transformation. Un espace de conscientisation et d'ouverture. Une lecture plus fine de soi. Libération et transformation.", calendlyUrl: "https://calendly.com/anima-retourasoi/lecture-d-ame-45min" },
+    { duration: "45 min", price: 65, tagline: "Un temps d'exploration", description: "Pour trouver des réponses et activer la transformation. Un espace de conscientisation et d'ouverture. Une lecture plus fine de soi.\nLibération et transformation.", calendlyUrl: "https://calendly.com/anima-retourasoi/lecture-d-ame-45min" },
     { duration: "60 min", price: 80, tagline: "Une traversée complète", description: "Pour un accompagnement en conscience sur un ou plusieurs sujets multidimensionnels. Une reconnexion à soi afin de se repositionner dans son plan. Transcendance et alignement.", calendlyUrl: "https://calendly.com/anima-retourasoi/lecture-d-ame-60min" },
   ];
 
@@ -792,11 +810,10 @@ const GuidancePage = () => {
           style={{ backgroundColor: colors.softLight + "33" }}
         >
           <h3 className="text-xl mb-5 text-center" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 500 }}>
-            En présentiel ou à distance
+            À distance
           </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+          <div className="grid grid-cols-3 gap-4 text-center">
             {[
-              { icon: MapPin, label: "Présentiel", sub: "Bordeaux" },
               { icon: Phone, label: "Consultation distancielle", sub: "Audio" },
               { icon: MessageCircle, label: "WhatsApp", sub: "Audio ou message" },
               { icon: Video, label: "Visio", sub: "Zoom / Meet" },
@@ -910,7 +927,7 @@ const FengShuiPage = ({ setCurrentPage }) => {
           }}
         >
           <img
-            src="/feng-shui/0CB1260B-890E-47F7-AE9F-CEB990C14899.png"
+            src="/feng-shui/1.png"
             alt="Espace harmonisé, circulation du Chi"
             className="w-full h-[280px] md:h-[420px] object-cover"
           />
@@ -992,7 +1009,7 @@ const FengShuiPage = ({ setCurrentPage }) => {
             }}
           >
             <img
-              src="/feng-shui/1594C7EA-EAA4-44B6-98D4-55C34C286136.png"
+              src="/feng-shui/2.png"
               alt="Intérieur lumineux, harmonie et fluidité"
               className="w-full aspect-[3/4] object-cover"
             />
@@ -1010,7 +1027,7 @@ const FengShuiPage = ({ setCurrentPage }) => {
             }}
           >
             <img
-              src="/feng-shui/6038553c-49c8-40d4-8e22-2893cf597750.jpeg"
+              src="/feng-shui/5.jpeg"
               alt="Espace de contemplation, sérénité et ancrage"
               className="w-full aspect-[3/4] object-cover"
             />
@@ -1057,8 +1074,8 @@ const FengShuiPage = ({ setCurrentPage }) => {
         {/* Diptyque — espaces réharmonisés */}
         <div className="grid md:grid-cols-2 gap-4 mb-16">
           {[
-            { src: "/feng-shui/7DA92230-A6A3-4B5C-9023-BEA3D9BE1FDA.png", alt: "Pièce réharmonisée, énergie apaisée" },
-            { src: "/feng-shui/8E128761-F25F-4E62-8DC0-B0FD345C4053.png", alt: "Espace de vie transformé, fluidité et clarté" },
+            { src: "/feng-shui/3.png", alt: "Pièce réharmonisée, énergie apaisée" },
+            { src: "/feng-shui/4.png", alt: "Espace de vie transformé, fluidité et clarté" },
           ].map((img, i) => (
             <motion.div
               key={i}
@@ -1280,14 +1297,6 @@ const ContactPage = () => {
               </p>
               <p style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "17px" }}>
                 contact@anima-retour-a-soi.fr
-              </p>
-            </div>
-            <div>
-              <p className="text-xs tracking-[0.2em] uppercase mb-2" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
-                <MapPin size={14} className="inline mr-2" />Présentiel
-              </p>
-              <p style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "17px" }}>
-                Bordeaux [à confirmer]
               </p>
             </div>
             <div>
