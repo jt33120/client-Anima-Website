@@ -49,20 +49,18 @@ const colors = {
 // LOGO (recréé en texte stylisé, typo cursive)
 // ============================================================
 const Logo = ({ size = "md" }: { size?: string; color?: string }) => {
-  const sizes = {
-    sm: { width: 100 },
-    md: { width: 140 },
-    lg: { width: 240 },
-    hero: { width: 340 },
-    xl: { width: 420 },
+  const sizeClasses: Record<string, string> = {
+    sm: "w-24",
+    md: "w-32 md:w-36",
+    lg: "w-44 md:w-60",
+    hero: "w-44 sm:w-52 md:w-64 lg:w-80",
+    xl: "w-52 md:w-80 lg:w-[420px]",
   };
-  const w = sizes[size]?.width ?? 140;
   return (
     <img
       src="/Logo PNG.png"
       alt="Anima"
-      width={w}
-      style={{ display: "block" }}
+      className={`block ${sizeClasses[size] ?? sizeClasses.md}`}
     />
   );
 };
@@ -241,7 +239,7 @@ const HomePage = ({ setCurrentPage }) => {
         />
 
         {/* Grille deux colonnes + fleur au centre */}
-        <div className="relative z-10 w-full h-full min-h-screen grid grid-cols-2 items-center px-8 md:px-16 lg:px-24">
+        <div className="relative z-10 w-full h-full min-h-screen grid grid-cols-1 md:grid-cols-2 items-center px-8 md:px-16 lg:px-24 gap-y-8 md:gap-y-0 pt-28 md:pt-0">
 
           {/* Colonne gauche — Logo */}
           <motion.div
@@ -321,7 +319,7 @@ const HomePage = ({ setCurrentPage }) => {
       </section>
 
       {/* SECTION 2 : "ma promesse" en 3 piliers */}
-      <section className="py-32 md:py-44 relative overflow-hidden" style={{ backgroundColor: "#FDFAF6" }}>
+      <section className="py-20 md:py-44 relative overflow-hidden" style={{ backgroundColor: "#FDFAF6" }}>
         <WatercolorBg variant="warm" />
         <div className="max-w-5xl mx-auto px-6 relative z-10">
           <motion.div
@@ -375,7 +373,7 @@ const HomePage = ({ setCurrentPage }) => {
       </section>
 
       {/* CITATION */}
-      <section className="py-36 md:py-48 relative" style={{ backgroundColor: colors.cream }}>
+      <section className="py-20 md:py-48 relative" style={{ backgroundColor: colors.cream }}>
         <WatercolorBg variant="rooted" />
         <motion.div
           initial={{ opacity: 0 }}
@@ -428,7 +426,7 @@ const AboutPage = () => {
           <p className="text-sm tracking-[0.25em] uppercase mb-4" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
             À propos
           </p>
-          <h1 className="text-5xl md:text-6xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
+          <h1 className="text-4xl md:text-6xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
             Mon chemin
           </h1>
           <div className="w-16 h-[1px] mx-auto" style={{ backgroundColor: colors.rooted }} />
@@ -456,7 +454,7 @@ const AboutPage = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="flex-shrink-0 md:w-[340px] lg:w-[420px] p-3"
+            className="flex-shrink-0 md:w-[340px] lg:w-[420px] p-3 h-72 md:h-auto"
             style={{
               backgroundColor: "#ffffff",
               border: `1px solid ${colors.rooted}22`,
@@ -473,7 +471,7 @@ const AboutPage = () => {
       </div>
 
       {/* ── Section 2 : Je tiens à être claire ── */}
-      <section className="py-40 relative overflow-hidden">
+      <section className="py-16 md:py-40 relative overflow-hidden">
         <WatercolorBg variant="warm" />
         <motion.div
           initial={{ opacity: 0, y: 60 }}
@@ -483,7 +481,7 @@ const AboutPage = () => {
           className="max-w-xl mx-auto px-8 relative z-10"
         >
           <div
-            className="p-10 md:p-14"
+            className="p-6 md:p-14"
             style={{ backgroundColor: colors.softLight + "30", borderLeft: `3px solid ${colors.rooted}` }}
           >
             <p className="mb-8 leading-relaxed" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "20px", lineHeight: "1.95" }}>
@@ -499,7 +497,7 @@ const AboutPage = () => {
       </section>
 
       {/* ── Section 3 : Ce que je vous propose ── */}
-      <section className="py-40 relative">
+      <section className="py-16 md:py-40 relative">
         <WatercolorBg variant="default" />
         <motion.p
           initial={{ opacity: 0, y: 60 }}
@@ -515,7 +513,7 @@ const AboutPage = () => {
       </section>
 
       {/* ── Section 4 : Une porte vers vous-même ── */}
-      <section className="py-32 pb-48 relative overflow-hidden">
+      <section className="py-16 pb-20 md:py-32 md:pb-48 relative overflow-hidden">
         <WatercolorBg variant="rooted" />
         <div className="max-w-3xl mx-auto px-6 relative z-10">
           <div className="flex flex-col md:flex-row gap-8 items-center">
@@ -662,7 +660,7 @@ const AboutPage = () => {
       </section>
 
       {/* ── Section 5 : Mot de clôture ── */}
-      <section className="py-40 pb-24 relative">
+      <section className="py-16 pb-16 md:py-40 md:pb-24 relative">
         <WatercolorBg variant="default" />
         <motion.p
           initial={{ opacity: 0, y: 50 }}
@@ -715,7 +713,7 @@ const TarotCard = ({ duration, price, tagline, description, calendlyUrl }) => {
 
         {/* RECTO DE CARTE */}
         <div
-          className="absolute inset-0 rounded-lg shadow-xl p-6 flex flex-col justify-between"
+          className="absolute inset-0 rounded-lg shadow-xl p-3 md:p-6 flex flex-col justify-between"
           style={{
             backfaceVisibility: "hidden",
             transform: "rotateY(180deg)",
@@ -727,10 +725,10 @@ const TarotCard = ({ duration, price, tagline, description, calendlyUrl }) => {
             <p className="text-xs tracking-[0.25em] uppercase mb-2" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
               Lecture d'âme
             </p>
-            <h3 className="text-3xl mb-1" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
+            <h3 className="text-xl md:text-3xl mb-1" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
               {duration}
             </h3>
-            <p className="text-2xl mb-3" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.warmHeart, fontWeight: 500 }}>
+            <p className="text-lg md:text-2xl mb-3" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.warmHeart, fontWeight: 500 }}>
               {price} €
             </p>
             <div className="w-10 h-[1px] mb-3 mx-auto" style={{ backgroundColor: colors.rooted }} />
@@ -746,7 +744,7 @@ const TarotCard = ({ duration, price, tagline, description, calendlyUrl }) => {
               e.stopPropagation();
               window.open(calendlyUrl, "_blank", "noopener,noreferrer");
             }}
-            className="w-full py-3 mt-4 text-xs tracking-[0.2em] uppercase transition-all hover:shadow-md flex items-center justify-center gap-2"
+            className="w-full py-2 md:py-3 mt-2 md:mt-4 text-xs tracking-[0.2em] uppercase transition-all hover:shadow-md flex items-center justify-center gap-2"
             style={{
               backgroundColor: colors.rooted,
               color: colors.cream,
@@ -771,7 +769,7 @@ const GuidancePage = () => {
   ];
 
   return (
-    <div className="relative pt-40 pb-40" style={{ backgroundColor: colors.cream }}>
+    <div className="relative pt-24 pb-24 md:pt-40 md:pb-40" style={{ backgroundColor: colors.cream }}>
       <WatercolorBg variant="warm" />
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
@@ -780,12 +778,12 @@ const GuidancePage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-20"
+          className="text-center mb-12 md:mb-20"
         >
           <p className="text-sm tracking-[0.25em] uppercase mb-4" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
             Guidance
           </p>
-          <h1 className="text-5xl md:text-6xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
+          <h1 className="text-4xl md:text-6xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
             Lecture d'âme
           </h1>
           <div className="w-16 h-[1px] mx-auto mb-8" style={{ backgroundColor: colors.rooted }} />
@@ -797,7 +795,7 @@ const GuidancePage = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="max-w-3xl mx-auto mb-28"
+          className="max-w-3xl mx-auto mb-16 md:mb-28"
         >
           <h2 className="text-3xl mb-6 text-center" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
             Mon approche
@@ -846,7 +844,7 @@ const GuidancePage = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="max-w-3xl mx-auto mb-24 p-8 rounded-sm"
+          className="max-w-3xl mx-auto mb-12 md:mb-24 p-6 md:p-8 rounded-sm"
           style={{ backgroundColor: colors.softLight + "33" }}
         >
           <h3 className="text-xl mb-5 text-center" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 500 }}>
@@ -877,14 +875,14 @@ const GuidancePage = () => {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16 italic text-lg"
+          className="text-center mb-10 md:mb-16 italic text-lg"
           style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.rooted }}
         >
           Tire une carte pour choisir ton format →
         </motion.p>
 
         {/* 4 cartes */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 md:gap-8 max-w-5xl mx-auto mb-20">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 max-w-5xl mx-auto mb-12 md:mb-20">
           {cards.map((card, i) => (
             <motion.div
               key={i}
@@ -911,7 +909,7 @@ const GuidancePage = () => {
 // ============================================================
 const FengShuiPage = ({ setCurrentPage }) => {
   return (
-    <div className="relative pt-40 pb-48" style={{ backgroundColor: colors.cream }}>
+    <div className="relative pt-24 pb-24 md:pt-40 md:pb-48" style={{ backgroundColor: colors.cream }}>
       <WatercolorBg variant="cool" />
 
       <div className="max-w-4xl mx-auto px-6 relative z-10">
@@ -919,12 +917,12 @@ const FengShuiPage = ({ setCurrentPage }) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-24"
+          className="text-center mb-12 md:mb-24"
         >
           <p className="text-sm tracking-[0.25em] uppercase mb-4" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
             Feng Shui & harmonisation
           </p>
-          <h1 className="text-5xl md:text-6xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
+          <h1 className="text-4xl md:text-6xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
             Réharmonisez votre lieu de vie<br />
             <span className="italic" style={{ color: colors.rooted }}>pour transformer votre vie</span>
           </h1>
@@ -936,7 +934,7 @@ const FengShuiPage = ({ setCurrentPage }) => {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="space-y-8 text-lg leading-relaxed mb-28"
+          className="space-y-8 text-lg leading-relaxed mb-16 md:mb-28"
           style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "18px", lineHeight: "1.8" }}
         >
           <p className="text-xl italic" style={{ color: colors.rooted }}>
@@ -959,7 +957,7 @@ const FengShuiPage = ({ setCurrentPage }) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1 }}
-          className="mb-28 p-3 md:p-4"
+          className="mb-16 md:mb-28 p-3 md:p-4"
           style={{
             backgroundColor: "#ffffff",
             border: `1px solid ${colors.rooted}33`,
@@ -974,7 +972,7 @@ const FengShuiPage = ({ setCurrentPage }) => {
         </motion.div>
 
         {/* 2 colonnes : blocages vs harmonisation */}
-        <div className="grid md:grid-cols-2 gap-6 mb-28">
+        <div className="grid md:grid-cols-2 gap-6 mb-16 md:mb-28">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -1022,7 +1020,7 @@ const FengShuiPage = ({ setCurrentPage }) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="mb-28 text-center max-w-2xl mx-auto"
+          className="mb-16 md:mb-28 text-center max-w-2xl mx-auto"
         >
           <h2 className="text-3xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
             Mon approche
@@ -1035,7 +1033,7 @@ const FengShuiPage = ({ setCurrentPage }) => {
         </motion.div>
 
         {/* Diptyque — espaces d'intimité & de contemplation */}
-        <div className="grid md:grid-cols-2 gap-6 mb-28">
+        <div className="grid md:grid-cols-2 gap-4 md:gap-6 mb-16 md:mb-28">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1075,7 +1073,7 @@ const FengShuiPage = ({ setCurrentPage }) => {
         </div>
 
         {/* Étapes */}
-        <div className="mb-28">
+        <div className="mb-16 md:mb-28">
           <h2 className="text-3xl mb-10 text-center" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
             Les étapes
           </h2>
@@ -1112,7 +1110,7 @@ const FengShuiPage = ({ setCurrentPage }) => {
         </div>
 
         {/* Diptyque — espaces réharmonisés */}
-        <div className="grid md:grid-cols-2 gap-4 mb-28">
+        <div className="grid md:grid-cols-2 gap-4 mb-16 md:mb-28">
           {[
             { src: "/feng-shui/3.png", alt: "Pièce réharmonisée, énergie apaisée" },
             { src: "/feng-shui/4.png", alt: "Espace de vie transformé, fluidité et clarté" },
@@ -1140,7 +1138,7 @@ const FengShuiPage = ({ setCurrentPage }) => {
         </div>
 
         {/* Diagnostic + expertise */}
-        <div className="grid md:grid-cols-2 gap-6 mb-20">
+        <div className="grid md:grid-cols-2 gap-4 md:gap-6 mb-12 md:mb-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1293,16 +1291,16 @@ const TestimonialsPage = () => {
         {/* Reliure + ombre de pliure (côté spine, à gauche) */}
         <div className="absolute inset-y-0 left-0 w-12 pointer-events-none" style={{ background: `linear-gradient(to right, ${colors.rooted}26, transparent)` }} />
         <div className="absolute inset-y-0 left-0 w-[3px]" style={{ backgroundColor: colors.rooted, opacity: 0.45 }} />
-        <div className="h-full flex flex-col justify-between pl-12 pr-8 md:pl-16 md:pr-12 py-12 md:py-14 text-center">
+        <div className="h-full flex flex-col justify-between pl-8 pr-5 md:pl-16 md:pr-12 py-8 md:py-14 text-center">
           <div className="flex flex-col items-center flex-1 justify-center">
-            <Quote size={36} className="mb-6" style={{ color: colors.rooted, opacity: 0.35 }} />
-            <p className="italic leading-relaxed overflow-y-auto" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "18px", lineHeight: "1.8" }}>
+            <Quote size={24} className="mb-4 md:mb-6" style={{ color: colors.rooted, opacity: 0.35 }} />
+            <p className="italic leading-relaxed overflow-y-auto" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "clamp(14px, 2.2vw, 18px)", lineHeight: "1.75" }}>
               {item.text}
             </p>
           </div>
           <div className="mt-8">
             <div className="w-12 h-[1px] mx-auto mb-4" style={{ backgroundColor: colors.rooted, opacity: 0.6 }} />
-            <p style={{ fontFamily: "'Dancing Script', cursive", color: colors.rooted, fontSize: "28px", lineHeight: 1 }}>
+            <p style={{ fontFamily: "'Dancing Script', cursive", color: colors.rooted, fontSize: "clamp(20px, 3.5vw, 28px)", lineHeight: 1 }}>
               {item.name}
             </p>
             {item.format && (
@@ -1327,7 +1325,7 @@ const TestimonialsPage = () => {
   } as const;
 
   return (
-    <div className="relative pt-40 pb-48" style={{ backgroundColor: colors.cream }}>
+    <div className="relative pt-24 pb-24 md:pt-40 md:pb-48" style={{ backgroundColor: colors.cream }}>
       <WatercolorBg variant="warm" />
 
       <div className="max-w-5xl mx-auto px-6 relative z-10">
@@ -1335,12 +1333,12 @@ const TestimonialsPage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-20"
+          className="text-center mb-12 md:mb-20"
         >
           <p className="text-sm tracking-[0.25em] uppercase mb-4" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
             Témoignages
           </p>
-          <h1 className="text-5xl md:text-6xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
+          <h1 className="text-4xl md:text-6xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
             Ils ont franchi la porte
           </h1>
           <div className="w-16 h-[1px] mx-auto mb-6" style={{ backgroundColor: colors.rooted }} />
@@ -1380,7 +1378,7 @@ const TestimonialsPage = () => {
             <div className="absolute inset-0 translate-x-[2px] translate-y-[3px] rounded-r-md" style={{ backgroundColor: "#F5EDE3", border: `1px solid ${colors.stillness}44` }} />
 
             {/* Zone de page */}
-            <div className="relative h-[600px] md:h-[560px]" style={{ transformStyle: "preserve-3d" }}>
+            <div className="relative h-[460px] md:h-[560px]" style={{ transformStyle: "preserve-3d" }}>
               {/* Page au repos (sous la pile) */}
               <div className="absolute inset-0 overflow-hidden rounded-r-md" style={{ ...pageSurface, zIndex: 1 }}>
                 {pageRecto(bottomIdx)}
@@ -1489,7 +1487,7 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="relative pt-40 pb-48" style={{ backgroundColor: colors.cream }}>
+    <div className="relative pt-24 pb-24 md:pt-40 md:pb-48" style={{ backgroundColor: colors.cream }}>
       <WatercolorBg variant="default" />
 
       <div className="max-w-4xl mx-auto px-6 relative z-10">
@@ -1497,12 +1495,12 @@ const ContactPage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-24"
+          className="text-center mb-12 md:mb-24"
         >
           <p className="text-sm tracking-[0.25em] uppercase mb-4" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
             Contact
           </p>
-          <h1 className="text-5xl md:text-6xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
+          <h1 className="text-4xl md:text-6xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
             Prendre contact
           </h1>
           <div className="w-16 h-[1px] mx-auto mb-6" style={{ backgroundColor: colors.rooted }} />
