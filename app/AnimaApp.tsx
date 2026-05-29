@@ -469,42 +469,64 @@ const AboutPage = () => {
             />
           </motion.div>
         </div>
+      </div>
 
-        {/* Encart "je suis une personne comme vous" */}
+      {/* ── Section 2 : Je tiens à être claire ── */}
+      <section className="py-40 relative overflow-hidden">
+        <WatercolorBg variant="warm" />
         <motion.div
-          initial={{ opacity: 0, scale: 0.97 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="my-16 p-8 md:p-10 relative max-w-3xl mx-auto"
-          style={{ backgroundColor: colors.softLight + "30", borderLeft: `3px solid ${colors.rooted}` }}
-        >
-          <p className="mb-4 leading-relaxed" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "19px", lineHeight: "1.75" }}>
-            <strong style={{ fontWeight: 600 }}>Je tiens à être claire avec vous :</strong> je suis une personne comme vous.
-            J'ai une vie, un travail, un foyer et des responsabilités, un quotidien « classique ». Je n'ai pas la prétention
-            de détenir une vérité absolue. Seulement celle de partager un chemin, le mien, avec authenticité et humilité.
-          </p>
-          <p className="italic" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft, fontSize: "17px" }}>
-            N'étant pas une professionnelle de santé, mon approche ne remplace en aucun cas un suivi médical ou psychologique.
-          </p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
+          initial={{ opacity: 0, y: 60 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="max-w-3xl mx-auto"
+          viewport={{ once: true, margin: "-120px" }}
+          transition={{ duration: 1.6, ease: "easeOut" }}
+          className="max-w-xl mx-auto px-8 relative z-10"
         >
-          <p className="mb-6 leading-relaxed text-lg" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "19px", lineHeight: "1.75" }}>
-            Ce que je vous propose est différent. Je me considère comme un canal, un accompagnant. Mon rôle n'est pas de
-            vous dire qui vous êtes ou ce que vous devez faire, mais simplement d'<em>ouvrir une porte</em>.
-          </p>
-          {/* Rose + Pink frame */}
-          <div className="flex flex-col md:flex-row gap-8 items-center mb-12 mt-2">
-            {/* Rose illustration — blown by the wind */}
-            <div className="flex-shrink-0 flex justify-center md:w-44 relative" style={{ minHeight: 260 }}>
+          <div
+            className="p-10 md:p-14"
+            style={{ backgroundColor: colors.softLight + "30", borderLeft: `3px solid ${colors.rooted}` }}
+          >
+            <p className="mb-8 leading-relaxed" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "20px", lineHeight: "1.95" }}>
+              <strong style={{ fontWeight: 600 }}>Je tiens à être claire avec vous :</strong> je suis une personne comme vous.
+              J'ai une vie, un travail, un foyer et des responsabilités, un quotidien « classique ». Je n'ai pas la prétention
+              de détenir une vérité absolue. Seulement celle de partager un chemin, le mien, avec authenticité et humilité.
+            </p>
+            <p className="italic" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft, fontSize: "17px", lineHeight: "1.85" }}>
+              N'étant pas une professionnelle de santé, mon approche ne remplace en aucun cas un suivi médical ou psychologique.
+            </p>
+          </div>
+        </motion.div>
+      </section>
 
+      {/* ── Section 3 : Ce que je vous propose ── */}
+      <section className="py-40 relative">
+        <WatercolorBg variant="default" />
+        <motion.p
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-120px" }}
+          transition={{ duration: 1.6, ease: "easeOut" }}
+          className="max-w-xl mx-auto px-8 text-center relative z-10"
+          style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "21px", lineHeight: "1.95" }}
+        >
+          Ce que je vous propose est différent. Je me considère comme un canal, un accompagnant. Mon rôle n'est pas de
+          vous dire qui vous êtes ou ce que vous devez faire, mais simplement d'<em>ouvrir une porte</em>.
+        </motion.p>
+      </section>
+
+      {/* ── Section 4 : Une porte vers vous-même ── */}
+      <section className="py-32 pb-48 relative overflow-hidden">
+        <WatercolorBg variant="rooted" />
+        <div className="max-w-3xl mx-auto px-6 relative z-10">
+          <div className="flex flex-col md:flex-row gap-8 items-center">
+            {/* Rose illustration — blown by the wind */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1.4, ease: "easeOut" }}
+              className="flex-shrink-0 flex justify-center md:w-44 relative"
+              style={{ minHeight: 260 }}
+            >
               {/* Floating petals detaching in the wind */}
               {([
                 { left: 88, top: 62, dx: [0, 18, 40, 72], dy: [0, -18, -8, 6],  r: [0, 25, 60, 100],  fill: "#F2BEC0", w: 14, h: 9,  delay: 0,   dur: 4.2 },
@@ -556,7 +578,6 @@ const AboutPage = () => {
                 <path d="M63 170 Q81 154 84 142" stroke="#7A9470" strokeWidth="1" fill="none"/>
                 {/* Calyx */}
                 <path d="M55 148 Q60 138 65 145 Q70 138 75 148 Q70 143 65 148 Q60 143 55 148Z" fill="#7A9470"/>
-
                 {/* Flower head — independent flutter around top of stem */}
                 <motion.g
                   style={{ transformOrigin: "65px 148px" }}
@@ -598,14 +619,14 @@ const AboutPage = () => {
                   <circle cx="62" cy="91" r="2" fill="#D98082" opacity="0.6"/>
                 </motion.g>
               </motion.svg>
-            </div>
+            </motion.div>
 
             {/* Pink framed box */}
             <motion.div
-              initial={{ opacity: 0, x: 20 }}
+              initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.7 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1.4, ease: "easeOut", delay: 0.2 }}
               className="flex-1 p-8 md:p-10 relative"
               style={{
                 backgroundColor: colors.warmHeart,
@@ -620,7 +641,7 @@ const AboutPage = () => {
               </p>
               <p
                 className="mb-5 leading-relaxed"
-                style={{ fontFamily: "'Cormorant Garamond', serif", color: "white", fontSize: "18px", lineHeight: "1.8" }}
+                style={{ fontFamily: "'Cormorant Garamond', serif", color: "white", fontSize: "18px", lineHeight: "1.85" }}
               >
                 Car au fond, toutes les réponses sont déjà en vous. Nous sommes ici pour expérimenter, apprendre et évoluer.
                 L'âme, dans son essence, cherche à grandir, à s'élever et à transcender. Et ce chemin peut prendre plusieurs
@@ -628,7 +649,7 @@ const AboutPage = () => {
               </p>
               <p
                 className="leading-relaxed"
-                style={{ fontFamily: "'Cormorant Garamond', serif", color: "white", fontSize: "18px", lineHeight: "1.8" }}
+                style={{ fontFamily: "'Cormorant Garamond', serif", color: "white", fontSize: "18px", lineHeight: "1.85" }}
               >
                 À travers mon expérience et la maîtrise des outils, je souhaite simplement vous accompagner dans ce retour
                 à vous. Vous aider à vous reconnecter à votre essence, à entendre votre voix intérieure, et à rayonner
@@ -636,15 +657,27 @@ const AboutPage = () => {
               </p>
             </motion.div>
           </div>
+        </div>
+      </section>
 
-          <p className="mb-6 leading-relaxed text-lg text-center" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft, fontStyle: "italic", fontSize: "18px", lineHeight: "1.75" }}>
-            Ayant en parallèle une autre activité professionnelle plus terre à terre et par respect pour cette
-            dualité, et par choix de déontologie, je ne souhaite pas afficher mon image ici.
-            Je préfère que la rencontre se fasse autrement. Parce qu'au fond, l'essentiel ne se voit pas… il se
-            perçoit.
-          </p>
-        </motion.div>
-      </div>
+      {/* ── Section 5 : Mot de clôture ── */}
+      <section className="py-40 pb-24 relative">
+        <WatercolorBg variant="default" />
+        <motion.p
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 1.6, ease: "easeOut" }}
+          className="max-w-xl mx-auto px-8 text-center relative z-10"
+          style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft, fontStyle: "italic", fontSize: "19px", lineHeight: "1.95" }}
+        >
+          Ayant en parallèle une autre activité professionnelle plus terre à terre et par respect pour cette
+          dualité, et par choix de déontologie, je ne souhaite pas afficher mon image ici.
+          Je préfère que la rencontre se fasse autrement. Parce qu'au fond, l'essentiel ne se voit pas… il se
+          perçoit.
+        </motion.p>
+      </section>
+
     </div>
   );
 };
