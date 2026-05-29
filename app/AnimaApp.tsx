@@ -433,22 +433,18 @@ const AboutPage = () => {
           <div className="w-16 h-[1px] mx-auto" style={{ backgroundColor: colors.rooted }} />
         </motion.div>
 
-        <div className="flex flex-col md:flex-row gap-10 items-start">
-          <div className="flex-1">
-            {paragraphs.map((p, i) => (
-              <motion.p
-                key={i}
-                initial={{ opacity: 0, y: 15 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.6, delay: i * 0.05 }}
-                className="mb-6 leading-relaxed text-lg"
-                style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "19px", lineHeight: "1.75" }}
-              >
-                {p}
-              </motion.p>
-            ))}
-          </div>
+        {/* First paragraph + image side by side, matched height */}
+        <div className="flex flex-col md:flex-row gap-10 items-stretch mb-6">
+          <motion.p
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6 }}
+            className="flex-1 leading-relaxed text-lg"
+            style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "19px", lineHeight: "1.75" }}
+          >
+            {paragraphs[0]}
+          </motion.p>
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -459,11 +455,26 @@ const AboutPage = () => {
             <img
               src="/anima.jpg"
               alt="Sanela"
-              className="w-full object-cover"
+              className="w-full h-full object-cover"
               style={{ borderRadius: "2px" }}
             />
           </motion.div>
         </div>
+
+        {/* Remaining paragraphs — centered */}
+        {paragraphs.slice(1).map((p, i) => (
+          <motion.p
+            key={i + 1}
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.6, delay: (i + 1) * 0.05 }}
+            className="mb-6 leading-relaxed text-lg text-center"
+            style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "19px", lineHeight: "1.75" }}
+          >
+            {p}
+          </motion.p>
+        ))}
 
         {/* Encart "je suis une personne comme vous" */}
         <motion.div
@@ -772,14 +783,14 @@ const GuidancePage = () => {
               profondément consciente ; tout en apportant des éclairages concrets sur ce que vous vivez.
             </p>
             <p>
-              C'est une reconnexion à son soi divin, cette version originelle de notre être dans une dimension universelle afin de nous apporter des réponses dans l'ici et maintenant et de nous permettre de cheminer vers le champ des possibles.
+              C'est une reconnexion à son soi divin, cette version originelle de notre être dans une dimension universelle afin de vous apporter des réponses dans l'ici et maintenant et de vous permettre de cheminer vers le champ des possibles.
             </p>
             <p>
-              C'est une porte qui s'ouvre nous offrant la possibilité d'évoluer en conscience, de transcender ce qui doit l'être et de mettre en lumière ce qui doit être libéré afin de nous repositionner dans notre plan d'incarnation.
+              C'est une porte qui s'ouvre vous offrant la possibilité d'évoluer en conscience, de transcender ce qui doit l'être et de mettre en lumière ce qui doit être libéré afin de vous repositionner dans votre plan d'incarnation.
             </p>
             <p>
               À travers cette lecture, les messages ne viennent pas seulement nourrir la compréhension mentale :
-              ils révèlent ce qui, en nous, cherche à émerger, à s'aligner ou à être libéré.
+              ils révèlent ce qui, en vous, cherche à émerger, à s'aligner ou à être libéré.
             </p>
             <p>
               C'est une rencontre entre l'invisible et le tangible, entre perception fine et réalité vécue.
