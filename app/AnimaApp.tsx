@@ -433,18 +433,23 @@ const AboutPage = () => {
           <div className="w-16 h-[1px] mx-auto" style={{ backgroundColor: colors.rooted }} />
         </motion.div>
 
-        {/* First paragraph + image side by side, matched height */}
+        {/* All paragraphs + image side by side, image stretches to match total text height */}
         <div className="flex flex-col md:flex-row gap-10 items-stretch mb-6">
-          <motion.p
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.6 }}
-            className="flex-1 leading-relaxed text-lg"
-            style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "19px", lineHeight: "1.75" }}
-          >
-            {paragraphs[0]}
-          </motion.p>
+          <div className="flex-1">
+            {paragraphs.map((p, i) => (
+              <motion.p
+                key={i}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: i * 0.05 }}
+                className="mb-6 leading-relaxed text-lg"
+                style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "19px", lineHeight: "1.75" }}
+              >
+                {p}
+              </motion.p>
+            ))}
+          </div>
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -460,21 +465,6 @@ const AboutPage = () => {
             />
           </motion.div>
         </div>
-
-        {/* Remaining paragraphs — centered */}
-        {paragraphs.slice(1).map((p, i) => (
-          <motion.p
-            key={i + 1}
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.6, delay: (i + 1) * 0.05 }}
-            className="mb-6 leading-relaxed text-lg text-center"
-            style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "19px", lineHeight: "1.75" }}
-          >
-            {p}
-          </motion.p>
-        ))}
 
         {/* Encart "je suis une personne comme vous" */}
         <motion.div
