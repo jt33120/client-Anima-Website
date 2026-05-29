@@ -2,7 +2,7 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useTransform, animate } from "framer-motion";
 import {
   Menu, X, Phone, Mail, MessageCircle, Video,
   MapPin, ArrowRight, Sparkles, Home, Feather, Quote, ChevronDown,
@@ -1232,28 +1232,99 @@ const TestimonialsPage = () => {
 ];
 
   const total = testimonials.length;
-  const [[page, direction], setPage] = useState<[number, number]>([0, 0]);
-  const t = testimonials[page];
+  const [current, setCurrent] = useState(0);
+  const [flip, setFlip] = useState<{ dir: number; from: number; to: number } | null>(null);
 
-  const paginate = (dir: number) => {
-    setPage(([p]) => [(p + dir + total) % total, dir]);
+  // Single motion value = the turning leaf's angle in degrees. Forward turns
+  // 0 → -180 (leaf lifts from the right edge, pivots on the spine, lands on the
+  // left). Backward runs -180 → 0. Both fold-shadows are derived from this angle
+  // so the lighting tracks the real geometry, not a timer.
+  const rot = useMotionValue(0);
+  const absRot = useTransform(rot, (v) => Math.min(Math.abs(v), 180));
+  // Front face is lit at 0°, in deepest shadow as it reaches the 90° edge.
+  const frontShade = useTransform(absRot, [0, 90], [0, 0.55], { clamp: true });
+  // Back face only shows past 90°; darkest at the edge, lit flat at 180°.
+  const backShade = useTransform(absRot, [90, 180], [0.55, 0], { clamp: true });
+  // The lifted leaf casts a soft travelling shadow on the page resting beneath.
+  const castShade = useTransform(absRot, [0, 90, 180], [0, 0.28, 0], { clamp: true });
+
+  const TURN_DURATION = 1.85;
+  const TURN_EASE = [0.5, 0.02, 0.32, 1] as const;
+
+  useEffect(() => {
+    if (!flip) return;
+    const from = flip.dir > 0 ? 0 : -180;
+    const to = flip.dir > 0 ? -180 : 0;
+    rot.set(from);
+    const controls = animate(rot, to, {
+      duration: TURN_DURATION,
+      ease: TURN_EASE,
+      onComplete: () => {
+        setCurrent(flip.to);
+        setFlip(null);
+      },
+    });
+    return () => controls.stop();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [flip]);
+
+  const go = (dir: number) => {
+    if (flip) return;
+    setFlip({ dir, from: current, to: (current + dir + total) % total });
+  };
+  const jumpTo = (idx: number) => {
+    if (flip || idx === current) return;
+    setFlip({ dir: idx > current ? 1 : -1, from: current, to: idx });
   };
 
-  // Page hinged at the spine (left edge). Forward → current leaf turns away to
-  // the left, revealing the next page beneath. Backward → previous leaf flips
-  // back in from the left.
-  const turn = { duration: 0.85, ease: [0.66, 0, 0.34, 1] as const };
-  const pageVariants = {
-    enter: (dir: number) =>
-      dir > 0
-        ? { rotateY: 0, zIndex: 1 }       // next page waits flat behind
-        : { rotateY: -178, zIndex: 30 },  // prev page flips in from the left
-    center: { rotateY: 0, zIndex: 10, transition: turn },
-    exit: (dir: number) =>
-      dir > 0
-        ? { rotateY: -178, zIndex: 30, transition: turn } // current turns away
-        : { rotateY: 0, zIndex: 1 },                      // current waits behind
+  // The static page resting at the bottom of the stack. Going forward it is
+  // already the destination (revealed as the leaf lifts); going back it is the
+  // page we are leaving (covered as the previous leaf drops onto it).
+  const bottomIdx = flip ? (flip.dir > 0 ? flip.to : flip.from) : current;
+  // The content printed on the front (recto) of the turning leaf.
+  const leafIdx = flip ? (flip.dir > 0 ? flip.from : flip.to) : current;
+
+  // Recto of a page — shared by the resting page and the leaf's front face.
+  // Plain render helper (not a component) so it doesn't remount on each render.
+  const pageRecto = (idx: number) => {
+    const item = testimonials[idx];
+    return (
+      <>
+        {/* Reliure + ombre de pliure (côté spine, à gauche) */}
+        <div className="absolute inset-y-0 left-0 w-12 pointer-events-none" style={{ background: `linear-gradient(to right, ${colors.rooted}26, transparent)` }} />
+        <div className="absolute inset-y-0 left-0 w-[3px]" style={{ backgroundColor: colors.rooted, opacity: 0.45 }} />
+        <div className="h-full flex flex-col justify-between pl-12 pr-8 md:pl-16 md:pr-12 py-12 md:py-14 text-center">
+          <div className="flex flex-col items-center flex-1 justify-center">
+            <Quote size={36} className="mb-6" style={{ color: colors.rooted, opacity: 0.35 }} />
+            <p className="italic leading-relaxed overflow-y-auto" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "18px", lineHeight: "1.8" }}>
+              {item.text}
+            </p>
+          </div>
+          <div className="mt-8">
+            <div className="w-12 h-[1px] mx-auto mb-4" style={{ backgroundColor: colors.rooted, opacity: 0.6 }} />
+            <p style={{ fontFamily: "'Dancing Script', cursive", color: colors.rooted, fontSize: "28px", lineHeight: 1 }}>
+              {item.name}
+            </p>
+            {item.format && (
+              <p className="text-xs tracking-[0.18em] uppercase mt-2" style={{ color: colors.inkSoft, fontFamily: "'Cormorant Garamond', serif" }}>
+                {item.format}
+              </p>
+            )}
+            <p className="text-xs italic mt-5" style={{ color: colors.stillness, fontFamily: "'Cormorant Garamond', serif" }}>
+              — {idx + 1} / {total} —
+            </p>
+          </div>
+        </div>
+      </>
+    );
   };
+
+  const pageSurface = {
+    backgroundColor: "#FFFEFB",
+    borderRight: `1px solid ${colors.stillness}44`,
+    borderTop: `1px solid ${colors.stillness}44`,
+    borderBottom: `1px solid ${colors.stillness}44`,
+  } as const;
 
   return (
     <div className="relative pt-32 pb-24" style={{ backgroundColor: colors.cream }}>
@@ -1290,9 +1361,9 @@ const TestimonialsPage = () => {
         >
           {/* Flèche précédente */}
           <button
-            onClick={() => paginate(-1)}
+            onClick={() => go(-1)}
             aria-label="Témoignage précédent"
-            className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-all hover:scale-110"
+            className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-all hover:scale-110 disabled:opacity-40"
             style={{ color: colors.rooted, backgroundColor: "#FFFFFF99", border: `1px solid ${colors.rooted}33` }}
           >
             <ChevronLeft size={22} />
@@ -1301,77 +1372,79 @@ const TestimonialsPage = () => {
           {/* Corps du livre */}
           <div
             className="relative w-full"
-            style={{ perspective: 2400, maxWidth: 560 }}
+            style={{ perspective: 1900, perspectiveOrigin: "50% 42%", maxWidth: 560 }}
           >
-            {/* Tranche de pages empilées (épaisseur) */}
-            <div className="absolute inset-0 translate-x-[6px] translate-y-[7px] rounded-r-md" style={{ backgroundColor: "#EFE7DC", border: `1px solid ${colors.stillness}44` }} />
-            <div className="absolute inset-0 translate-x-[3px] translate-y-[4px] rounded-r-md" style={{ backgroundColor: "#F4ECE2", border: `1px solid ${colors.stillness}44` }} />
+            {/* Tranche de pages empilées (épaisseur du livre) */}
+            <div className="absolute inset-0 translate-x-[8px] translate-y-[9px] rounded-r-md" style={{ backgroundColor: "#E8DFD2", border: `1px solid ${colors.stillness}44` }} />
+            <div className="absolute inset-0 translate-x-[5px] translate-y-[6px] rounded-r-md" style={{ backgroundColor: "#EFE7DC", border: `1px solid ${colors.stillness}44` }} />
+            <div className="absolute inset-0 translate-x-[2px] translate-y-[3px] rounded-r-md" style={{ backgroundColor: "#F5EDE3", border: `1px solid ${colors.stillness}44` }} />
 
-            {/* Zone de page (flip) */}
+            {/* Zone de page */}
             <div className="relative h-[600px] md:h-[560px]" style={{ transformStyle: "preserve-3d" }}>
-              <AnimatePresence custom={direction} initial={false}>
+              {/* Page au repos (sous la pile) */}
+              <div className="absolute inset-0 overflow-hidden rounded-r-md" style={{ ...pageSurface, zIndex: 1 }}>
+                {pageRecto(bottomIdx)}
+                {/* Ombre projetée par la feuille qui se soulève */}
                 <motion.div
-                  key={page}
-                  custom={direction}
-                  variants={pageVariants}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  className="absolute inset-0 overflow-hidden rounded-r-md"
-                  style={{
-                    transformOrigin: "left center",
-                    backfaceVisibility: "hidden",
-                    backgroundColor: "#FFFEFB",
-                    borderRight: `1px solid ${colors.stillness}44`,
-                    borderTop: `1px solid ${colors.stillness}44`,
-                    borderBottom: `1px solid ${colors.stillness}44`,
-                    boxShadow: `0 22px 50px -24px ${colors.ink}44`,
-                  }}
+                  className="absolute inset-0 pointer-events-none"
+                  style={{ opacity: castShade, background: `linear-gradient(to right, ${colors.ink}, transparent 60%)` }}
+                />
+              </div>
+
+              {/* Feuille qui tourne (recto + verso) */}
+              {flip && (
+                <motion.div
+                  className="absolute inset-0"
+                  style={{ rotateY: rot, transformOrigin: "left center", transformStyle: "preserve-3d", zIndex: 20 }}
                 >
-                  {/* Reliure / ombre de pliure côté gauche */}
+                  {/* RECTO */}
                   <div
-                    className="absolute inset-y-0 left-0 w-10 pointer-events-none"
-                    style={{ background: `linear-gradient(to right, ${colors.rooted}22, transparent)` }}
-                  />
-                  <div className="absolute inset-y-0 left-0 w-[3px]" style={{ backgroundColor: colors.rooted, opacity: 0.45 }} />
+                    className="absolute inset-0 overflow-hidden rounded-r-md"
+                    style={{ ...pageSurface, backfaceVisibility: "hidden", boxShadow: `0 24px 55px -26px ${colors.ink}55` }}
+                  >
+                    {pageRecto(leafIdx)}
+                    <motion.div
+                      className="absolute inset-0 pointer-events-none"
+                      style={{ opacity: frontShade, background: `linear-gradient(to right, transparent, ${colors.ink} 130%)` }}
+                    />
+                  </div>
 
-                  {/* Contenu de la page */}
-                  <div className="h-full flex flex-col justify-between pl-12 pr-8 md:pl-14 md:pr-12 py-12 md:py-14 text-center">
-                    <div className="flex flex-col items-center flex-1 justify-center">
-                      <Quote size={36} className="mb-6" style={{ color: colors.rooted, opacity: 0.35 }} />
-                      <p
-                        className="italic leading-relaxed overflow-y-auto"
-                        style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "18px", lineHeight: "1.8" }}
-                      >
-                        {t.text}
-                      </p>
+                  {/* VERSO (dos de la feuille — spine à droite une fois retournée) */}
+                  <div
+                    className="absolute inset-0 overflow-hidden rounded-l-md flex items-center justify-center"
+                    style={{
+                      backgroundColor: "#FBF3E9",
+                      border: `1px solid ${colors.stillness}44`,
+                      backfaceVisibility: "hidden",
+                      transform: "rotateY(180deg)",
+                      boxShadow: `0 24px 55px -26px ${colors.ink}55`,
+                    }}
+                  >
+                    {/* Reliure côté droit + grain papier */}
+                    <div className="absolute inset-y-0 right-0 w-12 pointer-events-none" style={{ background: `linear-gradient(to left, ${colors.rooted}26, transparent)` }} />
+                    <div className="absolute inset-y-0 right-0 w-[3px]" style={{ backgroundColor: colors.rooted, opacity: 0.45 }} />
+                    <div className="absolute inset-0 pointer-events-none" style={{ background: `radial-gradient(ellipse at center, transparent 55%, ${colors.softLight}33 100%)` }} />
+                    {/* Petit fleuron au centre du dos */}
+                    <div className="flex flex-col items-center gap-3 opacity-50">
+                      <div className="w-10 h-[1px]" style={{ backgroundColor: colors.rooted }} />
+                      <Feather size={26} style={{ color: colors.rooted }} />
+                      <div className="w-10 h-[1px]" style={{ backgroundColor: colors.rooted }} />
                     </div>
-
-                    <div className="mt-8">
-                      <div className="w-12 h-[1px] mx-auto mb-4" style={{ backgroundColor: colors.rooted, opacity: 0.6 }} />
-                      <p style={{ fontFamily: "'Dancing Script', cursive", color: colors.rooted, fontSize: "28px", lineHeight: 1 }}>
-                        {t.name}
-                      </p>
-                      {t.format && (
-                        <p className="text-xs tracking-[0.18em] uppercase mt-2" style={{ color: colors.inkSoft, fontFamily: "'Cormorant Garamond', serif" }}>
-                          {t.format}
-                        </p>
-                      )}
-                      <p className="text-xs italic mt-5" style={{ color: colors.stillness, fontFamily: "'Cormorant Garamond', serif" }}>
-                        — {page + 1} / {total} —
-                      </p>
-                    </div>
+                    <motion.div
+                      className="absolute inset-0 pointer-events-none"
+                      style={{ opacity: backShade, background: `linear-gradient(to left, transparent, ${colors.ink} 130%)` }}
+                    />
                   </div>
                 </motion.div>
-              </AnimatePresence>
+              )}
             </div>
           </div>
 
           {/* Flèche suivante */}
           <button
-            onClick={() => paginate(1)}
+            onClick={() => go(1)}
             aria-label="Témoignage suivant"
-            className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-all hover:scale-110"
+            className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-all hover:scale-110 disabled:opacity-40"
             style={{ color: colors.rooted, backgroundColor: "#FFFFFF99", border: `1px solid ${colors.rooted}33` }}
           >
             <ChevronRight size={22} />
@@ -1383,14 +1456,14 @@ const TestimonialsPage = () => {
           {testimonials.map((_, i) => (
             <button
               key={i}
-              onClick={() => setPage(([p]) => [i, i > p ? 1 : -1])}
+              onClick={() => jumpTo(i)}
               aria-label={`Aller au témoignage ${i + 1}`}
               className="rounded-full transition-all"
               style={{
-                width: i === page ? 26 : 9,
+                width: i === current ? 26 : 9,
                 height: 9,
-                backgroundColor: i === page ? colors.rooted : colors.stillness,
-                opacity: i === page ? 1 : 0.5,
+                backgroundColor: i === current ? colors.rooted : colors.stillness,
+                opacity: i === current ? 1 : 0.5,
               }}
             />
           ))}
