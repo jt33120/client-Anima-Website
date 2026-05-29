@@ -321,7 +321,7 @@ const HomePage = ({ setCurrentPage }) => {
       </section>
 
       {/* SECTION 2 : "ma promesse" en 3 piliers */}
-      <section className="py-24 md:py-32 relative overflow-hidden" style={{ backgroundColor: "#FDFAF6" }}>
+      <section className="py-32 md:py-44 relative overflow-hidden" style={{ backgroundColor: "#FDFAF6" }}>
         <WatercolorBg variant="warm" />
         <div className="max-w-5xl mx-auto px-6 relative z-10">
           <motion.div
@@ -375,7 +375,7 @@ const HomePage = ({ setCurrentPage }) => {
       </section>
 
       {/* CITATION */}
-      <section className="py-24 relative" style={{ backgroundColor: colors.cream }}>
+      <section className="py-36 md:py-48 relative" style={{ backgroundColor: colors.cream }}>
         <WatercolorBg variant="rooted" />
         <motion.div
           initial={{ opacity: 0 }}
@@ -465,7 +465,7 @@ const AboutPage = () => {
           >
             <img
               src="/anima.jpg"
-              alt="Sanela"
+              alt="Anima"
               className="w-full h-full object-cover"
             />
           </motion.div>
@@ -771,7 +771,7 @@ const GuidancePage = () => {
   ];
 
   return (
-    <div className="relative pt-32 pb-24" style={{ backgroundColor: colors.cream }}>
+    <div className="relative pt-40 pb-40" style={{ backgroundColor: colors.cream }}>
       <WatercolorBg variant="warm" />
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
@@ -780,7 +780,7 @@ const GuidancePage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-12"
+          className="text-center mb-20"
         >
           <p className="text-sm tracking-[0.25em] uppercase mb-4" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
             Guidance
@@ -797,7 +797,7 @@ const GuidancePage = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="max-w-3xl mx-auto mb-20"
+          className="max-w-3xl mx-auto mb-28"
         >
           <h2 className="text-3xl mb-6 text-center" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
             Mon approche
@@ -846,7 +846,7 @@ const GuidancePage = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="max-w-3xl mx-auto mb-16 p-8 rounded-sm"
+          className="max-w-3xl mx-auto mb-24 p-8 rounded-sm"
           style={{ backgroundColor: colors.softLight + "33" }}
         >
           <h3 className="text-xl mb-5 text-center" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 500 }}>
@@ -877,14 +877,14 @@ const GuidancePage = () => {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-10 italic text-lg"
+          className="text-center mb-16 italic text-lg"
           style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.rooted }}
         >
           Tire une carte pour choisir ton format →
         </motion.p>
 
         {/* 4 cartes */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 md:gap-8 max-w-5xl mx-auto mb-12">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 md:gap-8 max-w-5xl mx-auto mb-20">
           {cards.map((card, i) => (
             <motion.div
               key={i}
@@ -911,7 +911,7 @@ const GuidancePage = () => {
 // ============================================================
 const FengShuiPage = ({ setCurrentPage }) => {
   return (
-    <div className="relative pt-32 pb-24" style={{ backgroundColor: colors.cream }}>
+    <div className="relative pt-40 pb-48" style={{ backgroundColor: colors.cream }}>
       <WatercolorBg variant="cool" />
 
       <div className="max-w-4xl mx-auto px-6 relative z-10">
@@ -919,7 +919,7 @@ const FengShuiPage = ({ setCurrentPage }) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="text-center mb-24"
         >
           <p className="text-sm tracking-[0.25em] uppercase mb-4" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
             Feng Shui & harmonisation
@@ -936,7 +936,7 @@ const FengShuiPage = ({ setCurrentPage }) => {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="space-y-8 text-lg leading-relaxed mb-16"
+          className="space-y-8 text-lg leading-relaxed mb-28"
           style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "18px", lineHeight: "1.8" }}
         >
           <p className="text-xl italic" style={{ color: colors.rooted }}>
@@ -959,7 +959,7 @@ const FengShuiPage = ({ setCurrentPage }) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1 }}
-          className="mb-16 p-3 md:p-4"
+          className="mb-28 p-3 md:p-4"
           style={{
             backgroundColor: "#ffffff",
             border: `1px solid ${colors.rooted}33`,
@@ -974,7 +974,7 @@ const FengShuiPage = ({ setCurrentPage }) => {
         </motion.div>
 
         {/* 2 colonnes : blocages vs harmonisation */}
-        <div className="grid md:grid-cols-2 gap-6 mb-16">
+        <div className="grid md:grid-cols-2 gap-6 mb-28">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -1022,7 +1022,7 @@ const FengShuiPage = ({ setCurrentPage }) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="mb-16 text-center max-w-2xl mx-auto"
+          className="mb-28 text-center max-w-2xl mx-auto"
         >
           <h2 className="text-3xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
             Mon approche
@@ -1035,7 +1035,7 @@ const FengShuiPage = ({ setCurrentPage }) => {
         </motion.div>
 
         {/* Diptyque — espaces d'intimité & de contemplation */}
-        <div className="grid md:grid-cols-2 gap-6 mb-16">
+        <div className="grid md:grid-cols-2 gap-6 mb-28">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1075,7 +1075,7 @@ const FengShuiPage = ({ setCurrentPage }) => {
         </div>
 
         {/* Étapes */}
-        <div className="mb-16">
+        <div className="mb-28">
           <h2 className="text-3xl mb-10 text-center" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
             Les étapes
           </h2>
@@ -1112,7 +1112,7 @@ const FengShuiPage = ({ setCurrentPage }) => {
         </div>
 
         {/* Diptyque — espaces réharmonisés */}
-        <div className="grid md:grid-cols-2 gap-4 mb-16">
+        <div className="grid md:grid-cols-2 gap-4 mb-28">
           {[
             { src: "/feng-shui/3.png", alt: "Pièce réharmonisée, énergie apaisée" },
             { src: "/feng-shui/4.png", alt: "Espace de vie transformé, fluidité et clarté" },
@@ -1140,7 +1140,7 @@ const FengShuiPage = ({ setCurrentPage }) => {
         </div>
 
         {/* Diagnostic + expertise */}
-        <div className="grid md:grid-cols-2 gap-6 mb-12">
+        <div className="grid md:grid-cols-2 gap-6 mb-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1327,7 +1327,7 @@ const TestimonialsPage = () => {
   } as const;
 
   return (
-    <div className="relative pt-32 pb-24" style={{ backgroundColor: colors.cream }}>
+    <div className="relative pt-40 pb-48" style={{ backgroundColor: colors.cream }}>
       <WatercolorBg variant="warm" />
 
       <div className="max-w-5xl mx-auto px-6 relative z-10">
@@ -1335,7 +1335,7 @@ const TestimonialsPage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-14"
+          className="text-center mb-20"
         >
           <p className="text-sm tracking-[0.25em] uppercase mb-4" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
             Témoignages
@@ -1452,7 +1452,7 @@ const TestimonialsPage = () => {
         </motion.div>
 
         {/* Pastilles de navigation */}
-        <div className="flex items-center justify-center gap-3 mt-10">
+        <div className="flex items-center justify-center gap-3 mt-16">
           {testimonials.map((_, i) => (
             <button
               key={i}
@@ -1489,7 +1489,7 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="relative pt-32 pb-24" style={{ backgroundColor: colors.cream }}>
+    <div className="relative pt-40 pb-48" style={{ backgroundColor: colors.cream }}>
       <WatercolorBg variant="default" />
 
       <div className="max-w-4xl mx-auto px-6 relative z-10">
@@ -1497,7 +1497,7 @@ const ContactPage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="text-center mb-24"
         >
           <p className="text-sm tracking-[0.25em] uppercase mb-4" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
             Contact
