@@ -246,8 +246,16 @@ const HomePage = ({ setCurrentPage }) => {
             initial={{ opacity: 0, scale: 0.92, filter: "blur(10px)" }}
             animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
             transition={{ duration: 2.2, ease: "easeOut", delay: 0.5 }}
-            className="flex items-center justify-center md:justify-start"
+            className="flex items-center justify-center md:justify-start relative"
           >
+            {/* Mobile-only: soft cream halo so logo reads on the floral photo */}
+            <div
+              className="absolute md:hidden pointer-events-none"
+              style={{
+                inset: "-60%",
+                background: "radial-gradient(ellipse at center, rgba(251,248,244,0.88) 18%, rgba(251,248,244,0.55) 45%, transparent 68%)",
+              }}
+            />
             <Logo size="hero" />
           </motion.div>
 
@@ -713,7 +721,7 @@ const TarotCard = ({ duration, price, tagline, description, calendlyUrl }) => {
 
         {/* RECTO DE CARTE */}
         <div
-          className="absolute inset-0 rounded-lg shadow-xl p-3 md:p-6 flex flex-col justify-between"
+          className="absolute inset-0 rounded-lg shadow-xl p-3 md:p-6 flex flex-col overflow-hidden"
           style={{
             backfaceVisibility: "hidden",
             transform: "rotateY(180deg)",
@@ -721,21 +729,21 @@ const TarotCard = ({ duration, price, tagline, description, calendlyUrl }) => {
             border: `1px solid ${colors.rooted}33`,
           }}
         >
-          <div className="text-center">
-            <p className="text-xs tracking-[0.25em] uppercase mb-2" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
+          <div className="text-center flex-1 min-h-0 overflow-hidden">
+            <p className="text-xs tracking-[0.25em] uppercase mb-1 md:mb-2" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
               Lecture d'âme
             </p>
             <h3 className="text-xl md:text-3xl mb-1" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
               {duration}
             </h3>
-            <p className="text-lg md:text-2xl mb-3" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.warmHeart, fontWeight: 500 }}>
+            <p className="text-lg md:text-2xl mb-2 md:mb-3" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.warmHeart, fontWeight: 500 }}>
               {price} €
             </p>
-            <div className="w-10 h-[1px] mb-3 mx-auto" style={{ backgroundColor: colors.rooted }} />
-            <p className="italic mb-2" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.rooted, fontSize: "15px" }}>
+            <div className="w-10 h-[1px] mb-2 md:mb-3 mx-auto" style={{ backgroundColor: colors.rooted }} />
+            <p className="italic mb-1 md:mb-2" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.rooted, fontSize: "14px" }}>
               {tagline}
             </p>
-            <p className="text-sm leading-relaxed" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft, fontSize: "13px", lineHeight: "1.5", whiteSpace: "pre-line" }}>
+            <p className="text-sm leading-relaxed line-clamp-3 md:line-clamp-none" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft, fontSize: "12px", lineHeight: "1.45" }}>
               {description}
             </p>
           </div>
@@ -744,7 +752,7 @@ const TarotCard = ({ duration, price, tagline, description, calendlyUrl }) => {
               e.stopPropagation();
               window.open(calendlyUrl, "_blank", "noopener,noreferrer");
             }}
-            className="w-full py-2 md:py-3 mt-2 md:mt-4 text-xs tracking-[0.2em] uppercase transition-all hover:shadow-md flex items-center justify-center gap-2"
+            className="w-full py-2 md:py-3 mt-auto flex-shrink-0 text-xs tracking-[0.2em] uppercase transition-all hover:shadow-md flex items-center justify-center gap-2"
             style={{
               backgroundColor: colors.rooted,
               color: colors.cream,
