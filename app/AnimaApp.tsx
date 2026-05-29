@@ -1223,6 +1223,11 @@ const TestimonialsPage = () => {
     text: "C’est une personne bienveillante, à l’écoute, qui m’a aidée à souffler, à me poser et à relativiser dans des moments où j’en avais besoin. Elle sait apporter de la chaleur, du réconfort et nous aide toujours à retrouver un peu de lumière et de positif dans nos énergies et notre quotidien.",
     format: "",
   },
+  {
+    name: "Karine",
+    text: "J’ai eu l’occasion de découvrir Amina lors d’une séance de guidance, séance rythmée par la douceur de ses mots et de sa voix. Chaque tirage est réalisé avec beaucoup de pédagogie et laisse place ensuite à la réflexion, l’émotion, l’assimilation et la maturité. Après ces quelques mois passés, je réalise aujourd’hui le chemin parcouru et l’éveil réalisé… Quelle belle rencontre et quelle belle âme ! Si vous souhaitez partir à la recherche de votre « moi » le plus profond vous êtes à la bonne porte, Amina détient toutes les clés pour vous permettre d’avancer…",
+    format: "Lecture 60 min",
+  },
 ];
 
   return (
