@@ -5,7 +5,8 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Menu, X, Phone, Mail, MessageCircle, Video,
-  MapPin, ArrowRight, Sparkles, Home, Feather, Quote, ChevronDown
+  MapPin, ArrowRight, Sparkles, Home, Feather, Quote, ChevronDown,
+  ChevronLeft, ChevronRight
 } from "lucide-react";
 
 // Icône Instagram en SVG inline (lucide-react a retiré l'export à cause de la marque)
@@ -1230,6 +1231,30 @@ const TestimonialsPage = () => {
   },
 ];
 
+  const total = testimonials.length;
+  const [[page, direction], setPage] = useState<[number, number]>([0, 0]);
+  const t = testimonials[page];
+
+  const paginate = (dir: number) => {
+    setPage(([p]) => [(p + dir + total) % total, dir]);
+  };
+
+  // Page hinged at the spine (left edge). Forward → current leaf turns away to
+  // the left, revealing the next page beneath. Backward → previous leaf flips
+  // back in from the left.
+  const turn = { duration: 0.85, ease: [0.66, 0, 0.34, 1] as const };
+  const pageVariants = {
+    enter: (dir: number) =>
+      dir > 0
+        ? { rotateY: 0, zIndex: 1 }       // next page waits flat behind
+        : { rotateY: -178, zIndex: 30 },  // prev page flips in from the left
+    center: { rotateY: 0, zIndex: 10, transition: turn },
+    exit: (dir: number) =>
+      dir > 0
+        ? { rotateY: -178, zIndex: 30, transition: turn } // current turns away
+        : { rotateY: 0, zIndex: 1 },                      // current waits behind
+  };
+
   return (
     <div className="relative pt-32 pb-24" style={{ backgroundColor: colors.cream }}>
       <WatercolorBg variant="warm" />
@@ -1239,7 +1264,7 @@ const TestimonialsPage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="text-center mb-14"
         >
           <p className="text-sm tracking-[0.25em] uppercase mb-4" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
             Témoignages
@@ -1250,36 +1275,124 @@ const TestimonialsPage = () => {
           <div className="w-16 h-[1px] mx-auto mb-6" style={{ backgroundColor: colors.rooted }} />
           <p className="italic text-lg max-w-2xl mx-auto" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft }}>
             Quelques mots partagés par celles et ceux qui ont vécu l'expérience.
+            <br />
+            <span className="text-sm" style={{ color: colors.rooted }}>Tournez les pages du livre d'or.</span>
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-3 gap-6">
-          {testimonials.map((t, i) => (
-            <motion.div
+        {/* ── Livre d'or ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.9 }}
+          className="relative mx-auto flex items-center justify-center gap-2 md:gap-5"
+        >
+          {/* Flèche précédente */}
+          <button
+            onClick={() => paginate(-1)}
+            aria-label="Témoignage précédent"
+            className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-all hover:scale-110"
+            style={{ color: colors.rooted, backgroundColor: "#FFFFFF99", border: `1px solid ${colors.rooted}33` }}
+          >
+            <ChevronLeft size={22} />
+          </button>
+
+          {/* Corps du livre */}
+          <div
+            className="relative w-full"
+            style={{ perspective: 2400, maxWidth: 560 }}
+          >
+            {/* Tranche de pages empilées (épaisseur) */}
+            <div className="absolute inset-0 translate-x-[6px] translate-y-[7px] rounded-r-md" style={{ backgroundColor: "#EFE7DC", border: `1px solid ${colors.stillness}44` }} />
+            <div className="absolute inset-0 translate-x-[3px] translate-y-[4px] rounded-r-md" style={{ backgroundColor: "#F4ECE2", border: `1px solid ${colors.stillness}44` }} />
+
+            {/* Zone de page (flip) */}
+            <div className="relative h-[600px] md:h-[560px]" style={{ transformStyle: "preserve-3d" }}>
+              <AnimatePresence custom={direction} initial={false}>
+                <motion.div
+                  key={page}
+                  custom={direction}
+                  variants={pageVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  className="absolute inset-0 overflow-hidden rounded-r-md"
+                  style={{
+                    transformOrigin: "left center",
+                    backfaceVisibility: "hidden",
+                    backgroundColor: "#FFFEFB",
+                    borderRight: `1px solid ${colors.stillness}44`,
+                    borderTop: `1px solid ${colors.stillness}44`,
+                    borderBottom: `1px solid ${colors.stillness}44`,
+                    boxShadow: `0 22px 50px -24px ${colors.ink}44`,
+                  }}
+                >
+                  {/* Reliure / ombre de pliure côté gauche */}
+                  <div
+                    className="absolute inset-y-0 left-0 w-10 pointer-events-none"
+                    style={{ background: `linear-gradient(to right, ${colors.rooted}22, transparent)` }}
+                  />
+                  <div className="absolute inset-y-0 left-0 w-[3px]" style={{ backgroundColor: colors.rooted, opacity: 0.45 }} />
+
+                  {/* Contenu de la page */}
+                  <div className="h-full flex flex-col justify-between pl-12 pr-8 md:pl-14 md:pr-12 py-12 md:py-14 text-center">
+                    <div className="flex flex-col items-center flex-1 justify-center">
+                      <Quote size={36} className="mb-6" style={{ color: colors.rooted, opacity: 0.35 }} />
+                      <p
+                        className="italic leading-relaxed overflow-y-auto"
+                        style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "18px", lineHeight: "1.8" }}
+                      >
+                        {t.text}
+                      </p>
+                    </div>
+
+                    <div className="mt-8">
+                      <div className="w-12 h-[1px] mx-auto mb-4" style={{ backgroundColor: colors.rooted, opacity: 0.6 }} />
+                      <p style={{ fontFamily: "'Dancing Script', cursive", color: colors.rooted, fontSize: "28px", lineHeight: 1 }}>
+                        {t.name}
+                      </p>
+                      {t.format && (
+                        <p className="text-xs tracking-[0.18em] uppercase mt-2" style={{ color: colors.inkSoft, fontFamily: "'Cormorant Garamond', serif" }}>
+                          {t.format}
+                        </p>
+                      )}
+                      <p className="text-xs italic mt-5" style={{ color: colors.stillness, fontFamily: "'Cormorant Garamond', serif" }}>
+                        — {page + 1} / {total} —
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
+
+          {/* Flèche suivante */}
+          <button
+            onClick={() => paginate(1)}
+            aria-label="Témoignage suivant"
+            className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-all hover:scale-110"
+            style={{ color: colors.rooted, backgroundColor: "#FFFFFF99", border: `1px solid ${colors.rooted}33` }}
+          >
+            <ChevronRight size={22} />
+          </button>
+        </motion.div>
+
+        {/* Pastilles de navigation */}
+        <div className="flex items-center justify-center gap-3 mt-10">
+          {testimonials.map((_, i) => (
+            <button
               key={i}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: i * 0.15 }}
-              className="p-8 relative"
-              style={{ backgroundColor: "#FFFFFF80", backdropFilter: "blur(8px)", border: `1px solid ${colors.rooted}22` }}
-            >
-              <Quote size={28} className="mb-4" style={{ color: colors.rooted, opacity: 0.4 }} />
-              <p
-                className="mb-6 italic leading-relaxed"
-                style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "17px", lineHeight: "1.7" }}
-              >
-                {t.text}
-              </p>
-              <div className="pt-4" style={{ borderTop: `1px solid ${colors.stillness}66` }}>
-                <p className="font-medium" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.rooted, fontSize: "17px" }}>
-                  {t.name}
-                </p>
-                <p className="text-xs tracking-wider uppercase mt-1" style={{ color: colors.inkSoft, fontFamily: "'Cormorant Garamond', serif" }}>
-                  {t.format}
-                </p>
-              </div>
-            </motion.div>
+              onClick={() => setPage(([p]) => [i, i > p ? 1 : -1])}
+              aria-label={`Aller au témoignage ${i + 1}`}
+              className="rounded-full transition-all"
+              style={{
+                width: i === page ? 26 : 9,
+                height: 9,
+                backgroundColor: i === page ? colors.rooted : colors.stillness,
+                opacity: i === page ? 1 : 0.5,
+              }}
+            />
           ))}
         </div>
       </div>
