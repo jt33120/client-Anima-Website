@@ -417,12 +417,12 @@ const AboutPage = () => {
     <div className="relative pt-32 pb-24" style={{ backgroundColor: colors.cream }}>
       <WatercolorBg variant="default" />
 
-      <div className="max-w-3xl mx-auto px-6 relative z-10">
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="text-center mb-16 max-w-2xl mx-auto"
         >
           <p className="text-sm tracking-[0.25em] uppercase mb-4" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
             À propos
@@ -434,8 +434,8 @@ const AboutPage = () => {
         </motion.div>
 
         {/* All paragraphs + image side by side, image stretches to match total text height */}
-        <div className="flex flex-col md:flex-row gap-10 items-stretch mb-6">
-          <div className="flex-1">
+        <div className="flex flex-col md:flex-row gap-12 items-stretch mb-6">
+          <div className="flex-1 min-w-0">
             {paragraphs.map((p, i) => (
               <motion.p
                 key={i}
@@ -455,13 +455,17 @@ const AboutPage = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="flex-shrink-0 md:w-60 lg:w-72"
+            className="flex-shrink-0 md:w-[340px] lg:w-[420px] p-3"
+            style={{
+              backgroundColor: "#ffffff",
+              border: `1px solid ${colors.rooted}22`,
+              boxShadow: `0 16px 48px -20px ${colors.ink}28`,
+            }}
           >
             <img
               src="/anima.jpg"
               alt="Sanela"
               className="w-full h-full object-cover"
-              style={{ borderRadius: "2px" }}
             />
           </motion.div>
         </div>
@@ -472,7 +476,7 @@ const AboutPage = () => {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="my-16 p-8 md:p-10 relative"
+          className="my-16 p-8 md:p-10 relative max-w-3xl mx-auto"
           style={{ backgroundColor: colors.softLight + "30", borderLeft: `3px solid ${colors.rooted}` }}
         >
           <p className="mb-4 leading-relaxed" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "19px", lineHeight: "1.75" }}>
@@ -490,6 +494,7 @@ const AboutPage = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
+          className="max-w-3xl mx-auto"
         >
           <p className="mb-6 leading-relaxed text-lg" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "19px", lineHeight: "1.75" }}>
             Ce que je vous propose est différent. Je me considère comme un canal, un accompagnant. Mon rôle n'est pas de
