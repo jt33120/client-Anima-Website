@@ -253,16 +253,27 @@ const HomePage = ({ setCurrentPage }) => {
 
           {/* Colonne droite — Tagline + boutons */}
           <div className="flex flex-col items-center md:items-end text-center md:text-right gap-6 md:gap-8">
-            <motion.p
-              initial={{ opacity: 0, y: 14, filter: "blur(6px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 1.8, ease: "easeOut", delay: 1.0 }}
-              className="text-xl md:text-xl italic leading-relaxed max-w-sm md:max-w-xs"
-              style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink }}
-            >
-              Un espace doux pour se reconnecter à son essence,
-              écouter sa voix intérieure, et rayonner pleinement qui l'on est.
-            </motion.p>
+            {/* Mystic white halo behind tagline — mobile only */}
+            <div className="relative md:static">
+              <div
+                className="absolute md:hidden pointer-events-none"
+                style={{
+                  inset: "-75% -55%",
+                  background: "radial-gradient(ellipse at center, rgba(255,255,255,0.82) 0%, rgba(255,255,255,0.52) 30%, rgba(255,255,255,0.18) 56%, transparent 75%)",
+                  filter: "blur(24px)",
+                }}
+              />
+              <motion.p
+                initial={{ opacity: 0, y: 14, filter: "blur(6px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                transition={{ duration: 1.8, ease: "easeOut", delay: 1.0 }}
+                className="text-xl md:text-xl italic leading-relaxed max-w-sm md:max-w-xs relative"
+                style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, textShadow: "0 0 18px rgba(255,255,255,0.9), 0 0 6px rgba(255,255,255,0.6)" }}
+              >
+                Un espace doux pour se reconnecter à son essence,
+                écouter sa voix intérieure, et rayonner pleinement qui l'on est.
+              </motion.p>
+            </div>
             <div className="flex flex-col gap-3 w-full max-w-sm md:max-w-xs">
               <motion.button
                 initial={{ opacity: 0, y: 10 }}
