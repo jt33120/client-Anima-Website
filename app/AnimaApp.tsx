@@ -1543,7 +1543,7 @@ const ContactPage = () => {
             transition={{ duration: 0.7 }}
             className="md:col-span-2"
           >
-            <div onSubmit={submit} className="space-y-5">
+            <div className="space-y-5">
               <div className="grid md:grid-cols-2 gap-5">
                 <div>
                   <label className="block text-xs tracking-[0.15em] uppercase mb-2" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
