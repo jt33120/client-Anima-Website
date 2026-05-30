@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export async function POST(req: NextRequest) {
+  if (!process.env.RESEND_API_KEY) {
+    return NextResponse.json({ error: "Service email non configuré" }, { status: 503 });
+  }
+
   const { name, email, subject, message } = await req.json();
 
   if (!name || !email || !message) {
@@ -16,6 +18,8 @@ export async function POST(req: NextRequest) {
     fengshui: "Feng Shui",
     rdv: "Prise de rendez-vous",
   };
+
+  const resend = new Resend(process.env.RESEND_API_KEY);
 
   const { error } = await resend.emails.send({
     from: "Anima <contact@anima-retourasoi.fr>",
