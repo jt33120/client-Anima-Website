@@ -1690,6 +1690,11 @@ const Footer = ({ setCurrentPage }) => {
                   Mentions légales
                 </button>
               </li>
+              <li>
+                <button onClick={() => { setCurrentPage("cgv"); window.scrollTo({ top: 0 }); }} className="hover:underline italic">
+                  CGV
+                </button>
+              </li>
             </ul>
           </div>
         </div>
@@ -1749,9 +1754,9 @@ const MentionsPage = () => {
           </p>
         </div>
 
-        {/* Bannière placeholders */}
+        {/* Bannière placeholder SIRET */}
         <div className="mb-10 px-5 py-4 text-sm" style={{ backgroundColor: colors.warmHeart + "18", borderLeft: `3px solid ${colors.warmHeart}`, fontFamily: "'Cormorant Garamond', serif", color: colors.rooted }}>
-          Les éléments en <em>italique rose</em> sont à compléter avant la mise en ligne.
+          L'élément en <em>italique rose</em> (SIRET) est à compléter avant la mise en ligne.
         </div>
 
         <div>
@@ -1759,19 +1764,16 @@ const MentionsPage = () => {
           {/* 1. Éditeur */}
           <Section title="1. Éditeur du site">
             <p className="mb-2">
-              <strong>Nom :</strong> {placeholder("Prénom Nom — propriétaire du site")}
+              <strong>Nom commercial :</strong> Anima — éveil & retour à soi
             </p>
             <p className="mb-2">
               <strong>Activité :</strong> Accompagnement spirituel — lecture d'âme & harmonisation Feng Shui
             </p>
             <p className="mb-2">
-              <strong>Statut :</strong> {placeholder("Auto-entrepreneur / Micro-entreprise / SASU…")}
+              <strong>SIRET :</strong> {placeholder("XXX XXX XXX XXXXX — à compléter")}
             </p>
             <p className="mb-2">
-              <strong>SIRET :</strong> {placeholder("XXX XXX XXX XXXXX")}
-            </p>
-            <p className="mb-2">
-              <strong>Adresse :</strong> {placeholder("Adresse complète — ville, code postal")}
+              <strong>Ville :</strong> Bordeaux, France
             </p>
             <p className="mb-2">
               <strong>Email :</strong>{" "}
@@ -1786,7 +1788,7 @@ const MentionsPage = () => {
               </a>
             </p>
             <p>
-              <strong>Directrice de publication :</strong> {placeholder("Prénom Nom")}
+              <strong>Directrice de publication :</strong> Anima — éveil & retour à soi
             </p>
           </Section>
 
@@ -1921,6 +1923,190 @@ const MentionsPage = () => {
 };
 
 // ============================================================
+// PAGE : CONDITIONS GÉNÉRALES DE VENTE
+// ============================================================
+const CGVPage = () => {
+  const Section = ({ title, children }: { title: string; children: ReactNode }) => (
+    <div className="pb-8 mb-8" style={{ borderBottom: `1px solid ${colors.stillness}44` }}>
+      <h2
+        className="text-xl md:text-2xl mb-4"
+        style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.rooted, fontWeight: 500 }}
+      >
+        {title}
+      </h2>
+      <div style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "17px", lineHeight: "1.75" }}>
+        {children}
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="relative pt-24 pb-24 md:pt-32 md:pb-32" style={{ backgroundColor: colors.cream }}>
+      <WatercolorBg variant="default" />
+
+      <div className="max-w-3xl mx-auto px-6 relative z-10">
+
+        {/* En-tête */}
+        <div className="mb-12 md:mb-16">
+          <p className="text-xs tracking-[0.25em] uppercase mb-3" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
+            Informations légales
+          </p>
+          <h1 className="text-4xl md:text-5xl mb-4" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
+            Conditions générales de vente
+          </h1>
+          <div className="w-16 h-[1px]" style={{ backgroundColor: colors.rooted }} />
+          <p className="mt-4 text-sm italic" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft }}>
+            En vigueur au 1er juin 2025. Toute réservation implique l'acceptation pleine et entière des présentes conditions.
+          </p>
+        </div>
+
+        <div>
+
+          {/* 1. Prestataire */}
+          <Section title="1. Prestataire">
+            <p>
+              Les présentes conditions générales de vente sont proposées par <strong>Anima — éveil & retour à soi</strong>,
+              praticienne en accompagnement spirituel basée à Bordeaux, France.
+              Contact : <a href="mailto:contact@anima-retour-a-soi.fr" style={{ color: colors.rooted, textDecoration: "underline" }}>contact@anima-retour-a-soi.fr</a>
+            </p>
+          </Section>
+
+          {/* 2. Services et tarifs */}
+          <Section title="2. Services et tarifs">
+            <p className="mb-4">Les prestations proposées sont les suivantes :</p>
+
+            <div className="mb-6">
+              <p className="mb-2 font-medium" style={{ color: colors.rooted }}>Lecture d'âme (à distance)</p>
+              <table className="w-full text-sm" style={{ borderCollapse: "collapse" }}>
+                <tbody>
+                  {[
+                    ["15 minutes", "25 €", "Éclairage flash sur une question ciblée"],
+                    ["30 minutes", "45 €", "Approfondissement d'une thématique"],
+                    ["45 minutes", "65 €", "Exploration et transformation"],
+                    ["60 minutes", "80 €", "Traversée complète, accompagnement multidimensionnel"],
+                  ].map(([dur, price, desc], i) => (
+                    <tr key={i} style={{ borderBottom: `1px solid ${colors.stillness}33` }}>
+                      <td className="py-2 pr-4 font-medium w-28">{dur}</td>
+                      <td className="py-2 pr-4 w-16" style={{ color: colors.warmHeart, fontWeight: 500 }}>{price}</td>
+                      <td className="py-2" style={{ color: colors.inkSoft, fontSize: "15px" }}>{desc}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <div>
+              <p className="mb-2 font-medium" style={{ color: colors.rooted }}>Feng Shui & harmonisation</p>
+              <table className="w-full text-sm" style={{ borderCollapse: "collapse" }}>
+                <tbody>
+                  {[
+                    ["Diagnostic", "70 €", "Lecture énergétique initiale (déductible d'un accompagnement)"],
+                    ["Accompagnement complet", "Sur devis", "Entièrement personnalisé selon votre lieu et vos aspirations"],
+                  ].map(([service, price, desc], i) => (
+                    <tr key={i} style={{ borderBottom: `1px solid ${colors.stillness}33` }}>
+                      <td className="py-2 pr-4 font-medium w-44">{service}</td>
+                      <td className="py-2 pr-4 w-24" style={{ color: colors.warmHeart, fontWeight: 500 }}>{price}</td>
+                      <td className="py-2" style={{ color: colors.inkSoft, fontSize: "15px" }}>{desc}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <p className="mt-4 text-sm italic" style={{ color: colors.inkSoft }}>
+              Les tarifs sont indiqués en euros TTC. Anima se réserve le droit de modifier ses tarifs à tout moment,
+              les prestations étant facturées au tarif en vigueur au moment de la réservation.
+            </p>
+          </Section>
+
+          {/* 3. Réservation */}
+          <Section title="3. Réservation">
+            <p className="mb-3">
+              Les séances de lecture d'âme sont réservées via la plateforme Calendly (lien fourni sur le site).
+              La réservation est confirmée dès réception de la confirmation automatique par email.
+            </p>
+            <p>
+              Pour les prestations Feng Shui, la prise de contact s'effectue par email à{" "}
+              <a href="mailto:contact@anima-retour-a-soi.fr" style={{ color: colors.rooted, textDecoration: "underline" }}>
+                contact@anima-retour-a-soi.fr
+              </a>{" "}
+              afin de définir ensemble le cadre de l'accompagnement.
+            </p>
+          </Section>
+
+          {/* 4. Paiement */}
+          <Section title="4. Modalités de paiement">
+            <p className="mb-3">
+              Le règlement s'effectue selon les modalités précisées lors de la réservation (virement bancaire, PayPal, ou autre moyen convenu).
+              Le paiement est demandé avant la séance ou selon les conditions définies pour les accompagnements sur devis.
+            </p>
+            <p>
+              Aucun paiement n'est prélevé directement via ce site internet.
+            </p>
+          </Section>
+
+          {/* 5. Annulation et remboursement */}
+          <Section title="5. Annulation et remboursement">
+            <p className="mb-3">
+              <strong>Annulation par le client :</strong> Toute annulation doit être notifiée par email au moins{" "}
+              <strong>48 heures avant</strong> la séance prévue. Dans ce cas, la séance pourra être reportée sans frais.
+            </p>
+            <p className="mb-3">
+              En cas d'annulation moins de 48 heures avant la séance ou de non-présentation sans préavis, la séance sera due en intégralité.
+            </p>
+            <p>
+              <strong>Annulation par Anima :</strong> En cas d'empêchement exceptionnel, Anima s'engage à prévenir dans les meilleurs délais
+              et à proposer un report de séance ou un remboursement intégral.
+            </p>
+          </Section>
+
+          {/* 6. Droit de rétractation */}
+          <Section title="6. Droit de rétractation">
+            <p className="mb-3">
+              Conformément à l'article L221-28 du Code de la consommation, le droit de rétractation de 14 jours ne s'applique pas
+              aux prestations de services pleinement exécutées avant la fin du délai de rétractation, avec l'accord exprès du consommateur.
+            </p>
+            <p>
+              En réservant une séance à une date antérieure à 14 jours après la réservation, vous reconnaissez renoncer
+              expressément à votre droit de rétractation pour cette prestation.
+            </p>
+          </Section>
+
+          {/* 7. Responsabilité */}
+          <Section title="7. Nature des prestations et responsabilité">
+            <p className="mb-3">
+              Les prestations proposées par Anima (lecture d'âme, guidance spirituelle, harmonisation Feng Shui) sont
+              des accompagnements personnels à visée de bien-être et d'exploration intérieure.
+            </p>
+            <p className="mb-3" style={{ fontWeight: 500 }}>
+              Elles ne constituent en aucun cas un acte médical, un diagnostic de santé, un traitement psychologique
+              ou thérapeutique, et ne sauraient se substituer à un suivi médical ou psychologique professionnel.
+            </p>
+            <p>
+              Anima ne saurait être tenu responsable des décisions prises par le client à la suite d'une prestation.
+              Le client reste seul responsable de ses choix et actions.
+            </p>
+          </Section>
+
+          {/* 8. Droit applicable */}
+          <Section title="8. Droit applicable">
+            <p>
+              Les présentes conditions générales de vente sont soumises au droit français.
+              En cas de litige, et à défaut de résolution amiable, les tribunaux français seront seuls compétents.
+            </p>
+          </Section>
+
+        </div>
+
+        <p className="mt-12 text-xs text-center italic" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft }}>
+          Dernière mise à jour : juin 2025
+        </p>
+      </div>
+    </div>
+  );
+};
+
+// ============================================================
 // APP ROOT
 // ============================================================
 export default function App() {
@@ -1934,6 +2120,7 @@ export default function App() {
     testimonials: <TestimonialsPage />,
     contact: <ContactPage />,
     mentions: <MentionsPage />,
+    cgv: <CGVPage />,
   };
 
   return (
