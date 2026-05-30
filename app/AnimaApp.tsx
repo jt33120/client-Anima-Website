@@ -347,7 +347,7 @@ const HomePage = ({ setCurrentPage }) => {
               Une porte vers vous-même
             </h2>
             <p className="max-w-2xl mx-auto italic" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft, fontSize: "18px" }}>
-              Car au fond, toutes les réponses sont déjà en vous.
+              Au fond, toutes les réponses sont déjà en vous.
             </p>
           </motion.div>
 
@@ -653,7 +653,7 @@ const AboutPage = () => {
                 className="mb-5 leading-relaxed"
                 style={{ fontFamily: "'Cormorant Garamond', serif", color: "white", fontSize: "18px", lineHeight: "1.85" }}
               >
-                Car au fond, toutes les réponses sont déjà en vous. Nous sommes ici pour expérimenter, apprendre et évoluer.
+                Au fond, toutes les réponses sont déjà en vous. Nous sommes ici pour expérimenter, apprendre et évoluer.
                 L'âme, dans son essence, cherche à grandir, à s'élever et à transcender. Et ce chemin peut prendre plusieurs
                 formes : spirituelles, émotionnelles, concrètes, parfois même inconfortables et éprouvantes.
               </p>
