@@ -1764,7 +1764,7 @@ const MentionsPage = () => {
               <strong>Activité :</strong> Accompagnement spirituel — lecture d'âme & harmonisation Feng Shui
             </p>
             <p className="mb-2">
-              <strong>SIRET :</strong> 991 221 383 00011
+              <strong>SIRET :</strong> 103 410 601 00019
             </p>
             <p className="mb-2">
               <strong>Ville :</strong> Bordeaux, France
