@@ -225,7 +225,7 @@ const HomePage = ({ setCurrentPage }) => {
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "linear-gradient(to bottom, rgba(251,248,244,0) 55%, rgba(251,248,244,0.55) 100%)",
+              "linear-gradient(to bottom, rgba(251,248,244,0) 40%, rgba(251,248,244,0.65) 75%, rgba(251,248,244,0.85) 100%)",
           }}
         />
 
@@ -238,40 +238,32 @@ const HomePage = ({ setCurrentPage }) => {
           style={{ backgroundColor: "rgba(251,248,244,0.7)" }}
         />
 
-        {/* Grille deux colonnes + fleur au centre */}
-        <div className="relative z-10 w-full h-full min-h-screen grid grid-cols-1 md:grid-cols-2 items-center px-8 md:px-16 lg:px-24 gap-y-8 md:gap-y-0 pt-28 md:pt-0">
+        {/* Grille : plein écran image sur mobile, deux colonnes sur desktop */}
+        <div className="relative z-10 w-full h-full min-h-screen grid grid-cols-1 md:grid-cols-2 items-end md:items-center px-8 md:px-16 lg:px-24 md:gap-y-0 pb-24 md:pb-0">
 
-          {/* Colonne gauche — Logo */}
+          {/* Colonne gauche — Logo (caché sur mobile, déjà dans la nav) */}
           <motion.div
             initial={{ opacity: 0, scale: 0.92, filter: "blur(10px)" }}
             animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
             transition={{ duration: 2.2, ease: "easeOut", delay: 0.5 }}
-            className="flex items-center justify-center md:justify-start relative"
+            className="hidden md:flex items-center md:justify-start relative"
           >
-            {/* Mobile-only: soft cream halo so logo reads on the floral photo */}
-            <div
-              className="absolute md:hidden pointer-events-none"
-              style={{
-                inset: "-60%",
-                background: "radial-gradient(ellipse at center, rgba(251,248,244,0.88) 18%, rgba(251,248,244,0.55) 45%, transparent 68%)",
-              }}
-            />
             <Logo size="hero" />
           </motion.div>
 
           {/* Colonne droite — Tagline + boutons */}
-          <div className="flex flex-col items-center md:items-end text-center md:text-right gap-8">
+          <div className="flex flex-col items-center md:items-end text-center md:text-right gap-6 md:gap-8">
             <motion.p
               initial={{ opacity: 0, y: 14, filter: "blur(6px)" }}
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               transition={{ duration: 1.8, ease: "easeOut", delay: 1.0 }}
-              className="text-lg md:text-xl italic leading-relaxed max-w-xs"
-              style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft }}
+              className="text-xl md:text-xl italic leading-relaxed max-w-sm md:max-w-xs"
+              style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink }}
             >
               Un espace doux pour se reconnecter à son essence,
               écouter sa voix intérieure, et rayonner pleinement qui l'on est.
             </motion.p>
-            <div className="flex flex-col gap-3 w-full max-w-xs">
+            <div className="flex flex-col gap-3 w-full max-w-sm md:max-w-xs">
               <motion.button
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -309,9 +301,9 @@ const HomePage = ({ setCurrentPage }) => {
 
         </div>
 
-        {/* Indicateur de scroll — apparaît en dernier */}
+        {/* Indicateur de scroll — caché sur mobile (boutons suffisent) */}
         <motion.div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:block"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 2.4 }}
