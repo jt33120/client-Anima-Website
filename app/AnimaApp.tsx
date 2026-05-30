@@ -9,27 +9,6 @@ import {
   ChevronLeft, ChevronRight
 } from "lucide-react";
 
-// Icône Instagram en SVG inline (lucide-react a retiré l'export à cause de la marque)
-const Instagram = ({ size = 16, className = "", ...props }: { size?: number; className?: string; [key: string]: unknown }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={className}
-    {...props}
-  >
-    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-  </svg>
-);
-
 
 // ============================================================
 // PALETTE "Color Direction" — issue du PDF fourni
@@ -1488,13 +1467,29 @@ const TestimonialsPage = () => {
 const ContactPage = () => {
   const [form, setForm] = useState({ name: "", email: "", subject: "general", message: "" });
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState("");
 
-  const submit = (e) => {
-    e.preventDefault();
-    // TODO V2 : envoyer via Resend / API route Next.js
-    setSent(true);
-    setTimeout(() => setSent(false), 4000);
-    setForm({ name: "", email: "", subject: "general", message: "" });
+  const submit = async (e?: React.MouseEvent) => {
+    e?.preventDefault();
+    if (sending) return;
+    setSending(true);
+    setSendError("");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error("Erreur réseau");
+      setSent(true);
+      setTimeout(() => setSent(false), 5000);
+      setForm({ name: "", email: "", subject: "general", message: "" });
+    } catch {
+      setSendError("Une erreur est survenue, merci de réessayer ou d'écrire directement à contact@anima-retour-a-soi.fr");
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -1536,14 +1531,6 @@ const ContactPage = () => {
               </p>
               <p style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "17px" }}>
                 contact@anima-retour-a-soi.fr
-              </p>
-            </div>
-            <div>
-              <p className="text-xs tracking-[0.2em] uppercase mb-2" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
-                <Instagram size={14} className="inline mr-2" />Instagram
-              </p>
-              <p style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "17px" }}>
-                [@handle_instagram]
               </p>
             </div>
           </motion.div>
@@ -1620,10 +1607,11 @@ const ContactPage = () => {
               <button
                 type="button"
                 onClick={submit}
-                className="px-8 py-3 text-sm tracking-[0.2em] uppercase transition-all hover:shadow-lg"
+                disabled={sending}
+                className="px-8 py-3 text-sm tracking-[0.2em] uppercase transition-all hover:shadow-lg disabled:opacity-50"
                 style={{ backgroundColor: colors.rooted, color: colors.cream, fontFamily: "'Cormorant Garamond', serif" }}
               >
-                Envoyer le message
+                {sending ? "Envoi…" : "Envoyer le message"}
               </button>
 
               {sent && (
@@ -1634,6 +1622,17 @@ const ContactPage = () => {
                   style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}
                 >
                   ✓ Message envoyé — je te réponds sous 48h.
+                </motion.p>
+              )}
+
+              {sendError && (
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="text-sm italic"
+                  style={{ color: "#b94a48", fontFamily: "'Cormorant Garamond', serif" }}
+                >
+                  {sendError}
                 </motion.p>
               )}
             </div>
@@ -1754,11 +1753,6 @@ const MentionsPage = () => {
           </p>
         </div>
 
-        {/* Bannière placeholder SIRET */}
-        <div className="mb-10 px-5 py-4 text-sm" style={{ backgroundColor: colors.warmHeart + "18", borderLeft: `3px solid ${colors.warmHeart}`, fontFamily: "'Cormorant Garamond', serif", color: colors.rooted }}>
-          L'élément en <em>italique rose</em> (SIRET) est à compléter avant la mise en ligne.
-        </div>
-
         <div>
 
           {/* 1. Éditeur */}
@@ -1770,7 +1764,7 @@ const MentionsPage = () => {
               <strong>Activité :</strong> Accompagnement spirituel — lecture d'âme & harmonisation Feng Shui
             </p>
             <p className="mb-2">
-              <strong>SIRET :</strong> {placeholder("XXX XXX XXX XXXXX — à compléter")}
+              <strong>SIRET :</strong> 991 221 383 00011
             </p>
             <p className="mb-2">
               <strong>Ville :</strong> Bordeaux, France
@@ -1876,7 +1870,7 @@ const MentionsPage = () => {
             </p>
             <p>
               En cas de litige relatif à l'utilisation de ce site, et à défaut de résolution amiable, les tribunaux français seront compétents, et plus particulièrement ceux du ressort de{" "}
-              {placeholder("ville du tribunal compétent (ex. Bordeaux)")}.
+Bordeaux.
             </p>
           </Section>
 
@@ -1915,7 +1909,7 @@ const MentionsPage = () => {
         </div>
 
         <p className="mt-12 text-xs text-center italic" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft }}>
-          Dernière mise à jour : {placeholder("date — ex. juin 2025")}
+          Dernière mise à jour : 30 mai 2026
         </p>
       </div>
     </div>
@@ -2099,7 +2093,7 @@ const CGVPage = () => {
         </div>
 
         <p className="mt-12 text-xs text-center italic" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft }}>
-          Dernière mise à jour : juin 2025
+          Dernière mise à jour : 30 mai 2026
         </p>
       </div>
     </div>
