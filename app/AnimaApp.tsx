@@ -1,7 +1,7 @@
 "use client";
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable @next/next/no-img-element */
-import { useState, useEffect } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import { motion, AnimatePresence, useMotionValue, useTransform, animate } from "framer-motion";
 import {
   Menu, X, Phone, Mail, MessageCircle, Video,
@@ -1710,32 +1710,215 @@ const Footer = ({ setCurrentPage }) => {
 // ============================================================
 // PAGE : MENTIONS LÉGALES
 // ============================================================
-const MentionsPage = () => (
-  <div className="relative pt-32 pb-24" style={{ backgroundColor: colors.cream }}>
-    <div className="max-w-3xl mx-auto px-6">
-      <h1 className="text-4xl mb-10" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
-        Mentions légales
-      </h1>
-      <div className="space-y-6" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "17px", lineHeight: "1.7" }}>
-        {[
-          { t: "Éditeur du site", c: "Anima\n[Statut juridique — À COMPLÉTER]\n[Adresse — À COMPLÉTER]\nSIRET : [À COMPLÉTER]\nEmail : contact@anima-retour-a-soi.fr\n" },
-          { t: "Hébergement", c: "Vercel Inc.\n340 S Lemon Ave #4133\nWalnut, CA 91789, USA" },
-          { t: "Propriété intellectuelle", c: "L'ensemble des contenus (textes, images, graphismes, logo) présents sur ce site sont la propriété exclusive de Anima, sauf mention contraire." },
-          { t: "Données personnelles (RGPD)", c: "Les informations recueillies via le formulaire de contact sont destinées uniquement à répondre à votre demande. Aucune donnée n'est transmise à des tiers. Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression de vos données." },
-          { t: "Avertissement", c: "Les prestations proposées sur ce site (lecture d'âme, Feng Shui) relèvent d'un accompagnement personnel et ne constituent en aucun cas un avis ou un suivi médical, psychologique ou thérapeutique." },
-        ].map((s, i) => (
-          <div key={i}>
-            <h2 className="text-xl mb-2" style={{ color: colors.rooted, fontWeight: 500 }}>{s.t}</h2>
-            <p className="whitespace-pre-line">{s.c}</p>
-          </div>
-        ))}
-      </div>
-      <div className="mt-10 p-4 text-center text-sm italic" style={{ backgroundColor: colors.warmHeart + "22", color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
-        ⚠️ Les éléments entre crochets [ ] sont à compléter avant la mise en ligne.
+const MentionsPage = () => {
+  const Section = ({ title, children }: { title: string; children: ReactNode }) => (
+    <div className="pb-8 mb-8" style={{ borderBottom: `1px solid ${colors.stillness}44` }}>
+      <h2
+        className="text-xl md:text-2xl mb-4"
+        style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.rooted, fontWeight: 500 }}
+      >
+        {title}
+      </h2>
+      <div style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "17px", lineHeight: "1.75" }}>
+        {children}
       </div>
     </div>
-  </div>
-);
+  );
+
+  const placeholder = (text: string) => (
+    <span style={{ color: colors.warmHeart, fontStyle: "italic" }}>[{text}]</span>
+  );
+
+  return (
+    <div className="relative pt-24 pb-24 md:pt-32 md:pb-32" style={{ backgroundColor: colors.cream }}>
+      <WatercolorBg variant="default" />
+
+      <div className="max-w-3xl mx-auto px-6 relative z-10">
+
+        {/* En-tête */}
+        <div className="mb-12 md:mb-16">
+          <p className="text-xs tracking-[0.25em] uppercase mb-3" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
+            Informations légales
+          </p>
+          <h1 className="text-4xl md:text-5xl mb-4" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
+            Mentions légales
+          </h1>
+          <div className="w-16 h-[1px]" style={{ backgroundColor: colors.rooted }} />
+          <p className="mt-4 text-sm italic" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft }}>
+            Conformément aux articles 6-III et 19 de la Loi n° 2004-575 du 21 juin 2004 pour la Confiance dans l'Économie Numérique (LCEN).
+          </p>
+        </div>
+
+        {/* Bannière placeholders */}
+        <div className="mb-10 px-5 py-4 text-sm" style={{ backgroundColor: colors.warmHeart + "18", borderLeft: `3px solid ${colors.warmHeart}`, fontFamily: "'Cormorant Garamond', serif", color: colors.rooted }}>
+          Les éléments en <em>italique rose</em> sont à compléter avant la mise en ligne.
+        </div>
+
+        <div>
+
+          {/* 1. Éditeur */}
+          <Section title="1. Éditeur du site">
+            <p className="mb-2">
+              <strong>Nom :</strong> {placeholder("Prénom Nom — propriétaire du site")}
+            </p>
+            <p className="mb-2">
+              <strong>Activité :</strong> Accompagnement spirituel — lecture d'âme & harmonisation Feng Shui
+            </p>
+            <p className="mb-2">
+              <strong>Statut :</strong> {placeholder("Auto-entrepreneur / Micro-entreprise / SASU…")}
+            </p>
+            <p className="mb-2">
+              <strong>SIRET :</strong> {placeholder("XXX XXX XXX XXXXX")}
+            </p>
+            <p className="mb-2">
+              <strong>Adresse :</strong> {placeholder("Adresse complète — ville, code postal")}
+            </p>
+            <p className="mb-2">
+              <strong>Email :</strong>{" "}
+              <a href="mailto:contact@anima-retour-a-soi.fr" style={{ color: colors.rooted, textDecoration: "underline" }}>
+                contact@anima-retour-a-soi.fr
+              </a>
+            </p>
+            <p className="mb-2">
+              <strong>Site web :</strong>{" "}
+              <a href="https://anima-retourasoi.fr" style={{ color: colors.rooted, textDecoration: "underline" }}>
+                anima-retourasoi.fr
+              </a>
+            </p>
+            <p>
+              <strong>Directrice de publication :</strong> {placeholder("Prénom Nom")}
+            </p>
+          </Section>
+
+          {/* 2. Hébergement */}
+          <Section title="2. Hébergement">
+            <p className="mb-1"><strong>Hébergeur :</strong> Vercel Inc.</p>
+            <p className="mb-1"><strong>Adresse :</strong> 340 S Lemon Ave #4133, Walnut, CA 91789, États-Unis</p>
+            <p>
+              <strong>Site :</strong>{" "}
+              <a href="https://vercel.com" target="_blank" rel="noopener noreferrer" style={{ color: colors.rooted, textDecoration: "underline" }}>
+                vercel.com
+              </a>
+            </p>
+          </Section>
+
+          {/* 3. Propriété intellectuelle */}
+          <Section title="3. Propriété intellectuelle et droits d'auteur">
+            <p className="mb-3">
+              L'ensemble des contenus présents sur ce site (textes, images, photographies, illustrations, logo, graphismes) sont la propriété exclusive d'Anima — éveil & retour à soi, sauf mention contraire expresse.
+            </p>
+            <p className="mb-3">
+              Toute reproduction, représentation, modification, publication, adaptation ou exploitation de tout ou partie des éléments du site, quel que soit le moyen ou le procédé utilisé, est strictement interdite sans autorisation écrite préalable.
+            </p>
+            <p>
+              Toute exploitation non autorisée du site ou de son contenu sera considérée comme constitutive d'une contrefaçon et poursuivie conformément aux articles L.335-2 et suivants du Code de la Propriété Intellectuelle.
+            </p>
+          </Section>
+
+          {/* 4. Données personnelles / RGPD */}
+          <Section title="4. Protection des données personnelles (RGPD)">
+            <p className="mb-3">
+              Conformément au Règlement Général sur la Protection des Données (UE) 2016/679 du 27 avril 2016 (RGPD) et à la loi Informatique et Libertés du 6 janvier 1978 modifiée, vous disposez de droits sur vos données personnelles.
+            </p>
+            <p className="mb-3">
+              <strong>Données collectées :</strong> Le formulaire de contact collecte uniquement les informations que vous saisissez volontairement (prénom, adresse email, message). Ces données sont utilisées exclusivement pour répondre à votre demande.
+            </p>
+            <p className="mb-3">
+              <strong>Durée de conservation :</strong> Vos données ne sont conservées que le temps nécessaire au traitement de votre demande, et au maximum 3 ans à compter du dernier contact.
+            </p>
+            <p className="mb-3">
+              <strong>Absence de transfert :</strong> Vos données ne sont en aucun cas cédées, vendues ou transmises à des tiers à des fins commerciales.
+            </p>
+            <p className="mb-3">
+              <strong>Vos droits :</strong> Conformément au RGPD, vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation du traitement et d'opposition. Pour exercer ces droits, contactez-nous à{" "}
+              <a href="mailto:contact@anima-retour-a-soi.fr" style={{ color: colors.rooted, textDecoration: "underline" }}>
+                contact@anima-retour-a-soi.fr
+              </a>.
+            </p>
+            <p>
+              En cas de réclamation, vous pouvez contacter la{" "}
+              <a href="https://www.cnil.fr" target="_blank" rel="noopener noreferrer" style={{ color: colors.rooted, textDecoration: "underline" }}>
+                CNIL
+              </a>{" "}
+              (Commission Nationale de l'Informatique et des Libertés) — 3 Place de Fontenoy, TSA 80715, 75334 Paris Cedex 07.
+            </p>
+          </Section>
+
+          {/* 5. Cookies */}
+          <Section title="5. Cookies">
+            <p className="mb-3">
+              Ce site n'utilise pas de cookies de traçage ou de publicité. Des cookies techniques de session peuvent être déposés par l'hébergeur (Vercel) pour assurer le bon fonctionnement du site.
+            </p>
+            <p>
+              Vous pouvez configurer votre navigateur pour refuser les cookies. Cette action peut toutefois limiter certaines fonctionnalités du site.
+            </p>
+          </Section>
+
+          {/* 6. Limitation de responsabilité */}
+          <Section title="6. Limitation de responsabilité">
+            <p className="mb-3">
+              Les informations contenues sur ce site sont fournies à titre indicatif. Anima s'efforce d'assurer leur exactitude mais ne peut garantir l'exhaustivité, l'exactitude ni la mise à jour permanente de ces informations.
+            </p>
+            <p className="mb-3">
+              Anima ne saurait être tenu responsable des dommages directs ou indirects résultant de l'utilisation de ce site, notamment en cas d'indisponibilité technique, d'erreurs ou d'omissions dans les contenus.
+            </p>
+            <p>
+              Ce site peut contenir des liens hypertextes vers des sites tiers. Anima n'exerce aucun contrôle sur ces sites et décline toute responsabilité quant à leur contenu.
+            </p>
+          </Section>
+
+          {/* 7. Droit applicable */}
+          <Section title="7. Droit applicable et juridiction compétente">
+            <p className="mb-3">
+              Les présentes mentions légales sont soumises au droit français.
+            </p>
+            <p>
+              En cas de litige relatif à l'utilisation de ce site, et à défaut de résolution amiable, les tribunaux français seront compétents, et plus particulièrement ceux du ressort de{" "}
+              {placeholder("ville du tribunal compétent (ex. Bordeaux)")}.
+            </p>
+          </Section>
+
+          {/* 8. Avertissement */}
+          <Section title="8. Avertissement important">
+            <p className="mb-3" style={{ fontWeight: 500 }}>
+              Les prestations proposées sur ce site — lecture d'âme, guidance spirituelle et harmonisation Feng Shui — relèvent d'un accompagnement personnel et énergétique.
+            </p>
+            <p className="mb-3">
+              Ces services ne constituent en aucun cas un avis médical, un diagnostic, un traitement psychologique ou thérapeutique. Ils ne sauraient se substituer à une consultation médicale ou à un suivi professionnel de santé.
+            </p>
+            <p className="italic" style={{ color: colors.inkSoft }}>
+              En cas de difficultés de santé physique ou mentale, consultez impérativement un professionnel de santé qualifié.
+            </p>
+          </Section>
+
+          {/* 9. Lois de référence */}
+          <div className="pt-2">
+            <h2
+              className="text-xl md:text-2xl mb-4"
+              style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.rooted, fontWeight: 500 }}
+            >
+              9. Textes de référence
+            </h2>
+            <ul
+              className="space-y-1 text-sm"
+              style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft, fontSize: "15px", lineHeight: "1.7" }}
+            >
+              <li>— Loi n° 78-17 du 6 janvier 1978 relative à l'informatique, aux fichiers et aux libertés</li>
+              <li>— Loi n° 2004-575 du 21 juin 2004 pour la confiance dans l'économie numérique (LCEN)</li>
+              <li>— Règlement (UE) 2016/679 du Parlement européen du 27 avril 2016 (RGPD)</li>
+              <li>— Articles L.335-2 et suivants du Code de la Propriété Intellectuelle</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <p className="mt-12 text-xs text-center italic" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft }}>
+          Dernière mise à jour : {placeholder("date — ex. juin 2025")}
+        </p>
+      </div>
+    </div>
+  );
+};
 
 // ============================================================
 // APP ROOT
