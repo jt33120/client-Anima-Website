@@ -1486,7 +1486,7 @@ const ContactPage = () => {
       setTimeout(() => setSent(false), 5000);
       setForm({ name: "", email: "", subject: "general", message: "" });
     } catch {
-      setSendError("Une erreur est survenue, merci de réessayer ou d'écrire directement à contact@anima-retour-a-soi.fr");
+      setSendError("Une erreur est survenue, merci de réessayer ou d'écrire directement à contact@anima-retourasoi.fr");
     } finally {
       setSending(false);
     }
@@ -1530,7 +1530,7 @@ const ContactPage = () => {
                 <Mail size={14} className="inline mr-2" />Email
               </p>
               <p style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "17px" }}>
-                contact@anima-retour-a-soi.fr
+                contact@anima-retourasoi.fr
               </p>
             </div>
           </motion.div>
@@ -1682,7 +1682,7 @@ const Footer = ({ setCurrentPage }) => {
               Contact
             </p>
             <ul className="space-y-2" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft, fontSize: "15px" }}>
-              <li>contact@anima-retour-a-soi.fr</li>
+              <li>contact@anima-retourasoi.fr</li>
               <li>Bordeaux</li>
               <li>
                 <button onClick={() => setCurrentPage("mentions")} className="hover:underline italic">
@@ -1771,8 +1771,8 @@ const MentionsPage = () => {
             </p>
             <p className="mb-2">
               <strong>Email :</strong>{" "}
-              <a href="mailto:contact@anima-retour-a-soi.fr" style={{ color: colors.rooted, textDecoration: "underline" }}>
-                contact@anima-retour-a-soi.fr
+              <a href="mailto:contact@anima-retourasoi.fr" style={{ color: colors.rooted, textDecoration: "underline" }}>
+                contact@anima-retourasoi.fr
               </a>
             </p>
             <p className="mb-2">
@@ -1827,8 +1827,8 @@ const MentionsPage = () => {
             </p>
             <p className="mb-3">
               <strong>Vos droits :</strong> Conformément au RGPD, vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation du traitement et d'opposition. Pour exercer ces droits, contactez-nous à{" "}
-              <a href="mailto:contact@anima-retour-a-soi.fr" style={{ color: colors.rooted, textDecoration: "underline" }}>
-                contact@anima-retour-a-soi.fr
+              <a href="mailto:contact@anima-retourasoi.fr" style={{ color: colors.rooted, textDecoration: "underline" }}>
+                contact@anima-retourasoi.fr
               </a>.
             </p>
             <p>
@@ -1961,7 +1961,7 @@ const CGVPage = () => {
             <p>
               Les présentes conditions générales de vente sont proposées par <strong>Anima — éveil & retour à soi</strong>,
               praticienne en accompagnement spirituel basée à Bordeaux, France.
-              Contact : <a href="mailto:contact@anima-retour-a-soi.fr" style={{ color: colors.rooted, textDecoration: "underline" }}>contact@anima-retour-a-soi.fr</a>
+              Contact : <a href="mailto:contact@anima-retourasoi.fr" style={{ color: colors.rooted, textDecoration: "underline" }}>contact@anima-retourasoi.fr</a>
             </p>
           </Section>
 
@@ -2021,8 +2021,8 @@ const CGVPage = () => {
             </p>
             <p>
               Pour les prestations Feng Shui, la prise de contact s'effectue par email à{" "}
-              <a href="mailto:contact@anima-retour-a-soi.fr" style={{ color: colors.rooted, textDecoration: "underline" }}>
-                contact@anima-retour-a-soi.fr
+              <a href="mailto:contact@anima-retourasoi.fr" style={{ color: colors.rooted, textDecoration: "underline" }}>
+                contact@anima-retourasoi.fr
               </a>{" "}
               afin de définir ensemble le cadre de l'accompagnement.
             </p>
