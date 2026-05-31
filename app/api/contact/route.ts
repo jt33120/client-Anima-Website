@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
 
   const { error } = await resend.emails.send({
     from: "Anima <contact@anima-retourasoi.fr>",
-    to: ["contact@anima-retour-a-soi.fr"],
+    to: ["contact@anima-retourasoi.fr"],
     replyTo: email,
     subject: `[Anima] ${subjectLabels[subject] ?? subject} — de ${name}`,
     text: `Nouveau message via le formulaire de contact.\n\nPrénom : ${name}\nEmail : ${email}\nSujet : ${subjectLabels[subject] ?? subject}\n\n${message}`,
