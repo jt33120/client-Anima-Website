@@ -1217,6 +1217,11 @@ const TestimonialsPage = () => {
     text: "J’ai eu l’occasion de découvrir Amina lors d’une séance de guidance, séance rythmée par la douceur de ses mots et de sa voix. Chaque tirage est réalisé avec beaucoup de pédagogie et laisse place ensuite à la réflexion, l’émotion, l’assimilation et la maturité. Après ces quelques mois passés, je réalise aujourd’hui le chemin parcouru et l’éveil réalisé… Quelle belle rencontre et quelle belle âme ! Si vous souhaitez partir à la recherche de votre « moi » le plus profond vous êtes à la bonne porte, Amina détient toutes les clés pour vous permettre d’avancer…",
     format: "Lecture 60 min",
   },
+  {
+    name: "Cindy",
+    text: "J’y suis allée sans attente particulière, une expérience entre copine. Je pensais passer un moment agréable, sans plus. Finalement, j’ai été bluffée. Elle a su mettre des mots très justes sur mes doutes, mes questionnements et ce que je ressentais au fond de moi. Cet échange m’a permis de prendre du recul et de me réaligner sur plusieurs aspects de ma vie. Son écoute, sa bienveillance et la pertinence de ses ressentis m’ont vraiment marquée. Une très belle expérience que je recommande à ceux qui souhaitent vivre un moment de réflexion et d’introspection.",
+    format: "Lecture 60 min",
+  },
 ];
 
   const total = testimonials.length;
