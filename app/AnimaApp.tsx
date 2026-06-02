@@ -1286,15 +1286,15 @@ const TestimonialsPage = () => {
         {/* Reliure + ombre de pliure (côté spine, à gauche) */}
         <div className="absolute inset-y-0 left-0 w-12 pointer-events-none" style={{ background: `linear-gradient(to right, ${colors.rooted}26, transparent)` }} />
         <div className="absolute inset-y-0 left-0 w-[3px]" style={{ backgroundColor: colors.rooted, opacity: 0.45 }} />
-        <div className="h-full flex flex-col justify-between pl-8 pr-5 md:pl-16 md:pr-12 py-8 md:py-14 text-center">
-          <div className="flex flex-col items-center flex-1 justify-center">
-            <Quote size={24} className="mb-4 md:mb-6" style={{ color: colors.rooted, opacity: 0.35 }} />
-            <p className="italic leading-relaxed overflow-y-auto" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "clamp(14px, 2.2vw, 18px)", lineHeight: "1.75" }}>
+        <div className="h-full flex flex-col pl-8 pr-5 md:pl-16 md:pr-12 py-6 md:py-14 text-center">
+          <Quote size={20} className="flex-shrink-0 mb-3 md:mb-6 mx-auto" style={{ color: colors.rooted, opacity: 0.35 }} />
+          <div className="flex-1 min-h-0 overflow-y-auto">
+            <p className="italic leading-relaxed" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "clamp(13px, 3.5vw, 18px)", lineHeight: "1.7" }}>
               {item.text}
             </p>
           </div>
-          <div className="mt-8">
-            <div className="w-12 h-[1px] mx-auto mb-4" style={{ backgroundColor: colors.rooted, opacity: 0.6 }} />
+          <div className="flex-shrink-0 mt-4">
+            <div className="w-12 h-[1px] mx-auto mb-3" style={{ backgroundColor: colors.rooted, opacity: 0.6 }} />
             <p style={{ fontFamily: "'Dancing Script', cursive", color: colors.rooted, fontSize: "clamp(20px, 3.5vw, 28px)", lineHeight: 1 }}>
               {item.name}
             </p>
@@ -1303,7 +1303,7 @@ const TestimonialsPage = () => {
                 {item.format}
               </p>
             )}
-            <p className="text-xs italic mt-5" style={{ color: colors.stillness, fontFamily: "'Cormorant Garamond', serif" }}>
+            <p className="text-xs italic mt-4" style={{ color: colors.stillness, fontFamily: "'Cormorant Garamond', serif" }}>
               — {idx + 1} / {total} —
             </p>
           </div>
