@@ -1222,6 +1222,11 @@ const TestimonialsPage = () => {
     text: "J’y suis allée sans attente particulière, une expérience entre copine. Je pensais passer un moment agréable, sans plus. Finalement, j’ai été bluffée. Elle a su mettre des mots très justes sur mes doutes, mes questionnements et ce que je ressentais au fond de moi. Cet échange m’a permis de prendre du recul et de me réaligner sur plusieurs aspects de ma vie. Son écoute, sa bienveillance et la pertinence de ses ressentis m’ont vraiment marquée. Une très belle expérience que je recommande à ceux qui souhaitent vivre un moment de réflexion et d’introspection.",
     format: "Lecture 60 min",
   },
+  {
+    name: "Julian",
+    text: "Je suis de nature plutôt rationnelle, et donc n’avais pas d’attente particulière. Pourtant la séance a été très bienveillante, une étrange sensation de familiarité et des remarques qui se sont avérées très pertinentes. Pas de crainte, car il est justement dit, c’est un retour à soi. Je recommande !",
+    format: "Lecture 60 min",
+  },
 ];
 
   const total = testimonials.length;
