@@ -1224,7 +1224,18 @@ const TestimonialsPage = () => {
   },
 ];
 
-  const total = testimonials.length;
+  // Le livre = une page de garde (couverture), les témoignages, puis une page de fin.
+  type Page =
+    | { type: "cover" }
+    | { type: "end" }
+    | { type: "testimonial"; name: string; text: string; format: string };
+  const pages: Page[] = [
+    { type: "cover" },
+    ...testimonials.map((t) => ({ type: "testimonial" as const, ...t })),
+    { type: "end" },
+  ];
+  const tCount = testimonials.length;
+  const total = pages.length;
   const [current, setCurrent] = useState(0);
   const [flip, setFlip] = useState<{ dir: number; from: number; to: number } | null>(null);
 
@@ -1263,7 +1274,9 @@ const TestimonialsPage = () => {
 
   const go = (dir: number) => {
     if (flip) return;
-    setFlip({ dir, from: current, to: (current + dir + total) % total });
+    const to = current + dir;
+    if (to < 0 || to >= total) return; // pas de bouclage : un livre a un début et une fin
+    setFlip({ dir, from: current, to });
   };
   const jumpTo = (idx: number) => {
     if (flip || idx === current) return;
@@ -1280,31 +1293,96 @@ const TestimonialsPage = () => {
   // Recto of a page — shared by the resting page and the leaf's front face.
   // Plain render helper (not a component) so it doesn't remount on each render.
   const pageRecto = (idx: number) => {
-    const item = testimonials[idx];
-    return (
+    const page = pages[idx];
+
+    // Reliure + ombre de pliure (côté spine, à gauche) — commune à toutes les pages.
+    const binding = (
       <>
-        {/* Reliure + ombre de pliure (côté spine, à gauche) */}
         <div className="absolute inset-y-0 left-0 w-12 pointer-events-none" style={{ background: `linear-gradient(to right, ${colors.rooted}26, transparent)` }} />
         <div className="absolute inset-y-0 left-0 w-[3px]" style={{ backgroundColor: colors.rooted, opacity: 0.45 }} />
+      </>
+    );
+
+    // ── Page de garde (couverture intérieure) ──
+    if (page.type === "cover") {
+      return (
+        <>
+          {binding}
+          <div className="h-full flex flex-col items-center justify-center pl-12 pr-7 md:pl-20 md:pr-12 text-center">
+            <div className="w-12 h-[1px] mb-6" style={{ backgroundColor: colors.rooted, opacity: 0.6 }} />
+            <p className="text-xs tracking-[0.3em] uppercase mb-5" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
+              Livre d'Or
+            </p>
+            <h2 style={{ fontFamily: "'Dancing Script', cursive", color: colors.ink, fontSize: "clamp(42px, 9vw, 58px)", lineHeight: 1 }}>
+              Anima
+            </h2>
+            <Feather size={30} className="my-7" style={{ color: colors.rooted, opacity: 0.5 }} />
+            <p className="italic max-w-xs" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft, fontSize: "clamp(14px, 4vw, 17px)", lineHeight: 1.7 }}>
+              Les mots de celles et ceux qui ont franchi la porte.
+            </p>
+            <div className="w-12 h-[1px] mt-6 mb-6" style={{ backgroundColor: colors.rooted, opacity: 0.6 }} />
+            <p className="text-xs tracking-[0.18em] uppercase" style={{ color: colors.stillness, fontFamily: "'Cormorant Garamond', serif" }}>
+              Tournez la page →
+            </p>
+          </div>
+        </>
+      );
+    }
+
+    // ── Page de fin ──
+    if (page.type === "end") {
+      return (
+        <>
+          {binding}
+          <div className="h-full flex flex-col items-center justify-center pl-12 pr-7 md:pl-20 md:pr-12 text-center">
+            <Feather size={30} className="mb-7" style={{ color: colors.rooted, opacity: 0.5 }} />
+            <p className="text-xs tracking-[0.3em] uppercase mb-5" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
+              Fin
+            </p>
+            <p className="italic max-w-xs mb-3" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "clamp(15px, 4.2vw, 19px)", lineHeight: 1.7 }}>
+              Merci d'avoir parcouru ces pages.
+            </p>
+            <p className="italic max-w-xs" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft, fontSize: "clamp(14px, 4vw, 17px)", lineHeight: 1.7 }}>
+              Et si la prochaine histoire était la vôtre&nbsp;?
+            </p>
+            <div className="w-12 h-[1px] my-7" style={{ backgroundColor: colors.rooted, opacity: 0.6 }} />
+            <p style={{ fontFamily: "'Dancing Script', cursive", color: colors.rooted, fontSize: "clamp(22px, 5vw, 30px)", lineHeight: 1 }}>
+              Anima
+            </p>
+            <p className="text-xs tracking-[0.18em] uppercase mt-2" style={{ color: colors.inkSoft, fontFamily: "'Cormorant Garamond', serif" }}>
+              éveil & retour à soi
+            </p>
+          </div>
+        </>
+      );
+    }
+
+    // ── Page de témoignage ──
+    // La couverture est l'index 0, donc l'index de page correspond au numéro du témoignage.
+    return (
+      <>
+        {binding}
         <div className="h-full flex flex-col pl-8 pr-5 md:pl-16 md:pr-12 py-6 md:py-14 text-center">
           <Quote size={20} className="flex-shrink-0 mb-3 md:mb-6 mx-auto" style={{ color: colors.rooted, opacity: 0.35 }} />
           <div className="flex-1 min-h-0 overflow-y-auto">
-            <p className="italic leading-relaxed" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "clamp(13px, 3.5vw, 18px)", lineHeight: "1.7" }}>
-              {item.text}
-            </p>
+            <div className="min-h-full flex items-center">
+              <p className="italic leading-relaxed w-full" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "clamp(13px, 3.5vw, 18px)", lineHeight: "1.7" }}>
+                {page.text}
+              </p>
+            </div>
           </div>
           <div className="flex-shrink-0 mt-4">
             <div className="w-12 h-[1px] mx-auto mb-3" style={{ backgroundColor: colors.rooted, opacity: 0.6 }} />
             <p style={{ fontFamily: "'Dancing Script', cursive", color: colors.rooted, fontSize: "clamp(20px, 3.5vw, 28px)", lineHeight: 1 }}>
-              {item.name}
+              {page.name}
             </p>
-            {item.format && (
+            {page.format && (
               <p className="text-xs tracking-[0.18em] uppercase mt-2" style={{ color: colors.inkSoft, fontFamily: "'Cormorant Garamond', serif" }}>
-                {item.format}
+                {page.format}
               </p>
             )}
             <p className="text-xs italic mt-4" style={{ color: colors.stillness, fontFamily: "'Cormorant Garamond', serif" }}>
-              — {idx + 1} / {total} —
+              — {idx} / {tCount} —
             </p>
           </div>
         </div>
@@ -1355,8 +1433,9 @@ const TestimonialsPage = () => {
           {/* Flèche précédente */}
           <button
             onClick={() => go(-1)}
-            aria-label="Témoignage précédent"
-            className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-all hover:scale-110 disabled:opacity-40"
+            disabled={current === 0}
+            aria-label="Page précédente"
+            className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-all hover:scale-110 disabled:opacity-30 disabled:hover:scale-100 disabled:cursor-default"
             style={{ color: colors.rooted, backgroundColor: "#FFFFFF99", border: `1px solid ${colors.rooted}33` }}
           >
             <ChevronLeft size={22} />
@@ -1373,7 +1452,7 @@ const TestimonialsPage = () => {
             <div className="absolute inset-0 translate-x-[2px] translate-y-[3px] rounded-r-md" style={{ backgroundColor: "#F5EDE3", border: `1px solid ${colors.stillness}44` }} />
 
             {/* Zone de page */}
-            <div className="relative h-[460px] md:h-[560px]" style={{ transformStyle: "preserve-3d" }}>
+            <div className="relative h-[600px] md:h-[560px]" style={{ transformStyle: "preserve-3d" }}>
               {/* Page au repos (sous la pile) */}
               <div className="absolute inset-0 overflow-hidden rounded-r-md" style={{ ...pageSurface, zIndex: 1 }}>
                 {pageRecto(bottomIdx)}
@@ -1436,30 +1515,35 @@ const TestimonialsPage = () => {
           {/* Flèche suivante */}
           <button
             onClick={() => go(1)}
-            aria-label="Témoignage suivant"
-            className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-all hover:scale-110 disabled:opacity-40"
+            disabled={current === total - 1}
+            aria-label="Page suivante"
+            className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-all hover:scale-110 disabled:opacity-30 disabled:hover:scale-100 disabled:cursor-default"
             style={{ color: colors.rooted, backgroundColor: "#FFFFFF99", border: `1px solid ${colors.rooted}33` }}
           >
             <ChevronRight size={22} />
           </button>
         </motion.div>
 
-        {/* Pastilles de navigation */}
+        {/* Pastilles de navigation — une par témoignage (la couverture est l'index 0) */}
         <div className="flex items-center justify-center gap-3 mt-16">
-          {testimonials.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => jumpTo(i)}
-              aria-label={`Aller au témoignage ${i + 1}`}
-              className="rounded-full transition-all"
-              style={{
-                width: i === current ? 26 : 9,
-                height: 9,
-                backgroundColor: i === current ? colors.rooted : colors.stillness,
-                opacity: i === current ? 1 : 0.5,
-              }}
-            />
-          ))}
+          {testimonials.map((_, i) => {
+            const pageIdx = i + 1;
+            const active = pageIdx === current;
+            return (
+              <button
+                key={i}
+                onClick={() => jumpTo(pageIdx)}
+                aria-label={`Aller au témoignage ${i + 1}`}
+                className="rounded-full transition-all"
+                style={{
+                  width: active ? 26 : 9,
+                  height: 9,
+                  backgroundColor: active ? colors.rooted : colors.stillness,
+                  opacity: active ? 1 : 0.5,
+                }}
+              />
+            );
+          })}
         </div>
       </div>
     </div>
