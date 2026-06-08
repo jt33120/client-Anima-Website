@@ -2200,6 +2200,10 @@ const CGVPage = () => {
 export default function App() {
   const [currentPage, setCurrentPage] = useState("home");
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [currentPage]);
+
   const pages = {
     home: <HomePage setCurrentPage={setCurrentPage} />,
     about: <AboutPage />,
