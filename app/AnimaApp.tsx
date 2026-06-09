@@ -8,21 +8,15 @@ import {
   MapPin, ArrowRight, Sparkles, Home, Feather, Quote, ChevronDown,
   ChevronLeft, ChevronRight
 } from "lucide-react";
+import { colors } from "./theme";
+import { MoonPhaseDivider, ConstellationBackdrop } from "./components/Celestial";
 
 
 // ============================================================
 // PALETTE "Color Direction" — issue du PDF fourni
+// La source de vérité vit dans ./theme (partagée avec les assets
+// célestes de ./components/Celestial).
 // ============================================================
-const colors = {
-  rooted: "#A87560",      // Marron cuivré (accents, logo)
-  warmHeart: "#E89497",   // Rose (CTA primaires)
-  softLight: "#F5C9AC",   // Pêche (fonds doux)
-  flow: "#A8D9C9",        // Vert d'eau (Feng Shui)
-  stillness: "#C9C9C9",   // Gris (bordures, secondaire)
-  cream: "#FBF8F4",       // Fond général crème
-  ink: "#3A2E28",         // Texte principal (brun très foncé, jamais noir pur)
-  inkSoft: "#6B5A52",     // Texte secondaire
-};
 
 // ============================================================
 // LOGO (recréé en texte stylisé, typo cursive)
@@ -361,6 +355,9 @@ const HomePage = ({ setCurrentPage }) => {
           </div>
         </div>
       </section>
+
+      {/* Séparateur lunaire — passage des piliers à la citation */}
+      <MoonPhaseDivider />
 
       {/* CITATION */}
       <section className="py-20 md:py-48 relative" style={{ backgroundColor: colors.cream }}>
@@ -761,6 +758,7 @@ const GuidancePage = () => {
   return (
     <div className="relative pt-24 pb-24 md:pt-40 md:pb-40" style={{ backgroundColor: colors.cream }}>
       <WatercolorBg variant="warm" />
+      <ConstellationBackdrop />
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         {/* En-tête */}
