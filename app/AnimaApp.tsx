@@ -6,7 +6,7 @@ import { motion, AnimatePresence, useMotionValue, useTransform, animate } from "
 import {
   Menu, X, Phone, Mail, MessageCircle, Video,
   MapPin, ArrowRight, Sparkles, Home, Feather, Quote, ChevronDown,
-  ChevronLeft, ChevronRight, Instagram
+  ChevronLeft, ChevronRight
 } from "lucide-react";
 import { colors } from "./theme";
 
@@ -1773,7 +1773,11 @@ const Footer = ({ setCurrentPage }) => {
                   className="flex items-center gap-2 hover:opacity-70 transition-opacity"
                   style={{ color: colors.rooted }}
                 >
-                  <Instagram size={15} />
+                  <svg width={15} height={15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                    <circle cx="12" cy="12" r="4"/>
+                    <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+                  </svg>
                   <span>@anima_retourasoi</span>
                 </a>
               </li>
