@@ -6,17 +6,10 @@ import { motion, AnimatePresence, useMotionValue, useTransform, animate } from "
 import {
   Menu, X, Phone, Mail, MessageCircle, Video,
   MapPin, ArrowRight, Sparkles, Home, Feather, Quote, ChevronDown,
-  ChevronLeft, ChevronRight
+  ChevronLeft, ChevronRight, Instagram
 } from "lucide-react";
 import { colors } from "./theme";
-import { MoonPhaseDivider, ConstellationBackdrop } from "./components/Celestial";
 
-
-// ============================================================
-// PALETTE "Color Direction" — issue du PDF fourni
-// La source de vérité vit dans ./theme (partagée avec les assets
-// célestes de ./components/Celestial).
-// ============================================================
 
 // ============================================================
 // LOGO (recréé en texte stylisé, typo cursive)
@@ -355,9 +348,6 @@ const HomePage = ({ setCurrentPage }) => {
           </div>
         </div>
       </section>
-
-      {/* Séparateur lunaire — passage des piliers à la citation */}
-      <MoonPhaseDivider />
 
       {/* CITATION */}
       <section className="py-20 md:py-48 relative" style={{ backgroundColor: colors.cream }}>
@@ -758,7 +748,6 @@ const GuidancePage = () => {
   return (
     <div className="relative pt-24 pb-24 md:pt-40 md:pb-40" style={{ backgroundColor: colors.cream }}>
       <WatercolorBg variant="warm" />
-      <ConstellationBackdrop />
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         {/* En-tête */}
@@ -1776,6 +1765,18 @@ const Footer = ({ setCurrentPage }) => {
             <ul className="space-y-2" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft, fontSize: "15px" }}>
               <li>contact@anima-retourasoi.fr</li>
               <li>Bordeaux</li>
+              <li>
+                <a
+                  href="https://www.instagram.com/anima_retourasoi?igsh=MXh2eW12a3BldnZnMA=="
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 hover:opacity-70 transition-opacity"
+                  style={{ color: colors.rooted }}
+                >
+                  <Instagram size={15} />
+                  <span>@anima_retourasoi</span>
+                </a>
+              </li>
               <li>
                 <button onClick={() => setCurrentPage("mentions")} className="hover:underline italic">
                   Mentions légales
