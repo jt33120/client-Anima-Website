@@ -6,7 +6,7 @@ import { motion, AnimatePresence, useMotionValue, useTransform, animate } from "
 import {
   Menu, X, Phone, Mail, MessageCircle, Video,
   MapPin, ArrowRight, Sparkles, Home, Feather, Quote, ChevronDown,
-  ChevronLeft, ChevronRight
+  ChevronLeft, ChevronRight, Sun, Compass
 } from "lucide-react";
 import { colors } from "./theme";
 
@@ -38,6 +38,7 @@ const NAV_ITEMS = [
   { id: "home", label: "Accueil" },
   { id: "about", label: "À propos" },
   { id: "guidance", label: "Guidance" },
+  { id: "accompagnements", label: "Accompagnements" },
   { id: "fengshui", label: "Feng Shui" },
   { id: "testimonials", label: "Témoignages" },
   { id: "contact", label: "Contact" },
@@ -75,7 +76,7 @@ const Nav = ({ currentPage, setCurrentPage }) => {
         </button>
 
         {/* Desktop */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-4 lg:gap-7">
           {NAV_ITEMS.map((item) => (
             <button
               key={item.id}
@@ -876,6 +877,548 @@ const GuidancePage = () => {
         <p className="text-center text-sm italic" style={{ color: colors.inkSoft, fontFamily: "'Cormorant Garamond', serif" }}>
           Clique sur une carte pour la retourner
         </p>
+      </div>
+    </div>
+  );
+};
+
+// ============================================================
+// PAGE : ACCOMPAGNEMENTS HOLISTIQUES (programmes 2 mois)
+// ============================================================
+
+// Petit pétale décoratif — puce de liste dans le thème du site
+const PetalBullet = ({ color = colors.rooted, opacity = 0.55 }: { color?: string; opacity?: number }) => (
+  <svg width="11" height="14" viewBox="0 0 11 14" className="mt-[4px] shrink-0" aria-hidden="true">
+    <path d="M5.5 0 C8.6 4 8.6 8.6 5.5 14 C2.4 8.6 2.4 4 5.5 0 Z" fill={color} opacity={opacity} />
+  </svg>
+);
+
+// Médaillon lotus animé — emblème SVG décliné par formule.
+// Trois calques empilés (anneaux statiques, pétales extérieurs CW,
+// pétales intérieurs CCW, cœur pulsé) : chaque <svg> tourne autour de
+// son propre centre, ce qui évite les aléas de transform-origin en SVG.
+const LotusMedallion = ({ accent, soft, size = 128 }: { accent: string; soft: string; size?: number }) => {
+  const petalOut = "M60 60 C52 43 52 24 60 11 C68 24 68 43 60 60 Z";
+  const petalIn = "M60 60 C55 49 55 36 60 27 C65 36 65 49 60 60 Z";
+  const outer = [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330];
+  const inner = [22.5, 67.5, 112.5, 157.5, 202.5, 247.5, 292.5, 337.5];
+  return (
+    <div className="relative shrink-0" style={{ width: size, height: size }}>
+      {/* halo diffus */}
+      <div
+        className="absolute rounded-full pointer-events-none"
+        style={{ inset: -size * 0.16, background: `radial-gradient(circle, ${accent}33 0%, transparent 66%)` }}
+      />
+      {/* anneaux statiques */}
+      <svg viewBox="0 0 120 120" className="absolute inset-0 w-full h-full">
+        <circle cx="60" cy="60" r="57" fill="none" stroke={accent} strokeWidth="0.6" opacity="0.45" />
+        <circle cx="60" cy="60" r="48" fill="none" stroke={accent} strokeWidth="0.5" opacity="0.28" />
+      </svg>
+      {/* pétales extérieurs — rotation horaire */}
+      <motion.svg
+        viewBox="0 0 120 120"
+        className="absolute inset-0 w-full h-full"
+        animate={{ rotate: 360 }}
+        transition={{ duration: 110, repeat: Infinity, ease: "linear" }}
+      >
+        {outer.map((a) => (
+          <path key={a} d={petalOut} fill={soft} stroke={accent} strokeWidth="0.55" opacity="0.5" transform={`rotate(${a} 60 60)`} />
+        ))}
+      </motion.svg>
+      {/* pétales intérieurs — rotation anti-horaire */}
+      <motion.svg
+        viewBox="0 0 120 120"
+        className="absolute inset-0 w-full h-full"
+        animate={{ rotate: -360 }}
+        transition={{ duration: 150, repeat: Infinity, ease: "linear" }}
+      >
+        {inner.map((a) => (
+          <path key={a} d={petalIn} fill={accent} opacity="0.26" transform={`rotate(${a} 60 60)`} />
+        ))}
+      </motion.svg>
+      {/* cœur pulsé */}
+      <motion.svg
+        viewBox="0 0 120 120"
+        className="absolute inset-0 w-full h-full"
+        animate={{ scale: [1, 1.06, 1] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <circle cx="60" cy="60" r="9" fill={accent} opacity="0.85" />
+        <circle cx="60" cy="60" r="3.8" fill={soft} />
+      </motion.svg>
+    </div>
+  );
+};
+
+// Les 5 étapes du parcours
+const ETAPES = [
+  {
+    n: "01",
+    icon: Sparkles,
+    title: "Séance d'ouverture — Lecture d'âme",
+    meta: "2 heures",
+    intro: "Cette première rencontre pose les bases de l'accompagnement. Ensemble, nous explorons :",
+    points: [
+      "votre énergie actuelle",
+      "les blocages conscients et inconscients",
+      "les schémas répétitifs",
+      "les blessures émotionnelles",
+      "vos ressources profondes",
+      "les messages de votre âme",
+      "votre potentiel d'évolution",
+      "les axes de transformation prioritaires",
+    ],
+    outro: "À l'issue de cette séance, un axe de travail personnalisé est défini pour les huit semaines d'accompagnement.",
+  },
+  {
+    n: "02",
+    icon: MessageCircle,
+    title: "Suivi personnalisé",
+    meta: "Tout au long des 2 mois",
+    intro: "Vous bénéficiez d'un accompagnement régulier via WhatsApp. Ce suivi comprend :",
+    points: [
+      "des échanges pour répondre à vos questionnements",
+      "un soutien dans les périodes de doute",
+      "des ajustements selon votre évolution",
+      "des messages de guidance lorsque cela est nécessaire",
+      "un accompagnement bienveillant entre les séances",
+    ],
+    outro: "L'objectif est que vous ne soyez jamais seul(e) dans votre processus de transformation.",
+  },
+  {
+    n: "03",
+    icon: Feather,
+    title: "Exercices de transformation intérieure",
+    meta: "Chaque semaine",
+    intro: "Chaque semaine, vous recevez des pratiques adaptées à votre évolution. Selon vos besoins, elles peuvent inclure :",
+    points: [
+      "exercices de libération émotionnelle",
+      "prises de conscience guidées",
+      "travail sur les croyances limitantes",
+      "exercices de pardon",
+      "pratiques de reconnexion au corps",
+      "méditations et visualisations",
+      "rituels de transmutation énergétique",
+      "journaling intuitif",
+      "exercices d'ancrage et d'alignement",
+    ],
+    outro: "Chaque exercice est choisi en fonction de votre cheminement personnel.",
+  },
+  {
+    n: "04",
+    icon: Sun,
+    title: "Soins énergétiques",
+    meta: "Présentiel ou à distance",
+    intro: "Durant l'accompagnement, des soins énergétiques viennent soutenir votre évolution. Ils permettent notamment :",
+    points: [
+      "d'harmoniser les centres énergétiques",
+      "de libérer certaines mémoires",
+      "d'apaiser le système émotionnel",
+      "de favoriser l'ancrage",
+      "de retrouver une meilleure circulation de l'énergie",
+      "d'accompagner les transformations vécues pendant le programme",
+    ],
+    outro: "Chaque soin est adapté aux besoins du moment.",
+  },
+  {
+    n: "05",
+    icon: Compass,
+    title: "Coaching holistique",
+    meta: "Au fil des semaines",
+    intro: "Au fil des semaines, nous travaillons ensemble sur :",
+    points: [
+      "la compréhension de vos fonctionnements",
+      "la libération des schémas répétitifs",
+      "la confiance en vous",
+      "l'écoute de votre intuition",
+      "l'alignement entre votre cœur, votre esprit et vos actions",
+      "votre positionnement personnel",
+      "la mise en place de nouveaux repères plus justes pour vous",
+    ],
+    outro: "L'objectif est d'intégrer durablement les changements dans votre quotidien.",
+  },
+];
+
+// Les objectifs de l'accompagnement
+const OBJECTIFS = [
+  "retrouver davantage de clarté intérieure",
+  "vous sentir plus aligné(e) avec vos valeurs",
+  "mieux comprendre votre fonctionnement",
+  "vous libérer de certains blocages émotionnels",
+  "développer votre intuition",
+  "renforcer votre confiance",
+  "retrouver votre puissance personnelle",
+  "avancer avec davantage de sérénité",
+  "vous reconnecter à votre être profond",
+  "prendre pleinement votre place sur votre chemin de vie",
+];
+
+// Les 3 formules — accent (décor), soft (lavis clair), deep (typo lisible)
+const FORMULES = [
+  {
+    key: "essence",
+    name: "Essence",
+    tagline: "Revenir à soi",
+    intro: "Une première étape pour retrouver son équilibre intérieur, comprendre les blocages qui freinent votre évolution et amorcer une profonde reconnexion à vous-même.",
+    includes: [
+      "Lecture d'âme (2 h)",
+      "2 soins énergétiques (présentiel ou à distance)",
+      "Exercices personnalisés de libération et de prise de conscience",
+      "Suivi WhatsApp pendant 2 mois (réponse sous 48 h)",
+      "Bilan de fin d'accompagnement",
+    ],
+    price: "490 €",
+    payment: "Paiement possible en 2 fois",
+    accent: "#8FA98C",
+    soft: "#E4EDE1",
+    deep: "#5F7E5A",
+  },
+  {
+    key: "alignement",
+    name: "Alignement",
+    tagline: "Révéler sa véritable identité",
+    intro: "Un accompagnement complet pour libérer les schémas limitants, renforcer la confiance en soi et avancer avec clarté sur son chemin de vie.",
+    includes: [
+      "Lecture d'âme approfondie (2 h)",
+      "4 soins énergétiques (présentiel ou à distance)",
+      "Coaching holistique personnalisé",
+      "Exercices hebdomadaires de libération, transmutation et reconnexion",
+      "Suivi WhatsApp privilégié pendant 2 mois",
+      "Bilan complet avec conseils pour la suite",
+    ],
+    price: "690 €",
+    payment: "Paiement possible en 3 fois",
+    accent: "#C0894E",
+    soft: "#F3E6D0",
+    deep: "#9A6A2E",
+    featured: true,
+  },
+  {
+    key: "renaissance",
+    name: "Renaissance",
+    tagline: "Incarner pleinement qui vous êtes",
+    intro: "Une immersion profonde pour celles et ceux qui souhaitent vivre une véritable transformation intérieure et s'aligner durablement avec leur mission de vie.",
+    includes: [
+      "Lecture d'âme approfondie (2 h)",
+      "6 soins énergétiques personnalisés",
+      "Coaching holistique premium",
+      "Exercices et pratiques sur mesure chaque semaine",
+      "Audios intuitifs et méditations personnalisées selon les besoins",
+      "Suivi WhatsApp prioritaire pendant 2 mois",
+      "Séance de clôture avec plan d'évolution personnalisé",
+    ],
+    price: "990 €",
+    payment: "Paiement possible en 3 ou 4 fois",
+    accent: "#A56B84",
+    soft: "#EEDCE4",
+    deep: "#7E4E63",
+  },
+];
+
+const AccompagnementsPage = ({ setCurrentPage }) => {
+  return (
+    <div className="relative pt-24 pb-24 md:pt-40 md:pb-40" style={{ backgroundColor: colors.cream }}>
+      <WatercolorBg variant="warm" />
+
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
+
+        {/* ── En-tête ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-16 md:mb-24"
+        >
+          <p className="text-sm tracking-[0.25em] uppercase mb-6" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
+            Accompagnements holistiques
+          </p>
+          <div className="flex justify-center mb-8">
+            <LotusMedallion accent={colors.rooted} soft={colors.softLight} size={126} />
+          </div>
+          <h1 className="text-4xl md:text-6xl mb-3 leading-tight" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
+            Éveil à soi
+          </h1>
+          <p className="text-3xl md:text-5xl italic mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.rooted, fontWeight: 400 }}>
+            & reconnexion à son chemin de vie
+          </p>
+          <div className="w-16 h-[1px] mx-auto mb-8" style={{ backgroundColor: colors.rooted }} />
+          <p className="max-w-2xl mx-auto text-lg md:text-xl italic leading-relaxed mb-8" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft }}>
+            Une transformation profonde pour retrouver son alignement, libérer les blocages
+            et avancer avec clarté sur son chemin de vie.
+          </p>
+          <span
+            className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-xs tracking-[0.18em] uppercase"
+            style={{ backgroundColor: colors.softLight + "55", color: colors.rooted, fontFamily: "'Cormorant Garamond', serif", border: `1px solid ${colors.rooted}22` }}
+          >
+            <Sparkles size={14} /> Un parcours de 2 mois · en présentiel ou à distance
+          </span>
+        </motion.div>
+
+        {/* ── Introduction ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="max-w-3xl mx-auto mb-20 md:mb-32 space-y-6 text-lg leading-relaxed text-center"
+          style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "19px", lineHeight: "1.8" }}
+        >
+          <p>
+            Cet accompagnement est destiné aux personnes qui ressentent le besoin de se reconnecter à
+            elles-mêmes, de retrouver leur pouvoir intérieur, de dépasser leurs schémas limitants et
+            d'avancer sereinement sur leur chemin de vie.
+          </p>
+          <p style={{ color: colors.inkSoft }}>
+            Pendant deux mois, je vous accompagne avec une approche globale alliant lecture d'âme,
+            coaching intuitif, soins énergétiques et exercices de transformation intérieure.
+          </p>
+        </motion.div>
+
+        {/* ── Le déroulé — 5 étapes ── */}
+        <div className="mb-20 md:mb-32">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="text-center mb-14 md:mb-20"
+          >
+            <p className="text-sm tracking-[0.25em] uppercase mb-4" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
+              Le déroulé
+            </p>
+            <h2 className="text-3xl md:text-4xl" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
+              Un chemin en cinq temps
+            </h2>
+          </motion.div>
+
+          <div className="relative max-w-3xl mx-auto">
+            {/* ligne verticale du parcours */}
+            <div
+              className="absolute top-4 bottom-4 left-6 md:left-7 w-[2px] pointer-events-none"
+              style={{ background: `linear-gradient(to bottom, transparent, ${colors.rooted}44 12%, ${colors.rooted}44 88%, transparent)` }}
+              aria-hidden="true"
+            />
+
+            <div className="space-y-10 md:space-y-14">
+              {ETAPES.map((e, i) => (
+                <motion.div
+                  key={e.n}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.6, delay: i * 0.05 }}
+                  className="relative flex gap-5 md:gap-8"
+                >
+                  {/* marqueur */}
+                  <div
+                    className="relative z-10 shrink-0 w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center"
+                    style={{ backgroundColor: colors.cream, border: `1.5px solid ${colors.rooted}`, boxShadow: `0 8px 22px -12px ${colors.rooted}88` }}
+                  >
+                    <e.icon size={20} style={{ color: colors.rooted }} />
+                  </div>
+
+                  {/* contenu */}
+                  <div
+                    className="flex-1 rounded-xl p-5 md:p-7"
+                    style={{ backgroundColor: "#FFFFFFA6", border: `1px solid ${colors.rooted}22`, boxShadow: `0 16px 44px -28px ${colors.ink}44` }}
+                  >
+                    <p className="text-xs tracking-[0.2em] uppercase mb-2" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
+                      Étape {e.n} · {e.meta}
+                    </p>
+                    <h3 className="text-2xl md:text-3xl mb-3" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
+                      {e.title}
+                    </h3>
+                    <p className="mb-4 leading-relaxed" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft, fontSize: "17px", lineHeight: "1.7" }}>
+                      {e.intro}
+                    </p>
+                    <div className="grid sm:grid-cols-2 gap-x-6 gap-y-2 mb-5">
+                      {e.points.map((p) => (
+                        <div key={p} className="flex items-start gap-2.5">
+                          <PetalBullet />
+                          <span style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "16px", lineHeight: "1.5" }}>{p}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <p
+                      className="italic text-[15px] leading-relaxed pl-4"
+                      style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.rooted, borderLeft: `2px solid ${colors.rooted}44` }}
+                    >
+                      {e.outro}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* ── Les objectifs ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="max-w-4xl mx-auto mb-20 md:mb-32"
+        >
+          <div className="text-center mb-10 md:mb-14">
+            <p className="text-sm tracking-[0.25em] uppercase mb-4" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
+              Au terme de ces deux mois
+            </p>
+            <h2 className="text-3xl md:text-4xl mb-4" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
+              Vous aurez amorcé une véritable reconnexion à vous-même
+            </h2>
+            <p className="italic text-lg" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft }}>
+              Vous pourrez notamment :
+            </p>
+          </div>
+          <div
+            className="p-7 md:p-10 rounded-2xl"
+            style={{ backgroundColor: colors.softLight + "26", border: `1px solid ${colors.rooted}22` }}
+          >
+            <div className="grid sm:grid-cols-2 gap-x-10 gap-y-3">
+              {OBJECTIFS.map((o) => (
+                <div key={o} className="flex items-start gap-3">
+                  <PetalBullet opacity={0.7} />
+                  <span style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "17px", lineHeight: "1.6" }}>{o}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <p className="text-center italic text-xl mt-10 leading-relaxed max-w-2xl mx-auto" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.rooted }}>
+            Cet accompagnement est une invitation à revenir à l'essentiel : vous-même.
+          </p>
+        </motion.div>
+
+        {/* ── Les formules ── */}
+        <div className="mb-8 md:mb-12">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="text-center mb-6"
+          >
+            <p className="text-sm tracking-[0.25em] uppercase mb-4" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
+              Mes formules
+            </p>
+            <h2 className="text-3xl md:text-4xl mb-4" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
+              Choisir son accompagnement
+            </h2>
+            <p className="italic text-lg max-w-2xl mx-auto" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft }}>
+              Trois formules, un même cheminement de deux mois — à la profondeur qui vous ressemble.
+            </p>
+          </motion.div>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-6 md:gap-5 items-stretch mb-8">
+          {FORMULES.map((f, i) => (
+            <motion.div
+              key={f.key}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: i * 0.12 }}
+              className={`relative flex flex-col rounded-2xl p-7 md:p-8 ${f.featured ? "md:-translate-y-3" : ""}`}
+              style={{
+                backgroundColor: f.featured ? f.soft + "cc" : "#FFFFFFCC",
+                border: `1px solid ${f.featured ? f.deep + "66" : f.accent + "44"}`,
+                boxShadow: f.featured ? `0 30px 60px -30px ${f.deep}88` : `0 18px 44px -28px ${colors.ink}33`,
+              }}
+            >
+              {f.featured && (
+                <span
+                  className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-[11px] tracking-[0.18em] uppercase whitespace-nowrap"
+                  style={{ backgroundColor: f.deep, color: colors.cream, fontFamily: "'Cormorant Garamond', serif" }}
+                >
+                  Le plus choisi
+                </span>
+              )}
+
+              <div className="flex justify-center mb-5 mt-2">
+                <LotusMedallion accent={f.accent} soft={f.soft} size={96} />
+              </div>
+
+              <h3 className="text-center text-2xl tracking-[0.12em] uppercase mb-1" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 500 }}>
+                {f.name}
+              </h3>
+              <p className="text-center italic mb-4" style={{ fontFamily: "'Cormorant Garamond', serif", color: f.deep, fontSize: "17px" }}>
+                {f.tagline}
+              </p>
+
+              <p className="text-center leading-relaxed mb-5" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft, fontSize: "15.5px", lineHeight: "1.65" }}>
+                {f.intro}
+              </p>
+
+              <div className="w-10 h-[1px] mx-auto mb-5" style={{ backgroundColor: f.accent }} />
+
+              <p className="text-xs tracking-[0.2em] uppercase mb-3" style={{ color: f.deep, fontFamily: "'Cormorant Garamond', serif" }}>
+                Comprend
+              </p>
+              <div className="space-y-2.5 mb-7">
+                {f.includes.map((inc) => (
+                  <div key={inc} className="flex items-start gap-2.5">
+                    <PetalBullet color={f.accent} opacity={0.85} />
+                    <span style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "15.5px", lineHeight: "1.5" }}>{inc}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-auto">
+                <div className="text-center mb-5">
+                  <p className="text-4xl mb-1" style={{ fontFamily: "'Cormorant Garamond', serif", color: f.deep, fontWeight: 500 }}>
+                    {f.price}
+                  </p>
+                  <p className="text-sm italic" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft }}>
+                    {f.payment}
+                  </p>
+                </div>
+                <button
+                  onClick={() => { setCurrentPage("contact"); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+                  className="w-full py-3 flex items-center justify-center gap-2 text-xs tracking-[0.2em] uppercase transition-all hover:shadow-md rounded-sm"
+                  style={{ backgroundColor: colors.rooted, color: colors.cream, fontFamily: "'Cormorant Garamond', serif", fontWeight: 500 }}
+                >
+                  Prendre contact <ArrowRight size={14} />
+                </button>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        <p className="text-center text-sm italic max-w-xl mx-auto mb-24 md:mb-32" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft }}>
+          Chaque formule est un espace sur mesure. Une question, un doute avant de vous lancer ?
+          Écrivez-moi, nous en parlons ensemble.
+        </p>
+
+        {/* ── Clôture ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 1 }}
+          className="max-w-3xl mx-auto text-center px-6 py-14 md:py-20 rounded-3xl relative overflow-hidden"
+          style={{ backgroundColor: colors.warmHeart }}
+        >
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{ background: `radial-gradient(ellipse at top, ${colors.softLight}55 0%, transparent 60%)` }}
+          />
+          <Feather size={34} className="mx-auto mb-6 relative" style={{ color: "#ffffff", opacity: 0.75 }} />
+          <p className="text-2xl md:text-3xl italic leading-relaxed mb-6 relative" style={{ fontFamily: "'Cormorant Garamond', serif", color: "#ffffff", fontWeight: 400 }}>
+            Parce que la plus belle rencontre est celle que l'on fait avec soi-même.
+          </p>
+          <p className="max-w-xl mx-auto mb-8 leading-relaxed relative" style={{ fontFamily: "'Cormorant Garamond', serif", color: "#fff", opacity: 0.92, fontSize: "17px", lineHeight: "1.8" }}>
+            Lorsque l'on se reconnecte à son être profond, les choix deviennent plus justes,
+            les relations plus authentiques, et la vie reprend naturellement son sens.
+          </p>
+          <button
+            onClick={() => { setCurrentPage("contact"); window.scrollTo({ top: 0, behavior: "smooth" }); }}
+            className="relative inline-flex items-center gap-2 px-8 py-3 text-sm tracking-[0.18em] uppercase transition-all hover:shadow-lg"
+            style={{ backgroundColor: colors.cream, color: colors.rooted, fontFamily: "'Cormorant Garamond', serif", fontWeight: 500 }}
+          >
+            Commencer mon accompagnement <ArrowRight size={16} />
+          </button>
+        </motion.div>
+
       </div>
     </div>
   );
@@ -2211,6 +2754,7 @@ export default function App() {
     home: <HomePage setCurrentPage={setCurrentPage} />,
     about: <AboutPage />,
     guidance: <GuidancePage />,
+    accompagnements: <AccompagnementsPage setCurrentPage={setCurrentPage} />,
     fengshui: <FengShuiPage setCurrentPage={setCurrentPage} />,
     testimonials: <TestimonialsPage />,
     contact: <ContactPage />,
