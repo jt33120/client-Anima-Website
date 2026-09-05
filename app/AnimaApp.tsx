@@ -741,10 +741,10 @@ const TarotCard = ({ duration, price, tagline, description, bookingHref }) => {
 
 const GuidancePage = () => {
   const cards = [
-    { duration: "15 min", price: 25, tagline: "Un éclairage flash", description: "Pour une question ciblée ou un blocage précis. Idéal pour obtenir une clarté et une prise de hauteur sur une thème particulier.", bookingHref: bookingUrl("lecture-d-ame-15min") },
-    { duration: "30 min", price: 45, tagline: "Une conscientisation", description: "Pour approfondir plus en détail une thématique et identifier les schémas répétitifs et bloquants qui se jouent autour de vous et en vous. Conscience et mise en lumière.", bookingHref: bookingUrl("lecture-d-ame-30min") },
-    { duration: "45 min", price: 65, tagline: "Un temps d'exploration", description: "Pour trouver des réponses et activer la transformation. Un espace de conscientisation et d'ouverture. Une lecture plus fine de soi.\nLibération et transformation.", bookingHref: bookingUrl("lecture-d-ame-45min") },
-    { duration: "60 min", price: 80, tagline: "Une traversée complète", description: "Pour un accompagnement en conscience sur un ou plusieurs sujets multidimensionnels. Une reconnexion à soi afin de se repositionner dans son plan. Transcendance et alignement.", bookingHref: bookingUrl("lecture-d-ame-60min") },
+    { duration: "15 min", price: 25, tagline: "Un éclairage flash", description: "Pour une question ciblée ou un blocage précis. Idéal pour obtenir une clarté et une prise de hauteur sur une thème particulier.", bookingHref: bookingUrl("lecture15") },
+    { duration: "30 min", price: 45, tagline: "Une conscientisation", description: "Pour approfondir plus en détail une thématique et identifier les schémas répétitifs et bloquants qui se jouent autour de vous et en vous. Conscience et mise en lumière.", bookingHref: bookingUrl("lecture30") },
+    { duration: "45 min", price: 65, tagline: "Un temps d'exploration", description: "Pour trouver des réponses et activer la transformation. Un espace de conscientisation et d'ouverture. Une lecture plus fine de soi.\nLibération et transformation.", bookingHref: bookingUrl("lecture45") },
+    { duration: "60 min", price: 80, tagline: "Une traversée complète", description: "Pour un accompagnement en conscience sur un ou plusieurs sujets multidimensionnels. Une reconnexion à soi afin de se repositionner dans son plan. Transcendance et alignement.", bookingHref: bookingUrl("lecture60") },
   ];
 
   return (
