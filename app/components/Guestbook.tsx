@@ -28,6 +28,14 @@ function Frontispiece() {
   </div>;
 }
 
+function LeftPage({ index }: { index: number }) {
+  if (index < 0) return <Frontispiece />;
+
+  return <div className={styles.leftEntry}>
+    <Entry entry={testimonials[index]} index={index} />
+  </div>;
+}
+
 export function Guestbook() {
   const [current, setCurrent] = useState(0);
   const [turn, setTurn] = useState<{ from: number; to: number } | null>(null);
@@ -60,11 +68,16 @@ export function Guestbook() {
   const goTo = (next: number) => {
     if (turnLock.current || next < 0 || next >= testimonials.length || next === current) return;
     if (reducedMotion || !wide) { setCurrent(next); return; }
+    if (Math.abs(next - current) > 1) { setCurrent(next); return; }
     turnLock.current = true;
     setTurn({ from: current, to: next });
   };
   const bottom = turn && turn.to > turn.from ? turn.to : current;
   const leaf = turn && turn.to < turn.from ? turn.to : current;
+  const leftPage = (turn?.to ?? current) - 1;
+  const turningVerso = turn
+    ? (turn.to > turn.from ? turn.to - 1 : turn.from - 1)
+    : -1;
   const palette = {
     "--book-ink": colors.ink, "--book-muted": colors.inkSoft,
     "--book-copper": colors.rooted, "--book-pink": colors.warmHeart,
@@ -92,7 +105,7 @@ export function Guestbook() {
         if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy)*1.5) goTo(current + (dx < 0 ? 1 : -1));
       }}>
       <div className={styles.book}>
-        <div className={styles.leftPage} aria-hidden="true"><Frontispiece /></div>
+        <div className={styles.leftPage} aria-hidden="true"><LeftPage index={leftPage} /></div>
         <div className={styles.reader}>
           {/* All entries reserve the tallest page without clipping or nested scrolling. */}
           <div className={styles.sizing} aria-hidden="true">{testimonials.map((entry,index) => <Entry key={entry.name} entry={entry} index={index} />)}</div>
@@ -103,7 +116,7 @@ export function Guestbook() {
           </article>
           {turn && <motion.div className={styles.turningPage} aria-hidden="true" style={{ rotateY: angle }}>
             <div className={styles.recto}><Entry entry={testimonials[leaf]} index={leaf} /><motion.div className={styles.turnShadow} style={{ opacity: shadow }} /></div>
-            <div className={styles.verso}><Frontispiece /><motion.div className={styles.turnShadow} style={{ opacity: shadow }} /></div>
+            <div className={styles.verso}><LeftPage index={turningVerso} /><motion.div className={styles.turnShadow} style={{ opacity: shadow }} /></div>
           </motion.div>}
         </div>
         <span className={styles.ribbon} aria-hidden="true" />

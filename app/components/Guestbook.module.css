@@ -29,6 +29,9 @@
 .botanical img { display:block; width:100%; height:auto; }
 .frontispiece > p { font-size:1.25rem; line-height:1.5; font-style:italic; color:var(--book-muted); }
 .flourish { display:block; width:2.5rem; height:1px; background:var(--book-line); margin-top:1.4rem; }
+.leftEntry { height:100%; }
+.leftEntry .entry { padding-inline:2.5rem 2.7rem; background:linear-gradient(to left,var(--book-line),transparent 7%,transparent 97%,color-mix(in srgb,var(--book-peach) 16%,transparent)),var(--book-paper); }
+.leftEntry .folio { text-align:left; }
 .reader { perspective:1600px; perspective-origin:left center; border-radius:0 var(--book-radius) var(--book-radius) 0; }
 .sizing { display:grid; visibility:hidden; pointer-events:none; }
 .sizing > * { grid-area:1/1; }
@@ -75,6 +78,7 @@
 }
 @media (min-width:768px) and (max-width:950px) {
   .entry { padding-inline:1.6rem; }
+  .leftEntry .entry { padding-inline:1.6rem; }
   .entry blockquote { font-size:1.125rem; }
   .frontispiece { padding:1.5rem; }
 }

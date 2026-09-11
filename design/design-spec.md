@@ -28,8 +28,11 @@ renderer and hidden documents suspend animation frames. Device pixel ratio is ca
 ## Guestbook
 
 Open ivory spread, blush cover, layered page edges, recessed gutter, botanical frontispiece
-and a ribbon bookmark. Desktop page turns pivot at the center binding and occupy the facing
-page. Mobile uses a full-width single page and brief crossfade. Reduced motion changes
+and a ribbon bookmark. The botanical frontispiece appears only on the opening spread; after
+the first turn, the left page holds the previous testimonial. Desktop page turns pivot at the
+center binding and occupy the facing page. Direct non-adjacent jumps settle immediately rather
+than implying one physical leaf skipped several entries. Mobile uses a full-width single page
+and brief crossfade. Reduced motion changes
 entries immediately. Resizing during a turn settles the destination immediately on mobile.
 
 The seven existing testimonials remain verbatim in testimonials.ts. Hidden sizing copies
@@ -47,4 +50,7 @@ remains unlinked. These are the existing published entries, not a new live backe
 - Production browser: mesh ready and visible, changing flower poses, renderer removed offscreen.
 - Production guestbook: next, direct jump to last, disabled last-page next and keyboard previous
   passed. No console errors or warnings in the fresh production tab.
+- Opening/return shows one botanical frontispiece; after the first turn, desktop left page shows
+  the preceding testimonial. At 768 pixels, both pages fit without internal overflow. At 390
+  pixels, the single-page view contains no repeated frontispiece and has no horizontal overflow.
 - Reduced-motion and WebGL fallback paths reviewed in code; OS media preference was not changed.
