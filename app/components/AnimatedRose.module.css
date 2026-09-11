@@ -1,0 +1,57 @@
+.rose {
+  --rose-width: 11rem;
+  --rose-duration: 9s;
+  --rose-lean-left: -2.5deg;
+  --rose-lean-right: 2deg;
+  --rose-flex-left: -0.6deg;
+  --rose-flex-right: 0.5deg;
+  --rose-root-x: 60%;
+  --rose-root-y: 98%;
+
+  width: var(--rose-width);
+  aspect-ratio: 2 / 3;
+  flex-shrink: 0;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  user-select: none;
+}
+
+.breeze {
+  width: 100%;
+  height: 100%;
+  transform-origin: var(--rose-root-x) var(--rose-root-y);
+  animation: breeze var(--rose-duration) ease-in-out infinite;
+  animation-play-state: paused;
+}
+
+.rose[data-in-view="true"] .breeze {
+  animation-play-state: running;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@keyframes breeze {
+  0%, 100% {
+    transform: rotate(var(--rose-lean-left)) skewX(var(--rose-flex-left));
+  }
+  50% {
+    transform: rotate(var(--rose-lean-right)) skewX(var(--rose-flex-right));
+  }
+}
+
+@media (min-width: 48rem) {
+  .rose {
+    --rose-width: 13rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .breeze {
+    animation: none;
+    transform: none;
+  }
+}

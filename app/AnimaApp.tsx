@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { colors } from "./theme";
 import { bookingUrl } from "./booking";
+import { AnimatedRose } from "./components/AnimatedRose";
 
 
 // ============================================================
@@ -494,110 +495,9 @@ const AboutPage = () => {
       {/* ── Section 4 : Une porte vers vous-même ── */}
       <section className="py-16 pb-20 md:py-32 md:pb-48 relative overflow-hidden">
         <WatercolorBg variant="rooted" />
-        <div className="max-w-3xl mx-auto px-6 relative z-10">
+        <div className="max-w-3xl mx-auto px-6 relative">
           <div className="flex flex-col md:flex-row gap-8 items-center">
-            {/* Rose illustration — blown by the wind */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ duration: 1.4, ease: "easeOut" }}
-              className="flex-shrink-0 flex justify-center md:w-44 relative"
-              style={{ minHeight: 260 }}
-            >
-              {/* Floating petals detaching in the wind */}
-              {([
-                { left: 88, top: 62, dx: [0, 18, 40, 72], dy: [0, -18, -8, 6],  r: [0, 25, 60, 100],  fill: "#F2BEC0", w: 14, h: 9,  delay: 0,   dur: 4.2 },
-                { left: 78, top: 44, dx: [0, 22, 48, 80], dy: [0, -22, -12, 0], r: [0, -40, -80, -110], fill: "#E89497", w: 11, h: 8,  delay: 1.5, dur: 3.8 },
-                { left: 82, top: 78, dx: [0, 14, 38, 65], dy: [0, -10, 12, 4],  r: [0, 50, 110, 160], fill: "#D97A7E", w: 10, h: 7,  delay: 2.8, dur: 4.6 },
-                { left: 92, top: 55, dx: [0, 28, 56, 88], dy: [0, -6,  16, 8],  r: [0, 30, 75, 130],  fill: "#F2BEC0", w: 9,  h: 6,  delay: 0.8, dur: 5.1 },
-              ] as const).map((p, i) => (
-                <motion.div
-                  key={i}
-                  className="absolute pointer-events-none"
-                  style={{ left: p.left, top: p.top }}
-                  animate={{ x: [...p.dx], y: [...p.dy], rotate: [...p.r], opacity: [0.9, 0.75, 0.45, 0] }}
-                  transition={{ duration: p.dur, repeat: Infinity, delay: p.delay, ease: "easeOut" }}
-                >
-                  <svg width={p.w} height={p.h} viewBox={`0 0 ${p.w} ${p.h}`}>
-                    <ellipse cx={p.w/2} cy={p.h/2} rx={p.w/2} ry={p.h/2} fill={p.fill} opacity="0.9"/>
-                  </svg>
-                </motion.div>
-              ))}
-
-              {/* Rose — whole stem sways, anchored at root */}
-              <motion.svg
-                width="130" height="240" viewBox="0 0 130 240"
-                xmlns="http://www.w3.org/2000/svg"
-                style={{ transformOrigin: "50% 100%", display: "block" }}
-                animate={{ rotate: [-4, 7, -3, 8, -4] }}
-                transition={{ duration: 5.5, repeat: Infinity, ease: [0.45, 0.05, 0.55, 0.95], repeatType: "mirror" }}
-              >
-                {/* Stem */}
-                <motion.path
-                  d="M65 148 Q60 178 63 228"
-                  stroke="#8FAF8A" strokeWidth="2.5" strokeLinecap="round" fill="none"
-                  animate={{ d: ["M65 148 Q60 178 63 228", "M65 148 Q68 178 66 228", "M65 148 Q60 178 63 228"] }}
-                  transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", repeatType: "mirror" }}
-                />
-                {/* Left leaf */}
-                <motion.path
-                  d="M63 192 Q40 177 44 158 Q55 168 63 192Z" fill="#9DBF97" opacity="0.85"
-                  animate={{ d: ["M63 192 Q40 177 44 158 Q55 168 63 192Z","M63 192 Q42 180 47 162 Q56 170 63 192Z","M63 192 Q40 177 44 158 Q55 168 63 192Z"] }}
-                  transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", repeatType: "mirror" }}
-                />
-                <path d="M63 192 Q50 172 47 159" stroke="#7A9470" strokeWidth="1" fill="none"/>
-                {/* Right leaf */}
-                <motion.path
-                  d="M63 170 Q88 157 86 140 Q74 153 63 170Z" fill="#9DBF97" opacity="0.85"
-                  animate={{ d: ["M63 170 Q88 157 86 140 Q74 153 63 170Z","M63 170 Q85 160 84 144 Q73 156 63 170Z","M63 170 Q88 157 86 140 Q74 153 63 170Z"] }}
-                  transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", repeatType: "mirror", delay: 0.3 }}
-                />
-                <path d="M63 170 Q81 154 84 142" stroke="#7A9470" strokeWidth="1" fill="none"/>
-                {/* Calyx */}
-                <path d="M55 148 Q60 138 65 145 Q70 138 75 148 Q70 143 65 148 Q60 143 55 148Z" fill="#7A9470"/>
-                {/* Flower head — independent flutter around top of stem */}
-                <motion.g
-                  style={{ transformOrigin: "65px 148px" }}
-                  animate={{ rotate: [2, -4, 3, -5, 2] }}
-                  transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut", repeatType: "mirror" }}
-                >
-                  {/* Outer petals layer 1 */}
-                  <motion.path d="M65 95 Q38 70 34 48 Q50 62 65 78Z" fill="#F2BEC0" opacity="0.72"
-                    animate={{ d: ["M65 95 Q38 70 34 48 Q50 62 65 78Z","M65 95 Q36 68 31 46 Q49 61 65 78Z","M65 95 Q38 70 34 48 Q50 62 65 78Z"] }}
-                    transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut", repeatType: "mirror" }}
-                  />
-                  <motion.path d="M65 95 Q92 70 96 48 Q80 62 65 78Z" fill="#F2BEC0" opacity="0.72"
-                    animate={{ d: ["M65 95 Q92 70 96 48 Q80 62 65 78Z","M65 95 Q95 67 100 45 Q82 61 65 78Z","M65 95 Q92 70 96 48 Q80 62 65 78Z"] }}
-                    transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut", repeatType: "mirror", delay: 0.2 }}
-                  />
-                  <motion.path d="M65 95 Q32 90 24 74 Q44 78 60 88Z" fill="#EDADB0" opacity="0.72"
-                    animate={{ d: ["M65 95 Q32 90 24 74 Q44 78 60 88Z","M65 95 Q30 88 21 72 Q42 77 60 88Z","M65 95 Q32 90 24 74 Q44 78 60 88Z"] }}
-                    transition={{ duration: 3.1, repeat: Infinity, ease: "easeInOut", repeatType: "mirror", delay: 0.1 }}
-                  />
-                  <motion.path d="M65 95 Q98 90 106 74 Q86 78 70 88Z" fill="#EDADB0" opacity="0.72"
-                    animate={{ d: ["M65 95 Q98 90 106 74 Q86 78 70 88Z","M65 95 Q101 87 110 72 Q88 77 70 88Z","M65 95 Q98 90 106 74 Q86 78 70 88Z"] }}
-                    transition={{ duration: 3.1, repeat: Infinity, ease: "easeInOut", repeatType: "mirror", delay: 0.4 }}
-                  />
-                  <path d="M65 95 Q44 122 36 138 Q55 120 63 105Z" fill="#F2BEC0" opacity="0.65"/>
-                  <path d="M65 95 Q86 122 94 138 Q75 120 67 105Z" fill="#F2BEC0" opacity="0.65"/>
-                  {/* Mid petals layer 2 */}
-                  <path d="M65 95 Q44 75 49 52 Q60 74 65 88Z" fill="#E89497" opacity="0.82"/>
-                  <path d="M65 95 Q86 75 81 52 Q70 74 65 88Z" fill="#E89497" opacity="0.82"/>
-                  <path d="M65 95 Q44 108 40 126 Q58 108 63 99Z" fill="#E89497" opacity="0.78"/>
-                  <path d="M65 95 Q86 108 90 126 Q72 108 67 99Z" fill="#E89497" opacity="0.78"/>
-                  {/* Inner petals layer 3 */}
-                  <path d="M65 95 Q52 83 56 68 Q63 84 65 93Z" fill="#D97A7E" opacity="0.9"/>
-                  <path d="M65 95 Q78 83 74 68 Q67 84 65 93Z" fill="#D97A7E" opacity="0.9"/>
-                  <path d="M65 95 Q54 106 52 119 Q63 106 65 99Z" fill="#D97A7E" opacity="0.88"/>
-                  <path d="M65 95 Q76 106 78 119 Q67 106 65 99Z" fill="#D97A7E" opacity="0.88"/>
-                  {/* Center */}
-                  <circle cx="65" cy="93" r="11" fill="#C96468" opacity="0.92"/>
-                  <circle cx="65" cy="93" r="6" fill="#B85458"/>
-                  <circle cx="62" cy="91" r="2" fill="#D98082" opacity="0.6"/>
-                </motion.g>
-              </motion.svg>
-            </motion.div>
+            <AnimatedRose />
 
             {/* Pink framed box */}
             <motion.div
