@@ -1,0 +1,95 @@
+.section {
+  position: relative;
+  overflow: hidden;
+  padding: 5rem 0 6rem;
+  /* lavis bornés : ils s'éteignent avant les bords, sans ligne de raccord */
+  background:
+    radial-gradient(42rem 26rem at 10% 34%, color-mix(in srgb, var(--anima-rose) 36%, transparent), transparent 70%),
+    radial-gradient(46rem 28rem at 90% 68%, color-mix(in srgb, var(--anima-aqua) 40%, transparent), transparent 70%),
+    var(--anima-cream);
+}
+
+@media (min-width: 768px) {
+  .section { padding: 8rem 0 10rem; }
+}
+
+/* Mobile : carrousel horizontal aimanté ; desktop : trois reels en quinconce */
+.track {
+  display: flex;
+  gap: 1.1rem;
+  margin: 0 -1.5rem;
+  padding: 0.5rem 1.5rem 2rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.track::-webkit-scrollbar { display: none; }
+
+@media (min-width: 768px) {
+  .track {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2rem;
+    margin: 0;
+    padding: 0 3rem;
+    overflow: visible;
+  }
+}
+
+@media (min-width: 1024px) {
+  .track { padding: 0 6rem; gap: 2.5rem; }
+}
+
+.card {
+  position: relative;
+  flex: 0 0 min(68vw, 17.5rem);
+  aspect-ratio: 9 / 16;
+  border-radius: 1.6rem;
+  overflow: hidden;
+  isolation: isolate;
+  scroll-snap-align: center;
+  border: 1px solid color-mix(in srgb, var(--anima-line) 30%, transparent);
+  box-shadow:
+    0 0 0 6px color-mix(in srgb, white 55%, transparent),
+    0 30px 60px -30px color-mix(in srgb, var(--anima-rosewood) 55%, transparent);
+}
+
+@media (min-width: 768px) {
+  .raised { translate: 0 -2.5rem; } /* translate : indépendant du transform animé */
+}
+
+.video { position: absolute; inset: 0; }
+
+.link {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: flex-start;
+  padding: 0.9rem 4rem 0.9rem 0.9rem; /* le bouton pause occupe le coin droit */
+  border-radius: inherit;
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--anima-ink) 16%, transparent), transparent 18%);
+  transition: background-color 0.4s ease;
+}
+
+.link:hover { background-color: color-mix(in srgb, white 8%, transparent); }
+
+.link:focus-visible {
+  outline: 2px solid var(--anima-line);
+  outline-offset: -4px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  font-family: "Cormorant Garamond", serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--anima-rosewood);
+  background: color-mix(in srgb, var(--anima-cream) 84%, transparent);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Feather, Quote } from "lucide-react";
+import { AnimaButton } from "../../components/AnimaButton";
 
 // Palette reprise du site (AnimaApp.tsx)
 const colors = {
@@ -159,15 +160,9 @@ export default function WriteTestimonial() {
                   </p>
                 </div>
 
-                <button
-                  type="button"
-                  onClick={submit}
-                  disabled={sending}
-                  className="w-full py-3 text-sm tracking-[0.2em] uppercase transition-all hover:shadow-lg disabled:opacity-50"
-                  style={{ backgroundColor: colors.rooted, color: colors.cream, fontFamily: "'Cormorant Garamond', serif" }}
-                >
+                <AnimaButton onClick={() => submit()} disabled={sending} variant="rose" size="lg" fullWidth>
                   {sending ? "Envoi…" : "Déposer mon témoignage"}
-                </button>
+                </AnimaButton>
 
                 {error && (
                   <p className="text-sm italic text-center" style={{ color: colors.warmHeart, fontFamily: "'Cormorant Garamond', serif" }}>

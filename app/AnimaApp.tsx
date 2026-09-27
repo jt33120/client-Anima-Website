@@ -12,6 +12,14 @@ import { colors } from "./theme";
 import { bookingUrl } from "./booking";
 import { AnimatedRose } from "./components/AnimatedRose";
 import { Guestbook as TestimonialsPage } from "./components/Guestbook";
+import { SceneVideo } from "./components/SceneVideo";
+import { PageHero, MoonDivider } from "./components/PageHero";
+import { ReelsWall } from "./components/ReelsWall";
+import { DoorCards } from "./components/DoorCards";
+import { AnimaButton } from "./components/AnimaButton";
+import { LetterNote } from "./components/LetterNote";
+import { TarotCard } from "./components/TarotCard";
+import { SOCIAL_LINKS, SocialIconLinks } from "./components/Social";
 
 
 // ============================================================
@@ -84,12 +92,14 @@ const Nav = ({ currentPage, setCurrentPage }) => {
             <button
               key={item.id}
               onClick={() => go(item.id)}
-              className="text-sm tracking-wide transition-colors relative group"
+              className="text-sm tracking-wide transition-colors relative group whitespace-nowrap"
               style={{
                 fontFamily: "'Cormorant Garamond', serif",
                 color: currentPage === item.id ? colors.rooted : colors.inkSoft,
                 fontWeight: currentPage === item.id ? 600 : 400,
                 fontSize: "15px",
+                // halo des reels : reste lisible posé sur les vidéos
+                textShadow: scrolled ? "none" : "0 0 14px rgba(255,255,255,0.95), 0 0 4px rgba(255,255,255,0.8)",
               }}
             >
               {item.label}
@@ -102,10 +112,12 @@ const Nav = ({ currentPage, setCurrentPage }) => {
               />
             </button>
           ))}
+          <span className="hidden lg:block h-5 w-px -mx-2" style={{ backgroundColor: colors.line + "66" }} aria-hidden="true" />
+          <SocialIconLinks color={colors.rooted} size={16} className="hidden lg:flex -mx-2" />
         </div>
 
         {/* Mobile burger */}
-        <button className="md:hidden" onClick={() => setOpen(!open)} style={{ color: colors.rooted }}>
+        <button className="md:hidden w-11 h-11 -mr-2.5 flex items-center justify-center" onClick={() => setOpen(!open)} style={{ color: colors.rooted }} aria-label={open ? "Fermer le menu" : "Ouvrir le menu"} aria-expanded={open}>
           {open ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
@@ -135,6 +147,22 @@ const Nav = ({ currentPage, setCurrentPage }) => {
                   {item.label}
                 </button>
               ))}
+              <div className="flex flex-col gap-1 pt-4 mt-1 border-t" style={{ borderColor: colors.line + "33" }}>
+                {SOCIAL_LINKS.map(({ key, label, url, handle, Icon }) => (
+                  <a
+                    key={key}
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 py-2 min-h-11"
+                    style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.rooted, fontSize: "17px" }}
+                    aria-label={`${label} — ${handle}`}
+                  >
+                    <Icon size={17} />
+                    <span>{handle}</span>
+                  </a>
+                ))}
+              </div>
             </div>
           </motion.div>
         )}
@@ -162,6 +190,14 @@ const WatercolorBg = ({ variant = "default" }) => {
   );
 };
 
+// Lavis rose des reels (rose fleur → ciel → pêche) pour les panneaux
+const roseWash = {
+  background: `radial-gradient(ellipse at 18% 0%, rgba(255,255,255,0.55), transparent 55%),
+               linear-gradient(140deg, ${colors.rose} 0%, ${colors.blush} 55%, ${colors.softLight} 100%)`,
+  border: `1px solid ${colors.line}33`,
+  boxShadow: `inset 0 1px 0 rgba(255,255,255,0.6), 0 30px 60px -36px ${colors.rosewood}66`,
+};
+
 // ============================================================
 // HERO — page Accueil
 // ============================================================
@@ -171,16 +207,8 @@ const HomePage = ({ setCurrentPage }) => {
       {/* HERO */}
       <section className="relative min-h-screen flex flex-col overflow-hidden">
 
-        {/* Image — Ken Burns très doux (zoom arrière sur 14 s) */}
-        <motion.img
-          src="/header_mainpage.jpg"
-          alt=""
-          aria-hidden="true"
-          initial={{ scale: 1.07 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 14, ease: "easeOut" }}
-          className="absolute inset-0 w-full h-full object-cover object-center"
-        />
+        {/* Vidéo — Anima, l'avatar des reels, au centre du paysage (boucle 14 s) */}
+        <SceneVideo name="accueil" mobile focus={0.49} eager className="absolute inset-0" />
 
         {/* Voile latéral : fondu crème sur les bords, transparent au centre */}
         <div
@@ -195,7 +223,7 @@ const HomePage = ({ setCurrentPage }) => {
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "linear-gradient(to bottom, rgba(251,248,244,0) 40%, rgba(251,248,244,0.65) 75%, rgba(251,248,244,0.85) 100%)",
+              "linear-gradient(to bottom, rgba(251,248,244,0) 62%, rgba(251,248,244,0.5) 86%, rgba(251,248,244,0.92) 100%)",
           }}
         />
 
@@ -209,20 +237,20 @@ const HomePage = ({ setCurrentPage }) => {
         />
 
         {/* Grille : plein écran image sur mobile, deux colonnes sur desktop */}
-        <div className="relative z-10 w-full h-full min-h-screen grid grid-cols-1 md:grid-cols-2 items-end md:items-center px-8 md:px-16 lg:px-24 md:gap-y-0 pb-24 md:pb-0">
+        <div className="relative z-10 w-full h-full min-h-screen grid grid-cols-1 md:grid-cols-2 items-end md:items-center px-8 md:px-16 lg:px-24 md:gap-y-0 pb-24 md:pb-0 pointer-events-none">
 
           {/* Colonne gauche — Logo (caché sur mobile, déjà dans la nav) */}
           <motion.div
             initial={{ opacity: 0, scale: 0.92, filter: "blur(10px)" }}
             animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
             transition={{ duration: 2.2, ease: "easeOut", delay: 0.5 }}
-            className="hidden md:flex items-center md:justify-start relative"
+            className="hidden md:flex items-center md:justify-start relative pointer-events-auto"
           >
             <Logo size="hero" />
           </motion.div>
 
           {/* Colonne droite — Tagline + boutons */}
-          <div className="flex flex-col items-center md:items-end text-center md:text-right gap-6 md:gap-8">
+          <div className="flex flex-col items-center md:items-end text-center md:text-right gap-6 md:gap-8 pointer-events-auto">
             {/* Mystic white halo behind tagline — mobile only */}
             <div className="relative md:static">
               <div
@@ -245,38 +273,24 @@ const HomePage = ({ setCurrentPage }) => {
               </motion.p>
             </div>
             <div className="flex flex-col gap-3 w-full max-w-sm md:max-w-xs">
-              <motion.button
+              <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, ease: "easeOut", delay: 1.6 }}
-                onClick={() => setCurrentPage("guidance")}
-                className="px-6 py-3 text-sm tracking-widest uppercase transition-all hover:shadow-lg"
-                style={{
-                  backgroundColor: colors.rooted,
-                  color: colors.cream,
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontWeight: 500,
-                  letterSpacing: "0.15em",
-                }}
               >
-                Lectures d'âme
-              </motion.button>
-              <motion.button
+                <AnimaButton onClick={() => setCurrentPage("guidance")} variant="rose" size="lg" fullWidth>
+                  Lectures d'âme
+                </AnimaButton>
+              </motion.div>
+              <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, ease: "easeOut", delay: 1.9 }}
-                onClick={() => setCurrentPage("about")}
-                className="px-6 py-3 text-sm tracking-widest uppercase transition-all border"
-                style={{
-                  borderColor: colors.rooted,
-                  color: colors.rooted,
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontWeight: 500,
-                  letterSpacing: "0.15em",
-                }}
               >
-                En savoir plus
-              </motion.button>
+                <AnimaButton onClick={() => setCurrentPage("about")} variant="veil" size="lg" fullWidth>
+                  En savoir plus
+                </AnimaButton>
+              </motion.div>
             </div>
           </div>
 
@@ -308,50 +322,34 @@ const HomePage = ({ setCurrentPage }) => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-center mb-16"
+            className="text-center mb-14 md:mb-24"
           >
             <h2
-              className="text-4xl md:text-5xl mb-6"
+              className="text-4xl md:text-5xl mb-6 text-balance"
               style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}
             >
               Une porte vers vous-même
             </h2>
-            <p className="max-w-2xl mx-auto italic" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft, fontSize: "18px" }}>
+            <p className="max-w-2xl mx-auto italic mb-7" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft, fontSize: "18px" }}>
               Au fond, toutes les réponses sont déjà en vous.
             </p>
+            <MoonDivider />
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-12">
-            {[
-              { icon: Sparkles, title: "Lecture d'âme", text: "Un espace de reconnexion à soi, à l'intuition et à la clarté intérieure." },
-              { icon: Home, title: "Feng Shui", text: "Réharmoniser votre lieu de vie pour qu'il devienne un véritable soutien." },
-              { icon: Feather, title: "Un chemin", text: "Partager avec authenticité et humilité, sans prétention de vérité absolue." },
-            ].map((item, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: i * 0.15 }}
-                className="text-center px-4"
-              >
-                <div
-                  className="w-16 h-16 mx-auto mb-6 rounded-full flex items-center justify-center"
-                  style={{ backgroundColor: colors.softLight + "55" }}
-                >
-                  <item.icon size={24} style={{ color: colors.rooted }} />
-                </div>
-                <h3 className="text-2xl mb-3" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink }}>
-                  {item.title}
-                </h3>
-                <p className="leading-relaxed" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft, fontSize: "17px" }}>
-                  {item.text}
-                </p>
-              </motion.div>
-            ))}
-          </div>
+          {/* Trois portes : chacune ouvre la page correspondante */}
+          <DoorCards
+            onOpen={setCurrentPage}
+            doors={[
+              { page: "guidance", scene: "lecture-ame", focus: "62% 30%", icon: Sparkles, title: "Lecture d'âme", text: "Un espace de reconnexion à soi, à l'intuition et à la clarté intérieure." },
+              { page: "fengshui", scene: "feng-shui", focus: "50% 30%", icon: Home, title: "Feng Shui", text: "Réharmoniser votre lieu de vie pour qu'il devienne un véritable soutien." },
+              { page: "about", scene: "mon-chemin", focus: "50% 25%", icon: Feather, title: "Un chemin", text: "Partager avec authenticité et humilité, sans prétention de vérité absolue." },
+            ]}
+          />
         </div>
       </section>
+
+      {/* ANIMA SUR LES RÉSEAUX — reels Instagram / TikTok */}
+      <ReelsWall />
 
       {/* CITATION */}
       <section className="py-20 md:py-48 relative" style={{ backgroundColor: colors.cream }}>
@@ -394,24 +392,20 @@ const AboutPage = () => {
   ];
 
   return (
-    <div className="relative pt-32 pb-24" style={{ backgroundColor: colors.cream }}>
+    <div className="relative pb-24" style={{ backgroundColor: colors.cream }}>
+      <PageHero video="mon-chemin" focus={0.5}>
+        <p className="text-sm tracking-[0.25em] uppercase mb-4" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
+          À propos
+        </p>
+        <h1 className="text-5xl md:text-7xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
+          Mon chemin
+        </h1>
+        <MoonDivider align="start" />
+      </PageHero>
+
       <WatercolorBg variant="default" />
 
-      <div className="max-w-6xl mx-auto px-6 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16 max-w-2xl mx-auto"
-        >
-          <p className="text-sm tracking-[0.25em] uppercase mb-4" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
-            À propos
-          </p>
-          <h1 className="text-4xl md:text-6xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
-            Mon chemin
-          </h1>
-          <div className="w-16 h-[1px] mx-auto" style={{ backgroundColor: colors.rooted }} />
-        </motion.div>
+      <div className="max-w-6xl mx-auto px-6 pt-10 md:pt-20 relative z-10">
 
         {/* All paragraphs + image side by side, image stretches to match total text height */}
         <div className="flex flex-col md:flex-row gap-12 items-stretch mb-6">
@@ -435,18 +429,17 @@ const AboutPage = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="flex-shrink-0 md:w-[340px] lg:w-[420px] p-3 h-72 md:h-auto"
+            className="flex-shrink-0 md:w-[340px] lg:w-[420px] p-3 aspect-[3/4] md:aspect-auto md:h-auto"
             style={{
               backgroundColor: "#ffffff",
               border: `1px solid ${colors.rooted}22`,
               boxShadow: `0 16px 48px -20px ${colors.ink}28`,
             }}
           >
-            <img
-              src="/anima.jpg"
-              alt="Anima"
-              className="w-full h-full object-cover"
-            />
+            {/* anima.jpg animée (même cadrage) — l'image reste le poster */}
+            <div role="img" aria-label="Anima" className="w-full h-full">
+              <SceneVideo name="anima-lune" focus={0.5} className="w-full h-full" />
+            </div>
           </motion.div>
         </div>
       </div>
@@ -459,21 +452,17 @@ const AboutPage = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-120px" }}
           transition={{ duration: 1.6, ease: "easeOut" }}
-          className="max-w-xl mx-auto px-8 relative z-10"
+          className="max-w-4xl mx-auto px-5 md:px-8 pt-8 relative z-10"
         >
-          <div
-            className="p-6 md:p-14"
-            style={{ backgroundColor: colors.softLight + "30", borderLeft: `3px solid ${colors.rooted}` }}
+          {/* espaces insécables dans « classique » : les guillemets ne restent plus seuls en fin de ligne */}
+          <LetterNote
+            lead="Je tiens à être claire avec vous :"
+            note="N'étant pas une professionnelle de santé, mon approche ne remplace en aucun cas un suivi médical ou psychologique."
           >
-            <p className="mb-8 leading-relaxed" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "20px", lineHeight: "1.95" }}>
-              <strong style={{ fontWeight: 600 }}>Je tiens à être claire avec vous :</strong> je suis une personne comme vous.
-              J'ai une vie, un travail, un foyer et des responsabilités, un quotidien « classique ». Je n'ai pas la prétention
-              de détenir une vérité absolue. Seulement celle de partager un chemin, le mien, avec authenticité et humilité.
-            </p>
-            <p className="italic" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft, fontSize: "17px", lineHeight: "1.85" }}>
-              N'étant pas une professionnelle de santé, mon approche ne remplace en aucun cas un suivi médical ou psychologique.
-            </p>
-          </div>
+            je suis une personne comme vous.
+            J'ai une vie, un travail, un foyer et des responsabilités, un quotidien «{" "}classique{" "}». Je n'ai pas la prétention
+            de détenir une vérité absolue. Seulement celle de partager un chemin, le mien, avec authenticité et humilité.
+          </LetterNote>
         </motion.div>
       </section>
 
@@ -500,27 +489,24 @@ const AboutPage = () => {
           <div className="flex flex-col md:flex-row gap-8 items-center">
             <AnimatedRose />
 
-            {/* Pink framed box */}
+            {/* Lavis rose (texte encre : contraste AA, le blanc sur rose ne l'atteignait pas) */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 1.4, ease: "easeOut", delay: 0.2 }}
-              className="flex-1 p-8 md:p-10 relative"
-              style={{
-                backgroundColor: colors.warmHeart,
-                boxShadow: `inset 0 0 0 1px rgba(255,255,255,0.35)`,
-              }}
+              className="flex-1 p-8 md:p-10 relative rounded-[1.75rem]"
+              style={roseWash}
             >
               <p
                 className="mb-5 text-2xl md:text-3xl italic font-semibold text-center"
-                style={{ fontFamily: "'Cormorant Garamond', serif", color: "white" }}
+                style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.rosewood }}
               >
                 Une porte vers vous-même.
               </p>
               <p
                 className="mb-5 leading-relaxed"
-                style={{ fontFamily: "'Cormorant Garamond', serif", color: "white", fontSize: "18px", lineHeight: "1.85" }}
+                style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "18px", lineHeight: "1.85" }}
               >
                 Au fond, toutes les réponses sont déjà en vous. Nous sommes ici pour expérimenter, apprendre et évoluer.
                 L'âme, dans son essence, cherche à grandir, à s'élever et à transcender. Et ce chemin peut prendre plusieurs
@@ -528,7 +514,7 @@ const AboutPage = () => {
               </p>
               <p
                 className="leading-relaxed"
-                style={{ fontFamily: "'Cormorant Garamond', serif", color: "white", fontSize: "18px", lineHeight: "1.85" }}
+                style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "18px", lineHeight: "1.85" }}
               >
                 À travers mon expérience et la maîtrise des outils, je souhaite simplement vous accompagner dans ce retour
                 à vous. Vous aider à vous reconnecter à votre essence, à entendre votre voix intérieure, et à rayonner
@@ -564,82 +550,6 @@ const AboutPage = () => {
 // ============================================================
 // PAGE : GUIDANCE (4 cartes flip façon tarot)
 // ============================================================
-const TarotCard = ({ duration, price, tagline, description, bookingHref }) => {
-  const [flipped, setFlipped] = useState(false);
-
-  return (
-    <div
-      className="relative w-full cursor-pointer"
-      style={{ aspectRatio: '943 / 1483', perspective: "1200px" }}
-      onClick={() => setFlipped(!flipped)}
-    >
-      <motion.div
-        className="absolute inset-0"
-        style={{ transformStyle: "preserve-3d" }}
-        animate={{ rotateY: flipped ? 180 : 0 }}
-        transition={{ duration: 0.8, ease: "easeInOut" }}
-      >
-        {/* DOS DE CARTE */}
-        <div
-          className="absolute inset-0 shadow-xl overflow-hidden"
-          style={{
-            backfaceVisibility: "hidden",
-            backgroundImage: `url('/cover2.png')`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            borderRadius: "8px",
-          }}
-        />
-
-        {/* RECTO DE CARTE */}
-        <div
-          className="absolute inset-0 rounded-lg shadow-xl p-3 md:p-6 flex flex-col overflow-hidden"
-          style={{
-            backfaceVisibility: "hidden",
-            transform: "rotateY(180deg)",
-            backgroundColor: colors.cream,
-            border: `1px solid ${colors.rooted}33`,
-          }}
-        >
-          <div className="text-center flex-1 min-h-0 overflow-hidden">
-            <p className="text-xs tracking-[0.25em] uppercase mb-1 md:mb-2" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
-              Lecture d'âme
-            </p>
-            <h3 className="text-xl md:text-3xl mb-1" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
-              {duration}
-            </h3>
-            <p className="text-lg md:text-2xl mb-2 md:mb-3" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.warmHeart, fontWeight: 500 }}>
-              {price} €
-            </p>
-            <div className="w-10 h-[1px] mb-2 md:mb-3 mx-auto" style={{ backgroundColor: colors.rooted }} />
-            <p className="italic mb-1 md:mb-2" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.rooted, fontSize: "14px" }}>
-              {tagline}
-            </p>
-            <p className="text-sm leading-relaxed line-clamp-3 md:line-clamp-none" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft, fontSize: "12px", lineHeight: "1.45" }}>
-              {description}
-            </p>
-          </div>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              window.open(bookingHref, "_blank", "noopener,noreferrer");
-            }}
-            className="w-full py-2 md:py-3 mt-auto flex-shrink-0 text-xs tracking-[0.2em] uppercase transition-all hover:shadow-md flex items-center justify-center gap-2"
-            style={{
-              backgroundColor: colors.rooted,
-              color: colors.cream,
-              fontFamily: "'Cormorant Garamond', serif",
-              fontWeight: 500,
-            }}
-          >
-            Réserver <ArrowRight size={14} />
-          </button>
-        </div>
-      </motion.div>
-    </div>
-  );
-};
-
 const GuidancePage = () => {
   const cards = [
     { duration: "15 min", price: 25, tagline: "Un éclairage flash", description: "Pour une question ciblée ou un blocage précis. Idéal pour obtenir une clarté et une prise de hauteur sur une thème particulier.", bookingHref: bookingUrl("lecture15") },
@@ -649,25 +559,21 @@ const GuidancePage = () => {
   ];
 
   return (
-    <div className="relative pt-24 pb-24 md:pt-40 md:pb-40" style={{ backgroundColor: colors.cream }}>
+    <div className="relative pb-24 md:pb-40" style={{ backgroundColor: colors.cream }}>
+      {/* En-tête — Anima au bord du lac, son reflet */}
+      <PageHero video="lecture-ame" focus={0.66}>
+        <p className="text-sm tracking-[0.25em] uppercase mb-4" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
+          Guidance
+        </p>
+        <h1 className="text-5xl md:text-7xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
+          Lecture d'âme
+        </h1>
+        <MoonDivider align="start" />
+      </PageHero>
+
       <WatercolorBg variant="warm" />
 
-      <div className="max-w-6xl mx-auto px-6 relative z-10">
-        {/* En-tête */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-12 md:mb-20"
-        >
-          <p className="text-sm tracking-[0.25em] uppercase mb-4" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
-            Guidance
-          </p>
-          <h1 className="text-4xl md:text-6xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
-            Lecture d'âme
-          </h1>
-          <div className="w-16 h-[1px] mx-auto mb-8" style={{ backgroundColor: colors.rooted }} />
-        </motion.div>
+      <div className="max-w-6xl mx-auto px-6 pt-12 md:pt-24 relative z-10">
 
         {/* Introduction (mon approche) */}
         <motion.div
@@ -762,7 +668,8 @@ const GuidancePage = () => {
         </motion.p>
 
         {/* 4 cartes */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 max-w-5xl mx-auto mb-12 md:mb-20">
+        {/* mobile : on fait défiler le tirage du doigt ; dès 640 px, les cartes sont étalées */}
+        <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-10 lg:gap-7 max-w-6xl -mx-6 sm:mx-auto px-[14vw] sm:px-4 lg:px-0 pt-4 pb-16 sm:pb-8 mb-6 md:mb-14 overflow-x-auto sm:overflow-visible snap-x snap-mandatory [scrollbar-width:none]">
           {cards.map((card, i) => (
             <motion.div
               key={i}
@@ -770,8 +677,9 @@ const GuidancePage = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
+              className="flex-none w-[72vw] sm:w-auto snap-center"
             >
-              <TarotCard {...card} />
+              <TarotCard {...card} index={i} total={cards.length} />
             </motion.div>
           ))}
         </div>
@@ -1019,31 +927,36 @@ const FORMULES = [
 
 const AccompagnementsPage = ({ setCurrentPage }) => {
   return (
-    <div className="relative pt-24 pb-24 md:pt-40 md:pb-40" style={{ backgroundColor: colors.cream }}>
+    <div className="relative pb-24 md:pb-40" style={{ backgroundColor: colors.cream }}>
+      {/* ── En-tête — Anima sous l'arbre, son journal ── */}
+      <PageHero video="accompagnements" focus={0.66}>
+        <p className="text-sm tracking-[0.25em] uppercase mb-5" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
+          Accompagnements holistiques
+        </p>
+        <h1 className="text-5xl md:text-7xl mb-3 leading-tight" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
+          Éveil à soi
+        </h1>
+        <p className="text-3xl md:text-5xl italic mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.rooted, fontWeight: 400 }}>
+          & reconnexion à son chemin de vie
+        </p>
+        <MoonDivider align="start" />
+      </PageHero>
+
       <WatercolorBg variant="warm" />
 
-      <div className="max-w-6xl mx-auto px-6 relative z-10">
+      <div className="max-w-6xl mx-auto px-6 pt-10 md:pt-16 relative z-10">
 
-        {/* ── En-tête ── */}
+        {/* ── Promesse ── */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
           transition={{ duration: 0.8 }}
           className="text-center mb-16 md:mb-24"
         >
-          <p className="text-sm tracking-[0.25em] uppercase mb-6" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
-            Accompagnements holistiques
-          </p>
           <div className="flex justify-center mb-8">
-            <LotusMedallion accent={colors.rooted} soft={colors.softLight} size={126} />
+            <LotusMedallion accent={colors.rooted} soft={colors.softLight} size={110} />
           </div>
-          <h1 className="text-4xl md:text-6xl mb-3 leading-tight" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
-            Éveil à soi
-          </h1>
-          <p className="text-3xl md:text-5xl italic mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.rooted, fontWeight: 400 }}>
-            & reconnexion à son chemin de vie
-          </p>
-          <div className="w-16 h-[1px] mx-auto mb-8" style={{ backgroundColor: colors.rooted }} />
           <p className="max-w-2xl mx-auto text-lg md:text-xl italic leading-relaxed mb-8" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft }}>
             Une transformation profonde pour retrouver son alignement, libérer les blocages
             et avancer avec clarté sur son chemin de vie.
@@ -1274,13 +1187,14 @@ const AccompagnementsPage = ({ setCurrentPage }) => {
                     {f.payment}
                   </p>
                 </div>
-                <button
+                <AnimaButton
                   onClick={() => { setCurrentPage("contact"); window.scrollTo({ top: 0, behavior: "smooth" }); }}
-                  className="w-full py-3 flex items-center justify-center gap-2 text-xs tracking-[0.2em] uppercase transition-all hover:shadow-md rounded-sm"
-                  style={{ backgroundColor: colors.rooted, color: colors.cream, fontFamily: "'Cormorant Garamond', serif", fontWeight: 500 }}
+                  variant="tint"
+                  fullWidth
+                  style={{ "--tint-soft": f.soft, "--tint-accent": f.accent, "--tint-ink": f.deep } as React.CSSProperties}
                 >
                   Prendre contact <ArrowRight size={14} />
-                </button>
+                </AnimaButton>
               </div>
             </motion.div>
           ))}
@@ -1297,28 +1211,25 @@ const AccompagnementsPage = ({ setCurrentPage }) => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 1 }}
-          className="max-w-3xl mx-auto text-center px-6 py-14 md:py-20 rounded-3xl relative overflow-hidden"
-          style={{ backgroundColor: colors.warmHeart }}
+          className="max-w-3xl mx-auto text-center px-6 py-14 md:py-20 rounded-[2rem] relative overflow-hidden"
+          style={roseWash}
         >
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{ background: `radial-gradient(ellipse at top, ${colors.softLight}55 0%, transparent 60%)` }}
-          />
-          <Feather size={34} className="mx-auto mb-6 relative" style={{ color: "#ffffff", opacity: 0.75 }} />
-          <p className="text-2xl md:text-3xl italic leading-relaxed mb-6 relative" style={{ fontFamily: "'Cormorant Garamond', serif", color: "#ffffff", fontWeight: 400 }}>
+          <Feather size={34} className="mx-auto mb-6 relative" style={{ color: colors.rooted, opacity: 0.8 }} />
+          <p className="text-2xl md:text-3xl italic leading-relaxed mb-6 relative" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.rosewood, fontWeight: 400 }}>
             Parce que la plus belle rencontre est celle que l'on fait avec soi-même.
           </p>
-          <p className="max-w-xl mx-auto mb-8 leading-relaxed relative" style={{ fontFamily: "'Cormorant Garamond', serif", color: "#fff", opacity: 0.92, fontSize: "17px", lineHeight: "1.8" }}>
+          <p className="max-w-xl mx-auto mb-8 leading-relaxed relative" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "17px", lineHeight: "1.8" }}>
             Lorsque l'on se reconnecte à son être profond, les choix deviennent plus justes,
             les relations plus authentiques, et la vie reprend naturellement son sens.
           </p>
-          <button
+          <AnimaButton
             onClick={() => { setCurrentPage("contact"); window.scrollTo({ top: 0, behavior: "smooth" }); }}
-            className="relative inline-flex items-center gap-2 px-8 py-3 text-sm tracking-[0.18em] uppercase transition-all hover:shadow-lg"
-            style={{ backgroundColor: colors.cream, color: colors.rooted, fontFamily: "'Cormorant Garamond', serif", fontWeight: 500 }}
+            variant="ivory"
+            size="lg"
+            className="relative whitespace-normal"
           >
             Commencer mon accompagnement <ArrowRight size={16} />
-          </button>
+          </AnimaButton>
         </motion.div>
 
       </div>
@@ -1331,25 +1242,22 @@ const AccompagnementsPage = ({ setCurrentPage }) => {
 // ============================================================
 const FengShuiPage = ({ setCurrentPage }) => {
   return (
-    <div className="relative pt-24 pb-24 md:pt-40 md:pb-48" style={{ backgroundColor: colors.cream }}>
+    <div className="relative pb-24 md:pb-48" style={{ backgroundColor: colors.cream }}>
+      {/* En-tête — Anima dans un intérieur qui respire */}
+      <PageHero video="feng-shui" focus={0.57}>
+        <p className="text-sm tracking-[0.25em] uppercase mb-4" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
+          Feng Shui & harmonisation
+        </p>
+        <h1 className="text-4xl md:text-6xl mb-6 leading-[1.1]" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
+          Réharmonisez votre lieu de vie<br />
+          <span className="italic" style={{ color: colors.rooted }}>pour transformer votre vie</span>
+        </h1>
+        <MoonDivider align="start" />
+      </PageHero>
+
       <WatercolorBg variant="cool" />
 
-      <div className="max-w-4xl mx-auto px-6 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-12 md:mb-24"
-        >
-          <p className="text-sm tracking-[0.25em] uppercase mb-4" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
-            Feng Shui & harmonisation
-          </p>
-          <h1 className="text-4xl md:text-6xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
-            Réharmonisez votre lieu de vie<br />
-            <span className="italic" style={{ color: colors.rooted }}>pour transformer votre vie</span>
-          </h1>
-          <div className="w-16 h-[1px] mx-auto" style={{ backgroundColor: colors.rooted }} />
-        </motion.div>
+      <div className="max-w-4xl mx-auto px-6 pt-12 md:pt-24 relative z-10">
 
         <motion.div
           initial={{ opacity: 0 }}
@@ -1386,11 +1294,10 @@ const FengShuiPage = ({ setCurrentPage }) => {
             boxShadow: `0 12px 32px -16px ${colors.ink}33`,
           }}
         >
-          <img
-            src="/feng-shui/1.png"
-            alt="Espace harmonisé, circulation du Chi"
-            className="w-full h-[280px] md:h-[420px] object-cover"
-          />
+          {/* feng-shui/1.png animée par Grok — l'image reste le poster */}
+          <div role="img" aria-label="Espace harmonisé, circulation du Chi">
+            <SceneVideo name="terrasse" focus={0.5} className="w-full h-[280px] md:h-[420px]" />
+          </div>
         </motion.div>
 
         {/* 2 colonnes : blocages vs harmonisation */}
@@ -1579,13 +1486,9 @@ const FengShuiPage = ({ setCurrentPage }) => {
               Un premier pas pour évaluer la vibration de votre maison et les axes prioritaires à travailler.
               <br /><em>Ce montant sera déduit d'un accompagnement ultérieur.</em>
             </p>
-            <button
-              onClick={() => setCurrentPage("contact")}
-              className="px-6 py-2 text-xs tracking-[0.2em] uppercase"
-              style={{ backgroundColor: colors.rooted, color: colors.cream, fontFamily: "'Cormorant Garamond', serif" }}
-            >
+            <AnimaButton onClick={() => setCurrentPage("contact")} variant="rose" size="sm">
               Réserver un diagnostic
-            </button>
+            </AnimaButton>
           </motion.div>
 
           <motion.div
@@ -1605,13 +1508,9 @@ const FengShuiPage = ({ setCurrentPage }) => {
             <p className="text-sm leading-relaxed mb-5" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft, fontSize: "16px" }}>
               Chaque accompagnement est entièrement personnalisé selon votre lieu et vos aspirations.
             </p>
-            <button
-              onClick={() => setCurrentPage("contact")}
-              className="px-6 py-2 text-xs tracking-[0.2em] uppercase border"
-              style={{ borderColor: colors.rooted, color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}
-            >
+            <AnimaButton onClick={() => setCurrentPage("contact")} variant="sage" size="sm">
               Me contacter
-            </button>
+            </AnimaButton>
           </motion.div>
         </div>
       </div>
@@ -1654,28 +1553,25 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="relative pt-24 pb-24 md:pt-40 md:pb-48" style={{ backgroundColor: colors.cream }}>
+    <div className="relative pb-24 md:pb-48" style={{ backgroundColor: colors.cream }}>
+      {/* En-tête — l'emblème lune & fleur de l'ancienne image d'accueil, animé */}
+      <PageHero video="embleme" focus={0.5}>
+        <p className="text-sm tracking-[0.25em] uppercase mb-4" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
+          Contact
+        </p>
+        <h1 className="text-5xl md:text-7xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
+          Prendre contact
+        </h1>
+        <MoonDivider align="start" className="mb-6" />
+        <p className="italic text-lg md:text-xl max-w-md" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink }}>
+          Une question, un doute, l'envie d'échanger avant de réserver ?<br />
+          Écris-moi, je te réponds avec soin.
+        </p>
+      </PageHero>
+
       <WatercolorBg variant="default" />
 
-      <div className="max-w-4xl mx-auto px-6 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-12 md:mb-24"
-        >
-          <p className="text-sm tracking-[0.25em] uppercase mb-4" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
-            Contact
-          </p>
-          <h1 className="text-4xl md:text-6xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontWeight: 400 }}>
-            Prendre contact
-          </h1>
-          <div className="w-16 h-[1px] mx-auto mb-6" style={{ backgroundColor: colors.rooted }} />
-          <p className="italic text-lg max-w-xl mx-auto" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft }}>
-            Une question, un doute, l'envie d'échanger avant de réserver ?<br />
-            Écris-moi, je te réponds avec soin.
-          </p>
-        </motion.div>
+      <div className="max-w-4xl mx-auto px-6 pt-12 md:pt-24 relative z-10">
 
         <div className="grid md:grid-cols-3 gap-8">
           {/* Infos contact */}
@@ -1694,6 +1590,22 @@ const ContactPage = () => {
                 contact@anima-retourasoi.fr
               </p>
             </div>
+            {SOCIAL_LINKS.map(({ key, label, url, handle, Icon }) => (
+              <div key={key}>
+                <p className="text-xs tracking-[0.2em] uppercase mb-2 flex items-center gap-2" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
+                  <Icon size={14} />{label}
+                </p>
+                <a
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center min-h-11 underline-offset-4 hover:underline"
+                  style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.ink, fontSize: "17px" }}
+                >
+                  {handle}
+                </a>
+              </div>
+            ))}
           </motion.div>
 
           {/* Formulaire */}
@@ -1765,15 +1677,9 @@ const ContactPage = () => {
                 />
               </div>
 
-              <button
-                type="button"
-                onClick={submit}
-                disabled={sending}
-                className="px-8 py-3 text-sm tracking-[0.2em] uppercase transition-all hover:shadow-lg disabled:opacity-50"
-                style={{ backgroundColor: colors.rooted, color: colors.cream, fontFamily: "'Cormorant Garamond', serif" }}
-              >
+              <AnimaButton onClick={() => submit()} disabled={sending} variant="rose" size="lg">
                 {sending ? "Envoi…" : "Envoyer le message"}
-              </button>
+              </AnimaButton>
 
               {sent && (
                 <motion.p
@@ -1823,12 +1729,12 @@ const Footer = ({ setCurrentPage }) => {
             <p className="text-xs tracking-[0.2em] uppercase mb-3" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
               Navigation
             </p>
-            <ul className="space-y-2">
+            <ul className="space-y-0 md:space-y-2">
               {NAV_ITEMS.map((item) => (
                 <li key={item.id}>
                   <button
                     onClick={() => { setCurrentPage(item.id); window.scrollTo({ top: 0 }); }}
-                    className="transition-colors hover:underline"
+                    className="inline-flex items-center min-h-10 md:min-h-0 transition-colors hover:underline"
                     style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft, fontSize: "15px" }}
                   >
                     {item.label}
@@ -1842,32 +1748,30 @@ const Footer = ({ setCurrentPage }) => {
             <p className="text-xs tracking-[0.2em] uppercase mb-3" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
               Contact
             </p>
-            <ul className="space-y-2" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft, fontSize: "15px" }}>
+            <ul className="space-y-0 md:space-y-2" style={{ fontFamily: "'Cormorant Garamond', serif", color: colors.inkSoft, fontSize: "15px" }}>
               <li>contact@anima-retourasoi.fr</li>
               <li>Bordeaux</li>
+              {SOCIAL_LINKS.map(({ key, url, handle, Icon }) => (
+                <li key={key}>
+                  <a
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 min-h-10 md:min-h-0 hover:opacity-70 transition-opacity"
+                    style={{ color: colors.rooted }}
+                  >
+                    <Icon size={15} />
+                    <span>{handle}</span>
+                  </a>
+                </li>
+              ))}
               <li>
-                <a
-                  href="https://www.instagram.com/anima_retourasoi?igsh=MXh2eW12a3BldnZnMA=="
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 hover:opacity-70 transition-opacity"
-                  style={{ color: colors.rooted }}
-                >
-                  <svg width={15} height={15} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-                    <circle cx="12" cy="12" r="4"/>
-                    <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
-                  </svg>
-                  <span>@anima_retourasoi</span>
-                </a>
-              </li>
-              <li>
-                <button onClick={() => setCurrentPage("mentions")} className="hover:underline italic">
+                <button onClick={() => setCurrentPage("mentions")} className="inline-flex items-center min-h-10 md:min-h-0 hover:underline italic">
                   Mentions légales
                 </button>
               </li>
               <li>
-                <button onClick={() => { setCurrentPage("cgv"); window.scrollTo({ top: 0 }); }} className="hover:underline italic">
+                <button onClick={() => { setCurrentPage("cgv"); window.scrollTo({ top: 0 }); }} className="inline-flex items-center min-h-10 md:min-h-0 hover:underline italic">
                   CGV
                 </button>
               </li>

@@ -3,20 +3,58 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import { animate, motion, useMotionValue, useReducedMotion, useTransform, type MotionValue } from "framer-motion";
-import { ChevronLeft, ChevronRight, Feather, Quote } from "lucide-react";
+import { ChevronLeft, ChevronRight, Feather } from "lucide-react";
 import { colors } from "../theme";
 import { testimonials, type Testimonial } from "./testimonials";
+import { HANDS } from "./guestbookHands";
 import styles from "./Guestbook.module.css";
 
 const PAGE_COUNT = testimonials.length + 1;
 const STRIPS = 20;
 
+// Irrégularités de la main : chaque mot monte, descend et penche un peu.
+// Déterministe (même rendu serveur / client et d'une copie de page à l'autre).
+const wobble = (seed: number) => {
+  const r = (n: number) => { const x = Math.sin(seed * 12.9898 + n * 78.233) * 43758.5453; return x - Math.floor(x); };
+  return `translateY(${((r(1) - .5) * .14).toFixed(3)}em) rotate(${((r(2) - .5) * 1.3).toFixed(2)}deg)`;
+};
+
+// Découpe en mots en gardant la ponctuation française (« ! ? : ; ») collée à son
+// mot par une espace insécable : jamais de « ! » seul en début de ligne.
+const toWords = (text: string) => text.split(" ").reduce<string[]>((words, token) => {
+  const last = words.length - 1;
+  if (last >= 0 && /^[!?:;»]/.test(token)) words[last] += " " + token;
+  else if (last >= 0 && words[last] === "«") words[last] += " " + token;
+  else words.push(token);
+  return words;
+}, []);
+
+function Handwritten({ text, seed }: { text: string; seed: number }) {
+  const words = toWords(text);
+  return <>{words.map((word, i) => <span key={i}>
+    <span className={styles.word} style={{ transform: wobble(seed * 101 + i) }}>{word}</span>{i < words.length - 1 ? " " : ""}
+  </span>)}</>;
+}
+
 function Entry({ entry, index }: { entry: Testimonial; index: number }) {
-  return <div className={styles.entry}>
-    <div className={styles.pageHeading}><span>Une rencontre, un chemin</span><Feather size={16} aria-hidden="true" /></div>
-    <Quote className={styles.quote} size={24} aria-hidden="true" />
-    <blockquote>{entry.text}</blockquote>
-    <div className={styles.signature}><p>{entry.name}</p>{entry.format && <span>{entry.format}</span>}</div>
+  const hand = HANDS[entry.name];
+  const Doodle = hand?.doodle;
+  const vars = hand ? {
+    "--hand-font": hand.font, "--hand-size": hand.size, "--hand-ad": hand.ad, "--ink": hand.ink,
+    "--tilt": `${hand.tilt}deg`, "--inset": `${hand.inset}rem`, "--indent": `${hand.indent}rem`,
+  } as CSSProperties : undefined;
+  return <div className={styles.entry} style={vars}>
+    <div className={styles.pageHeading}><span>Une rencontre, un chemin</span><Feather size={14} aria-hidden="true" /></div>
+    <div className={styles.ruled}>
+      <div className={styles.writing}>
+        <blockquote><Handwritten text={entry.text} seed={index + 1} /></blockquote>
+        <div className={styles.signature}>
+          <p className={hand?.underline ? styles.underlined : undefined}>{entry.name}</p>
+          {Doodle && <Doodle className={styles.doodle} size={26} strokeWidth={1.4} aria-hidden="true" />}
+          {entry.format && <span>{entry.format}</span>}
+        </div>
+      </div>
+    </div>
     <span className={styles.folio}>{String(index + 1).padStart(2, "0")}</span>
   </div>;
 }
@@ -30,6 +68,33 @@ function Page({ number }: { number: number }) {
     <p>Des mots déposés,<br />des chemins qui s’ouvrent.</p>
     <span className={styles.flourish} aria-hidden="true" />
   </div>;
+}
+
+// Signet en ruban de satin : il sort d'entre les feuilles au pied du dos,
+// passe l'arête de la couverture et retombe avec un léger drapé, coupé en V.
+function Ribbon() {
+  const satin = "gb-ribbon-satin", fold = "gb-ribbon-fold";
+  const edge = "color-mix(in srgb, var(--book-pink) 58%, #4a1c22)";
+  const shape = "M4 0 C4 34 9.5 52 7.5 92 L13.5 83.5 L20 93 C21.5 55 17 34 18 0 Z";
+  return <svg className={styles.ribbon} viewBox="0 0 24 96" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <linearGradient id={satin} x1="0" x2="1" y1="0" y2="0">
+        <stop offset="0" style={{ stopColor: edge }} />
+        <stop offset=".24" style={{ stopColor: "var(--book-pink)" }} />
+        <stop offset=".46" style={{ stopColor: "color-mix(in srgb, var(--book-pink) 42%, white)" }} />
+        <stop offset=".64" style={{ stopColor: "var(--book-pink)" }} />
+        <stop offset="1" style={{ stopColor: edge }} />
+      </linearGradient>
+      <linearGradient id={fold} x1="0" x2="0" y1="0" y2="1">
+        <stop offset="0" stopColor="#3a1418" stopOpacity=".55" />
+        <stop offset=".2" stopColor="#3a1418" stopOpacity="0" />
+        <stop offset=".9" stopColor="#3a1418" stopOpacity="0" />
+        <stop offset="1" stopColor="#3a1418" stopOpacity=".2" />
+      </linearGradient>
+    </defs>
+    <path d={shape} fill={`url(#${satin})`} />
+    <path d={shape} fill={`url(#${fold})`} />
+  </svg>;
 }
 
 // Integrate one flexible sheet: each strip begins at the previous strip's edge,
@@ -155,7 +220,7 @@ export function Guestbook() {
             {Array.from({ length: STRIPS }, (_,index) => <PaperStrip key={index} index={index} progress={progress} width={turn.width} recto={recto} verso={recto + 1} />)}
           </div>}
         </div>
-        <span className={styles.ribbon} aria-hidden="true" />
+        <Ribbon />
       </div>
       <div className={styles.navigation}>
         <button type="button" onClick={() => goTo(first-step)} disabled={first === 0} aria-disabled={first === 0 || !!turn} aria-label="Page précédente"><ChevronLeft size={18} /><span>Précédent</span></button>

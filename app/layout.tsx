@@ -1,7 +1,29 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
+import { colors } from "./theme";
+
+// Palette exposée en variables CSS (--anima-*) pour les modules CSS —
+// theme.ts reste l'unique source des couleurs.
+const paletteVars = {
+  "--anima-cream": colors.cream,
+  "--anima-paper": colors.paper,
+  "--anima-ink": colors.ink,
+  "--anima-ink-soft": colors.inkSoft,
+  "--anima-rose": colors.rose,
+  "--anima-blush": colors.blush,
+  "--anima-peach": colors.softLight,
+  "--anima-warm": colors.warmHeart,
+  "--anima-aqua": colors.aqua,
+  "--anima-sage": colors.sage,
+  "--anima-sage-deep": colors.sageDeep,
+  "--anima-line": colors.line,
+  "--anima-rosewood": colors.rosewood,
+  "--anima-gold": colors.gold,
+  "--anima-gold-deep": colors.goldDeep,
+} as CSSProperties;
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,6 +59,7 @@ export default function RootLayout({
     <html
       lang="fr"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      style={paletteVars}
     >
       <body className="min-h-full flex flex-col">
         {children}
