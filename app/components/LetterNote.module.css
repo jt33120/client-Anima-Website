@@ -1,0 +1,139 @@
+@layer components {
+  /* Feuille de papier : ivoire, grain, lumière rose dans un coin, double filet intérieur */
+  .letter {
+    --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .33 0 0 0 0 .28 0 0 0 .08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+    position: relative;
+    display: grid;
+    gap: 1.75rem;
+    padding: 3.25rem 1.6rem 2.2rem;
+    border-radius: 1.75rem;
+    background:
+      var(--grain),
+      radial-gradient(ellipse at 100% 0%, color-mix(in srgb, var(--anima-rose) 55%, transparent), transparent 55%),
+      radial-gradient(ellipse at 0% 100%, color-mix(in srgb, var(--anima-peach) 35%, transparent), transparent 50%),
+      linear-gradient(170deg, #fffdf9, color-mix(in srgb, var(--anima-paper) 70%, #fffdf9));
+    border: 1px solid color-mix(in srgb, var(--anima-line) 22%, transparent);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / .8),
+      0 2px 6px -2px color-mix(in srgb, var(--anima-rosewood) 18%, transparent),
+      0 40px 80px -48px color-mix(in srgb, var(--anima-rosewood) 70%, transparent);
+  }
+  .letter::before {
+    content: "";
+    position: absolute;
+    inset: .7rem;
+    border: 1px solid color-mix(in srgb, var(--anima-line) 26%, transparent);
+    border-radius: 1.2rem;
+    pointer-events: none;
+  }
+
+  /* Cachet de cire rose, croissant en relief, posé à cheval sur le bord */
+  .seal {
+    position: absolute;
+    top: -1.9rem;
+    left: 50%;
+    translate: -50% 0;
+    display: grid;
+    place-items: center;
+    width: 3.8rem;
+    height: 3.8rem;
+    color: rgb(255 255 255 / .92);
+    border-radius: 47% 53% 50% 50% / 52% 48% 52% 48%;
+    background:
+      radial-gradient(circle at 34% 28%, rgb(255 255 255 / .45), transparent 42%),
+      radial-gradient(circle at 50% 50%, var(--anima-warm) 0 52%, color-mix(in srgb, var(--anima-warm) 70%, var(--anima-rosewood)) 72%, color-mix(in srgb, var(--anima-warm) 55%, var(--anima-rosewood)) 100%);
+    box-shadow:
+      inset 0 -3px 6px color-mix(in srgb, var(--anima-rosewood) 35%, transparent),
+      inset 0 2px 3px rgb(255 255 255 / .35),
+      0 10px 18px -8px color-mix(in srgb, var(--anima-rosewood) 70%, transparent);
+    rotate: -8deg;
+  }
+  /* anneau imprimé par le sceau */
+  .seal::after {
+    content: "";
+    position: absolute;
+    inset: .42rem;
+    border-radius: 50%;
+    border: 1px solid rgb(255 255 255 / .35);
+    box-shadow: inset 0 1px 2px color-mix(in srgb, var(--anima-rosewood) 30%, transparent);
+  }
+  .seal svg {
+    rotate: 14deg;
+    filter: drop-shadow(0 1px 0 color-mix(in srgb, var(--anima-rosewood) 45%, transparent));
+  }
+
+  /* L'accroche devient le titre de la lettre, le propos se lit à côté */
+  .message {
+    display: grid;
+    gap: 1.1rem;
+    margin: 0;
+  }
+  .lead {
+    display: block;
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 2.05rem;
+    line-height: 1.12;
+    color: var(--anima-rosewood);
+    text-wrap: balance;
+    text-align: center;
+  }
+  .body {
+    display: block;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.2rem;
+    line-height: 1.7;
+    color: var(--anima-ink);
+    text-wrap: pretty;
+  }
+  /* Mention, sous un filet fin */
+  .note {
+    display: flex;
+    gap: .8rem;
+    align-items: flex-start;
+    margin: 0;
+    padding-top: 1.4rem;
+    border-top: 1px solid color-mix(in srgb, var(--anima-line) 28%, transparent);
+    font-family: "Cormorant Garamond", serif;
+    font-size: 1.02rem;
+    line-height: 1.6;
+    color: var(--anima-ink-soft);
+  }
+  .noteIcon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 1.9rem;
+    height: 1.9rem;
+    margin-top: -.1rem;
+    border-radius: 999px;
+    color: var(--anima-sage-deep);
+    background: color-mix(in srgb, var(--anima-aqua) 55%, transparent);
+  }
+
+  @media (min-width: 768px) {
+    .letter { padding: 4rem 3.5rem 2.75rem; gap: 2.25rem; }
+    .seal { top: -2.1rem; width: 4.3rem; height: 4.3rem; }
+    /* accroche centrée face au propos, filet vertical sur toute la hauteur */
+    .message {
+      position: relative;
+      grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
+      gap: 3.5rem;
+      align-items: center;
+    }
+    .message::before {
+      content: "";
+      position: absolute;
+      top: .4rem;
+      bottom: .4rem;
+      left: calc((100% - 3.5rem) * .4 + 1.75rem);
+      width: 1px;
+      background: linear-gradient(transparent, color-mix(in srgb, var(--anima-line) 38%, transparent) 20% 80%, transparent);
+    }
+    .lead { font-size: 2.7rem; text-align: left; }
+    .body { font-size: 1.3rem; }
+    .note { justify-content: center; align-items: center; }
+    .note em { max-width: 34rem; text-wrap: balance; }
+  }
+}

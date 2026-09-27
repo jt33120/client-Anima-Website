@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# exports bruts (vidéos Grok, images Codex) et cache du script vidéo
+/output/
+/.cache/
+
+# graft's local graph cache — regenerable, not committed (run `graft build`).
+/graft/

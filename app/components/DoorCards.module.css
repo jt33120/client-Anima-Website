@@ -1,0 +1,187 @@
+/* Trois portes en arche : l'image est le seuil, la carte entière s'ouvre. */
+.grid {
+  display: grid;
+  gap: 1.75rem;
+}
+@media (min-width: 768px) {
+  .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.5rem; }
+}
+@media (min-width: 1024px) {
+  .grid { gap: 3.5rem; }
+}
+
+.card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 7.25rem 1fr;
+  gap: 1.4rem;
+  align-items: center;
+  cursor: pointer;
+}
+@media (min-width: 768px) {
+  .card { grid-template-columns: 1fr; gap: 2.6rem; text-align: center; justify-items: center; }
+}
+
+/* ---------- La porte ---------- */
+.door { position: relative; width: 100%; }
+@media (min-width: 768px) {
+  .door { width: min(100%, 17rem); }
+}
+
+/* chambranle : un filet qui épouse l'arche, décalé comme une moulure */
+.door::before {
+  content: "";
+  position: absolute;
+  inset: -.55rem;
+  border: 1px solid color-mix(in srgb, var(--anima-line) 45%, transparent);
+  border-radius: 50% 50% 1.6rem 1.6rem / 37% 37% 1.6rem 1.6rem;
+  transition: border-color .5s ease, inset .5s cubic-bezier(.2,.7,.2,1);
+  pointer-events: none;
+}
+
+.arch {
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  isolation: isolate;
+  /* demi-cercle parfait en haut d'un cadre 3:4 : rayon vertical = 3/8 de la hauteur */
+  border-radius: 50% 50% 1.2rem 1.2rem / 37.5% 37.5% 1.2rem 1.2rem;
+  background: var(--anima-paper);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / .35),
+    0 28px 50px -32px color-mix(in srgb, var(--anima-rosewood) 70%, transparent);
+  transition: transform .7s cubic-bezier(.2,.7,.2,1), box-shadow .7s ease;
+}
+/* lumière douce qui baigne le bas de l'arche */
+.arch::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, color-mix(in srgb, var(--anima-cream) 55%, transparent), transparent 38%);
+  pointer-events: none;
+}
+
+.media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.2s cubic-bezier(.2,.7,.2,1), opacity .6s ease;
+}
+.video { opacity: 0; }
+.visible { opacity: 1; }
+
+/* médaillon : l'icône d'origine, posée comme une clé de voûte au pied de la porte */
+.medallion {
+  position: absolute;
+  left: 50%;
+  bottom: -1.1rem;
+  translate: -50% 0;
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 999px;
+  color: var(--anima-rosewood);
+  background:
+    radial-gradient(circle at 30% 25%, rgb(255 255 255 / .8), transparent 60%),
+    color-mix(in srgb, var(--anima-peach) 55%, var(--anima-cream));
+  border: 1px solid color-mix(in srgb, var(--anima-line) 35%, transparent);
+  box-shadow: 0 8px 18px -10px color-mix(in srgb, var(--anima-rosewood) 70%, transparent);
+  z-index: 2;
+}
+@media (min-width: 768px) {
+  .medallion { width: 3.6rem; height: 3.6rem; bottom: -1.8rem; }
+  .medallion svg { width: 22px; height: 22px; }
+}
+
+/* ---------- Texte ---------- */
+.body { display: flex; flex-direction: column; gap: .45rem; align-items: flex-start; }
+@media (min-width: 768px) {
+  .body { align-items: center; max-width: 19rem; }
+}
+
+.title {
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 400;
+  font-size: 1.6rem;
+  line-height: 1.15;
+  color: var(--anima-ink);
+}
+@media (min-width: 768px) {
+  .title { font-size: 1.85rem; }
+}
+
+/* le bouton du titre couvre toute la carte */
+.stretched {
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size .5s ease;
+}
+.stretched::after {
+  content: "";
+  position: absolute;
+  inset: -.75rem;
+  border-radius: 1.5rem;
+  z-index: 3;
+}
+.stretched:focus-visible { outline: none; }
+.stretched:focus-visible::after {
+  outline: 2px solid var(--anima-line);
+  outline-offset: 2px;
+}
+
+.text {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 1.06rem;
+  line-height: 1.6;
+  color: var(--anima-ink);
+  opacity: .78;
+}
+
+.arrow {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin-top: .35rem;
+  border-radius: 999px;
+  color: var(--anima-rosewood);
+  border: 1px solid color-mix(in srgb, var(--anima-line) 45%, transparent);
+  transition: background-color .5s ease, border-color .5s ease, transform .5s cubic-bezier(.2,.7,.2,1);
+}
+
+/* ---------- Survol / focus : la porte s'entrouvre ---------- */
+.card:hover .arch, .card:focus-within .arch {
+  transform: translateY(-4px);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / .35),
+    0 36px 60px -30px color-mix(in srgb, var(--anima-rosewood) 80%, transparent);
+}
+.card:hover .media, .card:focus-within .media { transform: scale(1.045); }
+.card:hover .door::before, .card:focus-within .door::before {
+  inset: -.8rem;
+  border-color: color-mix(in srgb, var(--anima-line) 80%, transparent);
+}
+.card:hover .stretched, .card:focus-within .stretched { background-size: 100% 1px; }
+.card:hover .arrow, .card:focus-within .arrow {
+  transform: translateX(4px);
+  border-color: transparent;
+  background: linear-gradient(112deg, var(--anima-rose), var(--anima-peach));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arch, .media, .arrow, .door::before, .stretched { transition: none; }
+  .card:hover .arch, .card:hover .media, .card:hover .arrow { transform: none; }
+}
