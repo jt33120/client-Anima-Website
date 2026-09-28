@@ -134,6 +134,7 @@
     .lead { font-size: 2.7rem; text-align: left; }
     .body { font-size: 1.3rem; }
     .note { justify-content: center; align-items: center; }
-    .note em { max-width: 34rem; text-wrap: balance; }
+    /* mention sur une seule ligne dès que la largeur le permet */
+    .note em { text-wrap: balance; }
   }
 }
