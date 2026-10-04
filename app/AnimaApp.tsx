@@ -928,8 +928,8 @@ const FORMULES = [
 const AccompagnementsPage = ({ setCurrentPage }) => {
   return (
     <div className="relative pb-24 md:pb-40" style={{ backgroundColor: colors.cream }}>
-      {/* ── En-tête — Anima sous l'arbre, son journal ── */}
-      <PageHero video="accompagnements" focus={0.66}>
+      {/* ── En-tête — Anima au sommet, un lotus à la main ── */}
+      <PageHero video="accompagnements-sommet" focus={0.73}>
         <p className="text-sm tracking-[0.25em] uppercase mb-5" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
           Accompagnements holistiques
         </p>
