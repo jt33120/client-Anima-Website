@@ -340,9 +340,9 @@ const HomePage = ({ setCurrentPage }) => {
           <DoorCards
             onOpen={setCurrentPage}
             doors={[
-              { page: "guidance", scene: "lecture-ame", focus: "62% 30%", icon: Sparkles, title: "Lecture d'âme", text: "Un espace de reconnexion à soi, à l'intuition et à la clarté intérieure." },
-              { page: "fengshui", scene: "feng-shui", focus: "50% 30%", icon: Home, title: "Feng Shui", text: "Réharmoniser votre lieu de vie pour qu'il devienne un véritable soutien." },
-              { page: "about", scene: "mon-chemin", focus: "50% 25%", icon: Feather, title: "Un chemin", text: "Partager avec authenticité et humilité, sans prétention de vérité absolue." },
+              { page: "guidance", scene: "lecture-ame", image: "/images/mascotte/lecture-ame.webp", focus: "50% 50%", icon: Sparkles, title: "Lecture d'âme", text: "Un espace de reconnexion à soi, à l'intuition et à la clarté intérieure." },
+              { page: "fengshui", scene: "feng-shui", image: "/images/mascotte/feng-shui.webp", focus: "50% 50%", icon: Home, title: "Feng Shui", text: "Réharmoniser votre lieu de vie pour qu'il devienne un véritable soutien." },
+              { page: "about", scene: "mon-chemin", image: "/images/mascotte/un-chemin.webp", focus: "50% 50%", icon: Feather, title: "Un chemin", text: "Partager avec authenticité et humilité, sans prétention de vérité absolue." },
             ]}
           />
         </div>
@@ -393,7 +393,7 @@ const AboutPage = () => {
 
   return (
     <div className="relative pb-24" style={{ backgroundColor: colors.cream }}>
-      <PageHero video="mon-chemin" focus={0.5}>
+      <PageHero video="accompagnements" focus={0.66}>
         <p className="text-sm tracking-[0.25em] uppercase mb-4" style={{ color: colors.rooted, fontFamily: "'Cormorant Garamond', serif" }}>
           À propos
         </p>

@@ -8,11 +8,12 @@ import styles from "./DoorCards.module.css";
 // ============================================================
 // « UNE PORTE VERS VOUS-MÊME » — trois portes en arche, chacune
 // ouvrant sur la scène d'Anima de sa page. Toute la carte est
-// cliquable ; au survol (souris), la scène s'anime.
+// cliquable ; les scènes vidéo sans image dédiée s'animent au survol.
 // ============================================================
 export type Door = {
   page: string;      // page de destination
   scene: string;     // /public/videos/{scene}-mobile.(mp4|webp) — format portrait
+  image?: string;    // illustration dédiée ; conserve la mascotte au survol
   focus?: string;    // cadrage du poster dans l'arche
   icon: LucideIcon;
   title: string;
@@ -32,7 +33,7 @@ function DoorCard({ door, index, onOpen }: { door: Door; index: number; onOpen: 
 
   const hovered = useRef(false);
   const enter = () => {
-    if (!canAnimate()) return;
+    if (door.image || !canAnimate()) return;
     hovered.current = true;
     if (!src) setSrc(`/videos/${door.scene}-mobile.mp4`); // la lecture démarre dans l'effet ci-dessous
     else video.current?.play().catch(() => {});
@@ -55,14 +56,14 @@ function DoorCard({ door, index, onOpen }: { door: Door; index: number; onOpen: 
         <div className={styles.door}>
           <div className={styles.arch}>
             <Image
-              src={`/videos/${door.scene}-mobile.webp`}
+              src={door.image ?? `/videos/${door.scene}-mobile.webp`}
               alt=""
               fill
               sizes="(min-width: 768px) 30vw, 8rem"
               className={styles.media}
               style={{ objectPosition: door.focus ?? "50% 35%" }}
             />
-            <video
+            {!door.image && <video
               ref={video}
               src={src}
               muted
@@ -75,7 +76,7 @@ function DoorCard({ door, index, onOpen }: { door: Door; index: number; onOpen: 
               style={{ objectPosition: door.focus ?? "50% 35%" }}
               onPlaying={() => setPlaying(true)}
               onPause={() => setPlaying(false)}
-            />
+            />}
           </div>
           <span className={styles.medallion} aria-hidden="true"><Icon size={20} strokeWidth={1.6} /></span>
         </div>
